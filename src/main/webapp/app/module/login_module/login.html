@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh_CN" ng-app="loginApp">
+<head>
+	<title>Game Link Manager Login</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!--告诉浏览器能够响应屏幕宽度-->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" type="text/css" href="../../lib/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../../adminLTE/dist/css/AdminLTE.min.css">
+	<!--皮肤-->
+	<link rel="stylesheet" type="text/css" href="../../adminLTE/plugins/iCheck/square/blue.css">
+	<!-- 图标字体：引用CDN，因为图标字体引用了woff、ttf等文件。 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
+
+	<!-- 必须的JS脚本 -->
+	<!-- jQuery 2.2.3:这是adminLIT插件包的jQuery,adminLTE已对其进行了扩展。 -->
+	<script type="text/javascript" src="../../lib/jQuery/2.2.3/jquery-2.2.3.min.js"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script type="text/javascript" src="../../lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- iCheck -->
+	<script type="text/javascript" src="../../adminLTE/plugins/iCheck/icheck.min.js"></script>
+	<script type="text/javascript" src="../../lib/angularJS/1.5.7/angular.min.js"></script>
+	<script type="text/javascript" src="../../lib/angularJS/1.5.7/angular-resource.min.js"></script>
+	<script type="text/javascript" src="../../lib/jsencrypt/jsencrypt.min.js"></script>
+	<script type="text/javascript" src="login.js"></script>
+	<script>
+	  $(function () {
+	    $('input').iCheck({
+	      checkboxClass: 'icheckbox_square-blue',
+	      radioClass: 'iradio_square-blue',
+	      increaseArea: '20%' // optional
+	    });
+	  });
+	</script>
+	
+</head>
+<body class="hold-transition login-page" ng-controller="loginCtrl">
+	<div class="login-box">
+		<div class="login-logo">
+			<b>Game Link Manager</b>
+		</div>
+		<!-- /.login-logo -->
+		<div class="login-box-body">
+			<p class="login-box-msg">Sign in to start your session</p>
+
+			<form class="form" method="post" action="../index.html">
+				<div class="form-group has-feedback">
+					<input type="email" class="form-control" name="email" placeholder="邮箱" ng-model="email" >
+					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+				</div>
+				<div class="form-group has-feedback">
+					<input type="password" class="form-control" name="password" placeholder="密码" ng-model="password">
+					<cng-encrypt ng-model="password"/>
+					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="checkbox icheck">
+							<label><input type="checkbox" name="autoLogin" ng-model="autoLogin">自动登录</label>
+						</div>
+					</div>
+					<!-- /.col -->
+					<div class="col-xs-4">
+						<button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="login()">登录</button>
+					</div>
+					<!-- /.col -->
+				</div>
+			</form>
+			<!--
+			<div class="social-auth-links text-center">
+				<p>- OR -</p>
+				<a href="#" class="btn btn-block btn-social btn-facebook btn-flat"> <i class="fa fa-facebook"></i>
+					使用Facebook
+				</a>
+				 <a href="#" class="btn btn-block btn-social btn-google btn-flat"> <i class="fa fa-google-plus"></i>
+					使用Google +
+				</a> 
+			</div>
+			-->
+
+			<!-- /.social-auth-links -->
+
+			<a href="#">忘记密码</a>
+			<!-- 
+			<br>
+			<a href="register.html" class="text-center">注册</a> 
+			-->
+
+		</div>
+		<!-- /.login-box-body -->
+	</div>
+	<!-- /.login-box -->
+
+</body>
+</html>

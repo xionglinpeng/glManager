@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+	<title>Game Link Manager</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!--告诉浏览器能够响应屏幕宽度-->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" type="text/css" href="../lib/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../adminLTE/dist/css/AdminLTE.min.css">
+	<!--皮肤-->
+	<link rel="stylesheet" type="text/css" href="../adminLTE/dist/css/skins/skin-blue.min.css">
+	<!-- 图标字体：引用CDN，因为图标字体引用了woff、ttf等文件。 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
+	
+	<!-- 必须的JS脚本 -->
+	<!-- jQuery 2.2.3:这是adminLIT插件包的jQuery,adminLTE已对其进行了扩展。 -->
+	<script type="text/javascript" src="../lib/jQuery/2.2.3/jquery-2.2.3.min.js"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script type="text/javascript" src="../lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- AdminLTE App -->
+	<script type="text/javascript" src="../adminLTE/dist/js/app.min.js"></script>
+	<!-- 
+	可选,您可以添加Slimscroll和FastClick插件。
+	这两个插件都可以增强用户体验。使用Slimscroll时需要使用固定布局。 
+	-->
+	<script type="text/javascript" src="../lib/angularJS/1.5.7/angular.min.js"></script>
+	<script type="text/javascript" src="../lib/angularJS/1.5.7/angular-resource.min.js"></script>
+</head>
+<!--
+BODY标签选项:
+=================
+应用以下一个或多个类的效果。
+|=========================================================|
+| 皮肤          | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|=========================================================|
+|布局选项       | fixed 固定头和侧边栏。                  |
+|侧边栏设置     | layout-boxed 获得的盒装布局舒展只1250px|
+|               | layout-top-nav 删除侧边栏，有你在顶部导航栏中的链接|
+|               | sidebar-collapse 有在加载折叠侧栏。     |
+|               | sidebar-mini  半隐藏侧边栏              |
+|=========================================================|
+-->
+<body class="hold-transition skin-blue fixed">
+	<!-- wrapper 封装了整个网站的DIV -->
+	<div class="wrapper">
+		<!-- 徽标和导航栏。 -->
+		<header class="main-header">
+			<a href="javascript:void(0)" class="logo">
+				<span class="logo-mini"></span>
+				<span class="logo-lg"><b>Game Link Manager</b></span>
+			</a>
+			
+			<!--头部导航-->
+			<nav class="navbar navbar-static-top" role="navigation">
+				<!-- 侧边栏切换按钮:切换事件依赖于adminLTE app.min.js-->
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+					<span class="sr-only">切换导航</span>
+				</a>
+				<!--右边的导航菜单-->
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- 消息菜单：样式在dropdown.less可以找到 -->
+						<li class="dropdown messages-menu"></li>
+						<!-- 通告菜单 -->
+						<li class="dropdown notifications-menu"></li>
+						<!-- 任务菜单 -->
+						<li class="dropdown tasks-menu"></li>
+						<!-- 用户账户菜单 -->
+						<li class="dropdown user user-menu">
+							<!-- 菜单切换按钮 -->
+           					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	           					<!-- 用户的头像-->
+					            <img src="../imgage/user2-160x160.jpg" class="user-image" alt="User Image">
+					            <!-- 类hidden-xs会在小型设备隐藏用户名，只显示用户头像。 -->
+					            <span class="hidden-xs">{{用户名}}</span>
+           					</a>
+           					<ul class="dropdown-menu">
+           						<li class="user-header">
+           							<img src="../imgage/user2-160x160.jpg" class="img-circle" alt="User Image">
+           							<p>{{用户名}} - {{职位}}</p>
+           							<small>{{当前时间，或注册时间}}</small>
+           						</li>
+           						<!-- 菜单内容 -->
+           						<!--
+				                <li class="user-body">
+					                <div class="row">
+					                  <div class="col-xs-4 text-center">
+					                    <a href="#">Followers</a>
+					                  </div>
+					                  <div class="col-xs-4 text-center">
+					                    <a href="#">Sales</a>
+					                  </div>
+					                  <div class="col-xs-4 text-center">
+					                    <a href="#">Friends</a>
+					                  </div>
+					                </div>
+				                </li>
+				                -->
+				                <!-- 菜单footer-->
+				                <li class="user-footer">
+					                <div class="pull-left">
+					                  <a href="#" class="btn btn-default btn-flat">修改密码</a>
+					                </div>
+					                <div class="pull-right">
+					                  <a href="#" class="btn btn-default btn-flat">退出</a>
+					                </div>
+				                </li>
+           					</ul>
+						</li>
+						<li>
+							<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+
+
+		<!-- 左边菜单栏。 包含logo和侧边栏 -->
+		<aside class="main-sidebar">
+			<!--侧边栏：样式可以在sidebar.css找到-->
+			<section class="sidebar">
+				<!-- 侧边栏用户面板（可选）-->
+				<div class="user-panel">
+			        <div class="pull-left image">
+			          <img src="../imgage/user2-160x160.jpg" class="img-circle" alt="User Image">
+			        </div>
+			        <div class="pull-left info">
+			          <p>{{用户名}}</p>
+			          <!-- 状态 -->
+			          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+			        </div>
+			    </div>
+				<!-- /.侧边栏用户面板 -->
+
+				<!-- 搜索表单 (可选) -->
+				<!--
+		        <form action="#" method="get" class="sidebar-form">
+			        <div class="input-group">
+			          <input type="text" name="q" class="form-control" placeholder="Search...">
+			              <span class="input-group-btn">
+			                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+			                </button>
+			              </span>
+			        </div>
+		        </form> 
+		        -->
+		        <!-- /.搜索表单 -->
+
+
+				<!-- 侧边栏菜单 -->
+				<ul class="sidebar-menu">
+					<li class="header"></li>
+					<!-- 可选地,您可以添加图标链接 -->
+					<!-- 选中的菜单
+					<li class="active"><a href="#"><i class="fa fa-link"></i><span>主菜单1</span></a></li> -->
+					<!-- 未选中的菜单
+					<li><a href="#"><i class="fa fa-link"></i><span>主菜单2</span></a></li> -->
+					<li class="treeview">
+						<a href="#"><i class="fa fa-link"></i><span>主菜单3</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right" ></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a href="#">子菜单1</a></li>
+							<li><a href="#">子菜单2</a></li>
+						</ul>
+					</li>
+
+
+				</ul>
+				<!-- /.侧边栏菜单 -->
+
+			</section>
+		</aside>
+		<!-- 页面标题和内容 -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+		    <section class="content-header">
+		      <h1>
+		        当前页一级标题
+		        <small>当前页二级标题</small>
+		      </h1>
+		      <ol class="breadcrumb">
+		        <li><a href="#"><i class="fa fa-dashboard"></i>一级</a></li>
+		        <li class="active">二级</li>
+		      </ol>
+		    </section>
+
+		    <!-- Main content -->
+		    <section class="content">
+				<!-- 页面内容在此处 -->
+		    
+		    </section>
+		    <!-- /.content -->
+		</div>
+		<!-- /.页面标题和内容 -->
+
+		<!-- 页脚 -->
+		<footer class="main-footer">
+			<!-- 右边 -->
+			<div class="pull-right hidden-xs">
+				Anything you want
+			</div>
+			<!-- 左边 -->
+			<strong>版权 &copy; 2016 <a href="#">公司</a>.</strong> 保留所有权利。
+		</footer>
+		<!-- /.页脚 -->
+
+		<div class="control-sidebar-bg"></div>
+	</div>
+
+</body>
+</html>
