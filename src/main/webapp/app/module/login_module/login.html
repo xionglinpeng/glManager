@@ -21,10 +21,11 @@
 	<!-- Bootstrap 3.3.6 -->
 	<script type="text/javascript" src="../../../app/lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- iCheck -->
-	<script type="text/javascript" src="../../../app/adminLTE/plugins/iCheck/icheck.min.js"></script>
+	<script type="text/javascript" src="../../../app/adminLTE/plugins/iCheck/icheck.js"></script>
 	<script type="text/javascript" src="../../../app/lib/angularJS/1.5.7/angular.min.js"></script>
 	<script type="text/javascript" src="../../../app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
 	<script type="text/javascript" src="../../../app/lib/jsencrypt/jsencrypt.min.js"></script>
+	<script type="text/javascript" src="../../../app/module/common_module/common.js"></script>
 	<script type="text/javascript" src="../../../app/module/login_module/login.js"></script>
 	<script>
 	  $(function () {
@@ -35,7 +36,6 @@
 	    });
 	  });
 	</script>
-	
 </head>
 <body class="hold-transition login-page" ng-controller="loginCtrl">
 	<div class="login-box">
@@ -46,25 +46,33 @@
 		<div class="login-box-body">
 			<p class="login-box-msg">Sign in to start your session</p>
 
-			<form class="form" method="post" action="../index.html">
+			<form name="loginForm" novalidate="novalidate" class="form" ng-submit="login()">
 				<div class="form-group has-feedback">
-					<input type="email" class="form-control" name="email" placeholder="邮箱" ng-model="email" >
+					<input type="email" class="form-control" name="email" placeholder="邮箱" ng-model="user.email" required>
 					<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				</div>
+				<div class="form-group" ng-show="loginForm.email.$dirty&&loginForm.email.$invalid">
+					<span class="text-danger" ng-show="loginForm.email.$error.required">邮箱不允许为空。</span>
+					<span class="text-danger" ng-show="loginForm.email.$error.email">请输入合法的邮箱。</span>
+				</div>
 				<div class="form-group has-feedback">
-					<input type="password" class="form-control" name="password" placeholder="密码" ng-model="password">
-					<cng-encrypt ng-model="password"/>
+					<input type="password" class="form-control" name="password" placeholder="密码" ng-model="user.password" ng-minlength="6" ng-maxlength="24" required>
+					<cng-encrypt ng-model="user.password"/>
 					<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+				</div>
+				<div class="form-group" ng-show="loginForm.password.$dirty&&loginForm.password.$invalid">
+					<span class="text-danger" ng-show="loginForm.password.$error.required">密码不允许为空。</span>
+					<span class="text-danger" ng-show="loginForm.password.$error.minlength||loginForm.password.$error.maxlength">密码长度在6-24位之间。</span>
 				</div>
 				<div class="row">
 					<div class="col-xs-8">
 						<div class="checkbox icheck">
-							<label><input type="checkbox" name="autoLogin" ng-model="autoLogin">自动登录</label>
+							<label><input type="checkbox" name="autoLogin" cng-checked>自动登录</label>
 						</div>
 					</div>
 					<!-- /.col -->
 					<div class="col-xs-4">
-						<button type="submit" class="btn btn-primary btn-block btn-flat" ng-click="login()">登录</button>
+						<button type="submit" class="btn btn-primary btn-block btn-flat" ng-disabled="loginForm.$invalid">登录</button>
 					</div>
 					<!-- /.col -->
 				</div>
@@ -83,7 +91,7 @@
 
 			<!-- /.social-auth-links -->
 
-			<a href="#">忘记密码</a>
+			<a href="#" ng-click="forgotPassword()">忘记密码</a>
 			<!-- 
 			<br>
 			<a href="register.html" class="text-center">注册</a> 
