@@ -15,6 +15,7 @@ public class GLMExceptionHandler {
 	@ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
 	public ResultBean ExceptionHandler(Exception e){
+		e.printStackTrace();
 		StringBuffer errorMessage = new StringBuffer();
 		errorMessage.append(e+" "+e.getMessage()+"\n");
 		for(StackTraceElement t : e.getStackTrace()){

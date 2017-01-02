@@ -21,7 +21,7 @@
 	<!-- Bootstrap 3.3.6 -->
 	<script type="text/javascript" src="../../../app/lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- iCheck -->
-	<script type="text/javascript" src="../../../app/adminLTE/plugins/iCheck/icheck.js"></script>
+	<script type="text/javascript" src="../../../app/adminLTE/plugins/iCheck/icheck.min.js"></script>
 	<script type="text/javascript" src="../../../app/lib/angularJS/1.5.7/angular.min.js"></script>
 	<script type="text/javascript" src="../../../app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
 	<script type="text/javascript" src="../../../app/lib/jsencrypt/jsencrypt.min.js"></script>
@@ -63,6 +63,27 @@
 				<div class="form-group" ng-show="loginForm.password.$dirty&&loginForm.password.$invalid">
 					<span class="text-danger" ng-show="loginForm.password.$error.required">密码不允许为空。</span>
 					<span class="text-danger" ng-show="loginForm.password.$error.minlength||loginForm.password.$error.maxlength">密码长度在6-24位之间。</span>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<input type="text" name="kaptcha" class="form-control" placeholder="验证码" required ng-model="user.kaptcha">
+						<div class="input-group-addon" style="padding: 0 0px;border: 0px">
+							<img src="kaptcha.jpg" cng-kaptcha alt="验证码">
+						</div>
+					</div>
+				</div>
+				<div class="form-group" ng-show="loginForm.kaptcha.$dirty&&loginForm.kaptcha.$invalid">
+					<span class="text-danger" ng-show="loginForm.kaptcha.$error.required">
+						验证码不允许为空
+					</span>
+					<span class="text-danger" ng-show="loginForm.kaptcha.$error.required">
+						验证码错误
+					</span>
+				</div>
+				<div class="form-group" ng-show="loginForm.kaptcha.$dirty&&loginForm.kaptcha.$invalid">
+					<span class="text-danger" ng-show="loginForm.kaptcha.$error.required">
+						验证码错误
+					</span>
 				</div>
 				<div class="row">
 					<div class="col-xs-8">

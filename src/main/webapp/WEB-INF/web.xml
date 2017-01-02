@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Archetype Created Web Application</display-name>
-  
   <welcome-file-list>
-  	<welcome-file>/app/module/login_module/login.html</welcome-file>
+    <welcome-file>/app/module/login_module/login.html</welcome-file>
   </welcome-file-list>
-  
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
@@ -27,27 +25,67 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>default</servlet-name>
-  	<url-pattern>*.html</url-pattern>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.html</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>default</servlet-name>
-  	<url-pattern>/app/lib/*</url-pattern>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/app/lib/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>default</servlet-name>
-  	<url-pattern>/app/imgage/*</url-pattern>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/app/imgage/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>default</servlet-name>
-  	<url-pattern>/app/adminLTE/*</url-pattern>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/app/adminLTE/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>default</servlet-name>
-  	<url-pattern>*.js</url-pattern>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.js</url-pattern>
   </servlet-mapping>
-  
-  
-  
-  
+  <servlet>
+    <servlet-name>Kaptcha</servlet-name>
+    <servlet-class>com.imopan.glm.action.KaptchaServlet</servlet-class>
+    <init-param>
+      <param-name>kaptcha.border</param-name>
+      <param-value>no</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.font.color</param-name>
+      <param-value>red</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.image.width</param-name>
+      <param-value>135</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.string</param-name>
+      <param-value>0123456789</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.image.height</param-name>
+      <param-value>34</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.font.size</param-name>
+      <param-value>30</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.noise.color</param-name>
+      <param-value>black</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.char.length</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>kaptcha.textproducer.font.names</param-name>
+      <param-value>Arial</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Kaptcha</servlet-name>
+    <url-pattern>/kaptcha.jpg</url-pattern>
+  </servlet-mapping>
 </web-app>

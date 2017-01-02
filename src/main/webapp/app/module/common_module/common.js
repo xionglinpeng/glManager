@@ -31,7 +31,7 @@ angular.module('commonApp',[])
 			 */
 			var log = function(exceptionData,url,method,status,errorMessage){
 				$log.error(exceptionData);
-				$log.error("请求地址："+url+"\n请求方式："+method+"\n状态："+status+"\n"+data);
+				$log.error("请求地址："+url+"\n请求方式："+method+"\n状态："+status+"\n"+errorMessage);
 			};
 			return {
 				/**

@@ -8,8 +8,22 @@ angular.module('loginApp', ['ngResource','commonApp'])
 		return function($scope,iElm,iAttrs){
 			//这个是iCheck.js的在自定义事件
 			iElm.on('ifChecked ifUnchecked',function(){
+				if(angular.isUndefined($scope.user)){
+						$scope.user={};
+				}
 				$scope.user.autoLogin = $(this).is(':checked');
 		    });
+		};
+	})
+	/**
+	 * [验证码指令，绑定click事件。]
+	 * @return {[type]}             [void]
+	 */
+	.directive('cngKaptcha',function(){
+		return function($scope,iElm,iAttrs){
+			iElm.on('click',function(){
+				$(this).attr('src',"kaptcha.jpg?"+(new Date().getTime()));
+			});
 		};
 	})
 	/**
@@ -48,38 +62,38 @@ angular.module('loginApp', ['ngResource','commonApp'])
 			}
 		};
 	}])
-	.controller('loginCtrl', ['$scope','$resource','loginUrl','handlerExceptionService','$log', function($scope,$resource,loginUrl,handlerExceptionService,$log) {
+	.controller('loginCtrl', function($scope,$resource,loginUrl,handlerExceptionService,$log,$location) {
 
 		/**
 		 * [login 登录]
 		 * @return {[type]} [void]
 		 */
 		$scope.login = function() {
-			console.log($resource);
 			var resource = new ($resource(loginUrl))({
 				"email":$scope.user.email,
 				"password":$scope.user.encryptPassword,
-				"validCode":$scope.user.validCode,
+				"kaptcha":$scope.user.kaptcha,
 				"autoLogin":angular.isUndefined($scope.user.autoLogin)?false:$scope.user.autoLogin
 			});
 			console.log(resource);
-			resource.$save().then(function(result){
-				if(result.data==='login success!'){
+			resource.$save().then(function(resultData){
+				console.log(resultData);
+				if(resultData.data.situation==='login success!'){
 					loginSuccess();
-				}else if(result.data==='login fail!'){
-					loginFail();
+				}else if(resultData.data.situation==='login fail!'){
+					loginFail(resultData.data.failMsg);
 				}else{
-					$log.debug(result.data);
+					$log.debug(resultData.data);
 				}
 			},handlerExceptionService.resourceExceptionHandler);
 		};
 
-
+		
 		var loginSuccess = function(){
+			window.location.href="/index";
+		};
+		
+		var loginFail = function(failMsg){
 
 		};
-
-		var loginFail = function(){
-
-		};
-	}]);
+	});

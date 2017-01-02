@@ -11,7 +11,7 @@ public class LoginBean {
 	private String email;
 	@NotNull(message="\u5BC6\u7801\u4E0D\u80FD\u4E3A\u7A7A")
 	private String password;
-	private String validCode;
+	private String kaptcha;
 	private Boolean autoLogin;
 	public String getEmail() {
 		return email;
@@ -25,22 +25,19 @@ public class LoginBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getValidCode() {
-		return validCode;
-	}
-	public void setValidCode(String validCode) {
-		this.validCode = validCode;
-	}
 	public Boolean getAutoLogin() {
 		return autoLogin;
 	}
 	public void setAutoLogin(Boolean autoLogin) {
 		this.autoLogin = autoLogin;
 	}
-	@Override
-	public String toString() {
-		return "LoginBean [email=" + email + ", password=" + password + ", validCode=" + validCode + "]";
+	public String getKaptcha() {
+		return kaptcha;
 	}
+	public void setKaptcha(String kaptcha) {
+		this.kaptcha = kaptcha;
+	}
+	
 	
 	
 }
