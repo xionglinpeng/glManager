@@ -18,12 +18,21 @@ public class Login {
 	public static final String LOGIN_SUNCCESS_MARK_VALUE = "already login success";
 	
 	/**
+	 * <p>存储用户Email的session键，用于管理后台界面使用：USER_EMAIL_KEY={@value}。</p>
+	 */
+	public static final String USER_EMAIL_KEY = "userEmailKey";
+	
+	/**
 	 * <p>自动登录AES加密key：{@value}</p>
 	 */
 	public static final String AUTO_LOGIN_SECRE_KEY = "ASDASDASDasdwsvsdv^%2342134#245vsdfv243t~1`";
 	/**
-	 * <p>自动登录cookie键：{@value}</p>
+	 * <p>自动登录cookie 密码 键：{@value}</p>
 	 */
-	public static final String AUTO_LOGIN_COOKIE_KEY = "autoPassword";
+	public static final String AUTO_LOGIN_COOKIE_PASSWORD_KEY = "autop";
+	/**
+	 * <p>自动登录cookie 用户名 键：{@value}</p>
+	 */
+	public static final String AUTO_LOGIN_COOKIE_USERNAME_KEY = "autou";
 	
 }

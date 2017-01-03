@@ -11,7 +11,7 @@ import com.imopan.glm.constant.Login;
 @Controller
 public class IndexAction {
 	
-	@RequestMapping(value="/index",method=RequestMethod.GET)
+	@RequestMapping(value="/glm",method=RequestMethod.GET)
 	public String indexPage(HttpSession session){
 		String indexPage = "index";
 		//获取用户已经成功登录的标记

@@ -39,23 +39,20 @@ angular.module('loginApp', ['ngResource','commonApp'])
 				var resource = $resource(encryptUrl);
 				var secretKey = null;
 				new resource().$get().then(function(result){
-					secretKey = result.data.privateKey;
+					secretKey = result.data.publicKey;
 					autoLogin(result.data);
 				},handlerExceptionService.resourceExceptionHandler);
-
+				//当用户选择自动登录时进行自动登录操作，
+				//定义登录账号密码
 				var autoLogin = function(data){
-					if(angular.isDefined(data.password)){
-						$scope.user.password = data.password;
-						console.log($scope.user.encryptPassword);
-						console.log(data);
-						$scope.user.encryptPassword = data.password;
-						console.log($scope.user.encryptPassword);
+					if(angular.isDefined(data.login.password)){
+						$scope.user.email = data.login.email;
+						$scope.user.password = data.login.password;
+						$scope.user.encryptPassword = data.login.password;
 					}
 				};
-
 				//使用秘钥加密(秘钥加密使用的第三方插件库(jsencrypt.js)。
 				var encrypt = function() {
-					console.log(1111);
 					var encrypt = new JSEncrypt();
 					//设置公钥
 					encrypt.setPublicKey(secretKey);
@@ -66,11 +63,12 @@ angular.module('loginApp', ['ngResource','commonApp'])
 				//在ngModel指令绑定的属性值发生变化时将会调用此函数。
 				controller.$render = function() {
 					if (angular.isDefined(controller.$viewValue)) {
-						if(controller.$viewValue.length<24){
+						//限制的密码长度不能超过24位，当密码长度大于等于100位时即是有自动登录cookie
+						if(controller.$viewValue.length<100){
 							encrypt();
 						}else{
-							console.log(controller);
-							controller.$setViewValue(controller.$viewValue.substring(0,6));
+							//设置登录界面文本框自动登录时显示的数据
+							controller.$setViewValue(controller.$viewValue.substring(0,24));
 						}
 					}
 				};
@@ -80,8 +78,17 @@ angular.module('loginApp', ['ngResource','commonApp'])
 	.controller('loginCtrl', function($scope,$resource,loginUrl,handlerExceptionService,$log,$location) {
 
 		$scope.user={};
-
-
+		
+		$scope.$watch('user.kaptcha',function(newValue,oldValue){
+			$scope.loginForm.kaptcha.error = false;
+		});
+		$scope.$watch('user.email',function(newValue,oldValue){
+			$scope.loginForm.error = false;
+		});
+		$scope.$watch('user.password',function(newValue,oldValue){
+			$scope.loginForm.error = false;
+		});
+		
 		/**
 		 * [login 登录]
 		 * @return {[type]} [void]
@@ -93,9 +100,7 @@ angular.module('loginApp', ['ngResource','commonApp'])
 				"kaptcha":$scope.user.kaptcha,
 				"autoLogin":angular.isUndefined($scope.user.autoLogin)?false:$scope.user.autoLogin
 			});
-			console.log(resource);
 			resource.$save().then(function(resultData){
-				console.log(resultData);
 				if(resultData.data.situation==='login success!'){
 					loginSuccess();
 				}else if(resultData.data.situation==='login fail!'){
@@ -106,12 +111,24 @@ angular.module('loginApp', ['ngResource','commonApp'])
 			},handlerExceptionService.resourceExceptionHandler);
 		};
 
-		
+		/**
+		 * [loginSuccess 处理登录成功]
+		 * @return {[type]} [void]
+		 */
 		var loginSuccess = function(){
-			window.location.href="/index";
+			window.location.reload();
 		};
 		
+		/**
+		 * [loginFail 处理登录失败]
+		 * @param  {[type]} failMsg [失败的信息]
+		 * @return {[type]}         [void]
+		 */
 		var loginFail = function(failMsg){
-
+			if(failMsg==='kaptcha validated faild!'){
+				$scope.loginForm.kaptcha.error = true;
+			}else if(failMsg==='login error!'){
+				$scope.loginForm.error = true;
+			}
 		};
 	});

@@ -7,26 +7,26 @@
 	<!--告诉浏览器能够响应屏幕宽度-->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-	<link rel="stylesheet" type="text/css" href="../../../app/lib/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="../../../app/adminLTE/dist/css/AdminLTE.min.css">
+	<link rel="stylesheet" type="text/css" href="/app/lib/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/app/adminLTE/dist/css/AdminLTE.min.css">
 	<!--皮肤-->
-	<link rel="stylesheet" type="text/css" href="../../../app/adminLTE/plugins/iCheck/square/blue.css">
+	<link rel="stylesheet" type="text/css" href="/app/adminLTE/plugins/iCheck/square/blue.css">
 	<!-- 图标字体：引用CDN，因为图标字体引用了woff、ttf等文件。 -->
 	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
 
 	<!-- 必须的JS脚本 -->
 	<!-- jQuery 2.2.3:这是adminLIT插件包的jQuery,adminLTE已对其进行了扩展。 -->
-	<script type="text/javascript" src="../../../app/lib/jQuery/2.2.3/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="/app/lib/jQuery/2.2.3/jquery-2.2.3.min.js"></script>
 	<!-- Bootstrap 3.3.6 -->
-	<script type="text/javascript" src="../../../app/lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/app/lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- iCheck -->
-	<script type="text/javascript" src="../../../app/adminLTE/plugins/iCheck/icheck.min.js"></script>
-	<script type="text/javascript" src="../../../app/lib/angularJS/1.5.7/angular.min.js"></script>
-	<script type="text/javascript" src="../../../app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
-	<script type="text/javascript" src="../../../app/lib/jsencrypt/jsencrypt.min.js"></script>
-	<script type="text/javascript" src="../../../app/module/common_module/common.js"></script>
-	<script type="text/javascript" src="../../../app/module/login_module/login.js"></script>
+	<script type="text/javascript" src="/app/adminLTE/plugins/iCheck/icheck.min.js"></script>
+	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular.min.js"></script>
+	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
+	<script type="text/javascript" src="/app/lib/jsencrypt/jsencrypt.min.js"></script>
+	<script type="text/javascript" src="/app/module/common_module/common.js"></script>
+	<script type="text/javascript" src="/app/module/login_module/login.js"></script>
 	<script>
 	  $(function () {
 	    $('input').iCheck({
@@ -64,9 +64,12 @@
 					<span class="text-danger" ng-show="loginForm.password.$error.required">密码不允许为空。</span>
 					<span class="text-danger" ng-show="loginForm.password.$error.minlength||loginForm.password.$error.maxlength">密码长度在6-24位之间。</span>
 				</div>
+				<div class="form-group" ng-show="loginForm.error">
+					<span class="text-danger">请输入正确的用户名或密码。</span>
+				</div>
 				<div class="form-group">
 					<div class="input-group">
-						<input type="text" name="kaptcha" class="form-control" placeholder="验证码" required ng-model="user.kaptcha">
+						<input type="text" name="kaptcha" class="form-control" placeholder="验证码" required ng-model="user.kaptcha" ng-pattern="/^[0-9]{1,2}$/">
 						<div class="input-group-addon" style="padding: 0 0px;border: 0px">
 							<img src="kaptcha.jpg" cng-kaptcha alt="验证码">
 						</div>
@@ -76,14 +79,12 @@
 					<span class="text-danger" ng-show="loginForm.kaptcha.$error.required">
 						验证码不允许为空
 					</span>
-					<span class="text-danger" ng-show="loginForm.kaptcha.$error.required">
-						验证码错误
+					<span class="text-danger" ng-show="loginForm.kaptcha.$error.pattern">
+						验证码只能是不超过两位的数字
 					</span>
 				</div>
-				<div class="form-group" ng-show="loginForm.kaptcha.$dirty&&loginForm.kaptcha.$invalid">
-					<span class="text-danger" ng-show="loginForm.kaptcha.$error.required">
-						验证码错误
-					</span>
+				<div class="form-group" ng-show="loginForm.kaptcha.error">
+					<span class="text-danger">验证码错误</span>
 				</div>
 				<div class="row">
 					<div class="col-xs-8">

@@ -39,35 +39,35 @@ public class LoginAction {
 	@Autowired
 	private ILoginService iLoginService;
 	
-	
-	private String logFormat(String methodName){
-		return "method:<"+methodName+">->";
-	}
-	
-	
 	/**
-	 * <p>登录密码加密的公钥。</p>
+	 * <p>登录密码加密的公钥。并且自动登录数据获取。</p>
 	 * @param autoPassword 存储cookie中的自动登录密码。
+	 * @param autoEmail 存储cookie中的自动登录邮箱。
 	 * @param session 用于存储解密秘钥。
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/publicKey",method=RequestMethod.GET)
 	@ResponseBody
-	public ResultBean publicKey(@CookieValue(value="autoPassword",required=false)String autoPassword,
+	public ResultBean publicKey(
+			@CookieValue(value="autop",required=false)String autoPassword,
+			@CookieValue(value="autou",required=false)String autoEmail,
 			HttpSession session) throws Exception{
 		Map<String,Key> map = RSACrypt.getSecretKey();
 		//将私钥存储至session中
 		session.setAttribute(RSACrypt.PRIVATE_KEY, RSACrypt.getPrivateKey(map));
 		//创建返回到客户端的map集合
-		Map<String,String> result = new HashMap<>();
+		Map<String,Object> result = new HashMap<>();
 		//存储公钥
-		result.put("privateKey", RSACrypt.getPublicKeyStr(map));
+		result.put("publicKey", RSACrypt.getPublicKeyStr(map));
 		//自动登录密码存储
-		if(StringUtils.isNotBlank(autoPassword)){
+		if(StringUtils.isNotBlank(autoPassword)&&StringUtils.isNotBlank(autoEmail)){
 			//使用公钥加密密码并存储
 			String password = AESCrypt.decrypt(autoPassword, Login.AUTO_LOGIN_SECRE_KEY);
-			result.put("password", RSACrypt.encrypt(RSACrypt.getPublicKey(map), password));
+			Map<String,String> loginMap = new HashMap<>();
+			loginMap.put("email", autoEmail);
+			loginMap.put("password", RSACrypt.encrypt(RSACrypt.getPublicKey(map), password));
+			result.put("login", loginMap);
 		}
 		return new ResultBean(result);
 	}
@@ -87,7 +87,7 @@ public class LoginAction {
 		//验证请求数据是否正常
 		if(bindingResult.getErrorCount()>0){
 			for(FieldError fieldError : bindingResult.getFieldErrors()){
-				logger.info(logFormat("login")+"validated faild: Field<"+fieldError.getField()+"> "+fieldError.getDefaultMessage());
+				logger.info(LogFormart.logFormat("login")+"validated faild: Field<"+fieldError.getField()+"> "+fieldError.getDefaultMessage());
 			}
 			result.put("failMsg", "validated faild!");
 			return new ResultBean(result);
@@ -96,7 +96,7 @@ public class LoginAction {
 		//获取session中的验证码
 		Object kaptcha = session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
 		if(kaptcha==null||!kaptcha.toString().equals(loginBean.getKaptcha())){
-			logger.info(logFormat("login")+"kaptcha validated faild: request kaptcha="+kaptcha+"; bean kaptcha="+loginBean.getKaptcha());
+			logger.info(LogFormart.logFormat("login")+"kaptcha validated faild: request kaptcha="+kaptcha+"; bean kaptcha="+loginBean.getKaptcha());
 			result.put("failMsg", "kaptcha validated faild!");
 			return new ResultBean(result);
 		}
