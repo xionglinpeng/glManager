@@ -5,8 +5,10 @@ import java.security.PrivateKey;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.code.kaptcha.Constants;
 import com.imopan.glm.bean.LoginBean;
 import com.imopan.glm.bean.ResultBean;
+import com.imopan.glm.constant.Login;
 import com.imopan.glm.service.ILoginService;
+import com.util.utils.crypt.AESCrypt;
 import com.util.utils.crypt.RSACrypt;
 
 @Controller
@@ -42,18 +47,31 @@ public class LoginAction {
 	
 	/**
 	 * <p>登录密码加密的公钥。</p>
+	 * @param autoPassword 存储cookie中的自动登录密码。
 	 * @param session 用于存储解密秘钥。
-	 * @throws Exception 
+	 * @return
+	 * @throws Exception
 	 */
 	@RequestMapping(value="/publicKey",method=RequestMethod.GET)
 	@ResponseBody
-	public ResultBean publicKey(HttpSession session) throws Exception{
+	public ResultBean publicKey(@CookieValue(value="autoPassword",required=false)String autoPassword,
+			HttpSession session) throws Exception{
 		Map<String,Key> map = RSACrypt.getSecretKey();
 		//将私钥存储至session中
 		session.setAttribute(RSACrypt.PRIVATE_KEY, RSACrypt.getPrivateKey(map));
-		//返回公钥
-		return new ResultBean(RSACrypt.getPublicKeyStr(map));
+		//创建返回到客户端的map集合
+		Map<String,String> result = new HashMap<>();
+		//存储公钥
+		result.put("privateKey", RSACrypt.getPublicKeyStr(map));
+		//自动登录密码存储
+		if(StringUtils.isNotBlank(autoPassword)){
+			//使用公钥加密密码并存储
+			String password = AESCrypt.decrypt(autoPassword, Login.AUTO_LOGIN_SECRE_KEY);
+			result.put("password", RSACrypt.encrypt(RSACrypt.getPublicKey(map), password));
+		}
+		return new ResultBean(result);
 	}
+	
 	
 	/**
 	 * <p>登录。</p>
@@ -61,7 +79,8 @@ public class LoginAction {
 	 */
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public ResultBean login(@Validated @RequestBody LoginBean loginBean,BindingResult bindingResult,HttpSession session){
+	public ResultBean login(@Validated @RequestBody LoginBean loginBean,BindingResult bindingResult,
+			HttpSession session,HttpServletResponse response) throws Exception{
 		//用于存储返回到客户端的结果集
 		Map<String,String> result = new HashMap<>();
 		result.put("situation", "login fail!");//默认是登录失败，只有到最后一步才是登录成功。
@@ -85,9 +104,9 @@ public class LoginAction {
 		PrivateKey privateKey = (PrivateKey) session.getAttribute(RSACrypt.PRIVATE_KEY);
 		String password = RSACrypt.decrypt(privateKey, loginBean.getPassword());
 		loginBean.setPassword(password);
+		
 		//登录数据处理
-//		return new ResultBean(iLoginService.loginService(loginBean, session, result));
-		result.put("situation", "login success!");
+		result = iLoginService.loginService(loginBean, result,session,response );
 		return new ResultBean(result);
 	}
 	
