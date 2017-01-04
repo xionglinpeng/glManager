@@ -13,7 +13,7 @@ public class IndexAction {
 	
 	@RequestMapping(value="/glm",method=RequestMethod.GET)
 	public String indexPage(HttpSession session){
-		String indexPage = "index";
+		String indexPage = "index_module/index";
 		//获取用户已经成功登录的标记
 		Object loginSunccessMark = session.getAttribute(Login.LOGIN_SUNCCESS_MARK_KEY);
 		//没有取到标记，或者标记不正确，重定向至登录页
