@@ -45,7 +45,7 @@ angular.module('loginApp', ['ngResource','commonApp'])
 				//当用户选择自动登录时进行自动登录操作，
 				//定义登录账号密码
 				var autoLogin = function(data){
-					if(angular.isDefined(data.login.password)){
+					if(angular.isDefined(data.login)){
 						$scope.user.email = data.login.email;
 						$scope.user.password = data.login.password;
 						$scope.user.encryptPassword = data.login.password;

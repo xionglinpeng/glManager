@@ -5,6 +5,8 @@ import org.mongodb.morphia.Morphia;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientURI;
 
 public class MongoDatastore extends AbstractFactoryBean<Datastore>{
 
@@ -15,6 +17,17 @@ public class MongoDatastore extends AbstractFactoryBean<Datastore>{
 	private String packageName;
 
 	private String dbName;
+	
+	private String uri;
+	
+
+	public String getUri() {
+		return uri;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
 
 	public String getHost() {
 		return host;
@@ -58,7 +71,8 @@ public class MongoDatastore extends AbstractFactoryBean<Datastore>{
 	protected Datastore createInstance() throws Exception {
 		Morphia morphia = new Morphia();
 		morphia.mapPackage(packageName);
-		MongoClient mongoClient = new MongoClient(host, port);
+		MongoClientURI mongoClientURI = new MongoClientURI(uri);
+		MongoClient mongoClient = new MongoClient(mongoClientURI);
 		return morphia.createDatastore(mongoClient, dbName);
 	}
 }
