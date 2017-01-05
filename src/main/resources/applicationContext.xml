@@ -27,10 +27,18 @@
 	
 	<bean id="datastore" class="com.imopan.glm.mongo.MongoDatastore">
 		<property name="packageName" value="com.imopan.glm.entity"/>
-		<property name="host" value="127.0.0.1"/>
-		<property name="port" value="27017"/>
+		<property name="username" value="test"/>
+		<property name="password" value="test"/>
+		<property name="mongoHP">
+			<list>
+				<bean class="com.imopan.glm.mongo.MongoHP">
+					<property name="host" value="192.168.1.54"/>
+					<property name="port" value="27017"/>
+				</bean>
+			</list>
+		</property>
 		<property name="dbName" value="test"/>
 	</bean>
 	
-		
+
 </beans>
