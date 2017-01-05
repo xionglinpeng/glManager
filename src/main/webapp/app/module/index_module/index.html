@@ -32,7 +32,7 @@
 	-->
 	<script type="text/javascript" src="/app/lib/dataTables/1.10/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" src="/app/lib/dataTables/1.10/dataTables.bootstrap.min.js"></script>
-	<script type="text/javascript" src="../../../app/module/common_module/globalConfig.js"></script>
+	<script type="text/javascript" src="/app/module/common_module/globalConfig.js"></script>
 
 	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular.min.js"></script>
 	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
@@ -178,6 +178,26 @@ BODY标签选项:
 					<li class="active"><a href="#"><i class="fa fa-link"></i><span>主菜单1</span></a></li> -->
 					<!-- 未选中的菜单
 					<li><a href="#"><i class="fa fa-link"></i><span>主菜单2</span></a></li> -->
+					<li class="treeview">
+						<a href="#"><i class="fa fa-link"></i><span>用户管理</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a ui-sref="glUser">用户列表</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a href="#"><i class="fa fa-link"></i><span>用户管理</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a ui-sref="glUser">用户列表</a></li>
+						</ul>
+					</li>
 					<li class="treeview">
 						<a href="#"><i class="fa fa-link"></i><span>用户管理</span>
 							<span class="pull-right-container">
