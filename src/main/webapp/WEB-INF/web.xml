@@ -42,6 +42,10 @@
     <servlet-name>default</servlet-name>
     <url-pattern>*.js</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.json</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>Kaptcha</servlet-name>
     <servlet-class>com.imopan.glm.action.KaptchaServlet</servlet-class>

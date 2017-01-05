@@ -57,4 +57,36 @@ angular.module('commonApp',[])
 				},
 			};
 		};
+	})
+
+	.directive('cngDatatable', function(){
+		return {
+			scope: {//声明隔离作用域
+				dtOption:"&cngPropertyDtOption",//用于接收dataTables配置选项
+				dtReturnType:"@cngPropertyDtReturnType",//用于设置渲染表格之后的返回类型jQuery或Api
+				dtReturnValue:"=cngPropertyDtReturnValue",//用于接收dataTables返回的值
+				tableClass:"@cngPropertyTableClass",//用于设置表格的样式
+				tableCaption:"@cngPropertyTableCaption"//设置表格caption元素内容
+			},
+			restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
+			template: '<table id="aa" class="{{tableClass}}" role="grid">'+
+					   		'<caption>{{tableCaption}}</caption>'+
+					   '</table>',
+			replace: true,//模板替换元素
+			link: function($scope, iElm, iAttrs, controller) {
+				if(angular.isUndefined($scope.tableClass)){
+					$scope.tableClass = 'table table-bordered table-hover';
+				}
+				//样式dataTable是dataTables.bootstrap.css扩展
+				$scope.tableClass = $scope.tableClass+" dataTable"
+				
+				if($scope.dtReturnType === "Api"||angular.isUndefined($scope.dtReturnType)){
+					$scope.dtReturnValue = iElm.DataTable($scope.dtOption());
+				}else if($scope.dtReturnType === "jQuery"){
+					$scope.dtReturnValue = iElm.dataTable($scope.dtOption());
+				}else{
+					$scope.dtReturnValue = null;
+				}
+			}
+		};
 	});

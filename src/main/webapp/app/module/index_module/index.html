@@ -14,10 +14,14 @@
 	<!-- 图标字体：引用CDN，因为图标字体引用了woff、ttf等文件。 -->
 	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
-	
+	 
+	<link rel="stylesheet" type="text/css" href="/app/lib/dataTables/1.10/dataTables.bootstrap.css">
+	 
 	<!-- 必须的JS脚本 -->
 	<!-- jQuery 2.2.3:这是adminLIT插件包的jQuery,adminLTE已对其进行了扩展。 -->
 	<script type="text/javascript" src="/app/lib/jQuery/2.2.3/jquery-2.2.3.min.js"></script>
+	<!-- 固定布局要求slimscroll插件 -->
+	<script type="text/javascript" src="/app/adminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- Bootstrap 3.3.6 -->
 	<script type="text/javascript" src="/app/lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- AdminLTE App -->
@@ -26,10 +30,17 @@
 	可选,您可以添加Slimscroll和FastClick插件。
 	这两个插件都可以增强用户体验。使用Slimscroll时需要使用固定布局。 
 	-->
+	<script type="text/javascript" src="/app/lib/dataTables/1.10/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/app/lib/dataTables/1.10/dataTables.bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../../app/module/common_module/globalConfig.js"></script>
+
 	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular.min.js"></script>
 	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
 	<script type="text/javascript" src="/app/lib/angularJS-UI-Router/0.3.2/angular-ui-router.min.js"></script>
+	<script type="text/javascript" src="/app/module/index_module/dependency.js"></script>
+	<script type="text/javascript" src="/app/module/common_module/common.js"></script>
 	<script type="text/javascript" src="/app/module/ui-router.js"></script>
+	<script type="text/javascript" src="/app/module/gl_user_module/glUser.js"></script>
 	<script type="text/javascript" src="/app/module/index_module/index.js"></script>
 </head>
 <!--
@@ -168,14 +179,13 @@ BODY标签选项:
 					<!-- 未选中的菜单
 					<li><a href="#"><i class="fa fa-link"></i><span>主菜单2</span></a></li> -->
 					<li class="treeview">
-						<a href="#"><i class="fa fa-link"></i><span>主菜单3</span>
+						<a href="#"><i class="fa fa-link"></i><span>用户管理</span>
 							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right" ></i>
+								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a href="#">子菜单1</a></li>
-							<li><a href="#">子菜单2</a></li>
+							<li><a ui-sref="glUser">用户列表</a></li>
 						</ul>
 					</li>
 

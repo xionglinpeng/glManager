@@ -22,9 +22,9 @@ import com.imopan.glm.service.ILoginService;
 import com.util.utils.crypt.AESCrypt;
 
 @Service
-public class ILoginServiceImpl implements ILoginService {
+public class LoginServiceImpl implements ILoginService {
 	
-	private static final Logger logger = LogManager.getLogger(ILoginServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(LoginServiceImpl.class);
 	
 	@Autowired
 	private Datastore datastore;
