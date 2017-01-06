@@ -4,34 +4,33 @@ angular.module('glUserApp', ['commonApp']).controller('glUserCtrl',
 
 		$scope.glUserListDataTableOption = function() {
 			return {
-				serverSide: false, // 开启服务器模式
 				ajax: {
-					url: "/app/module/test_module/daraTables.json",
+					url: "/glUser/lists",
 					dataSrc: function(json) {
 						return json.datas;
 					}
 				},
 				columns: [{
 					'data': 'name',
-					'title': '姓名'
+					'title': '用户昵称'
 				}, {
 					'data': 'age',
-					'title': '年龄'
+					'title': '用户手机号'
 				}, {
 					'data': 'sex',
-					'title': '性别'
+					'title': '用户状态'
 				}, {
 					'data': 'height',
-					'title': '身高'
+					'title': '所属游戏'
 				}, {
 					'data': 'weight',
-					'title': '体重',
-					render:function(data){
-						return data;
-					}
+					'title': '游戏类型',
 				}, {
 					'data': 'beautiful',
-					'title': '漂亮指数'
+					'title': '性别'
+				}, {
+					'data': 'beautiful',
+					'title': '操作'
 				}]
 			};
 		};
