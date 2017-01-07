@@ -8,7 +8,7 @@ public class TableResult {
 	
 	private Long recordsFiltered;
 	
-	private Object[] dataObject;
+	private Object dataObject;
 	
 	private Object[][] dataArray;
 	
@@ -22,7 +22,7 @@ public class TableResult {
 	}
 
 	public TableResult(Integer draw, Integer recordsTotal, Integer recordsFiltered,
-			Object[] dataObject) {
+			Object dataObject) {
 		this.draw = draw;
 		this.recordsTotal = recordsTotal.longValue();
 		this.recordsFiltered = recordsFiltered.longValue();
@@ -30,7 +30,7 @@ public class TableResult {
 	}
 	
 	public TableResult(Integer draw, Long recordsTotal, Long recordsFiltered,
-			Object[] dataObject) {
+			Object dataObject) {
 		this.draw = draw;
 		this.recordsTotal = recordsTotal;
 		this.recordsFiltered = recordsFiltered;
@@ -38,7 +38,7 @@ public class TableResult {
 	}
 	
 	public TableResult(Integer draw, Integer recordsTotal, Integer recordsFiltered,
-			Object[] dataObject,String error) {
+			Object dataObject,String error) {
 		this.draw = draw;
 		this.recordsTotal = recordsTotal.longValue();
 		this.recordsFiltered = recordsFiltered.longValue();
@@ -47,7 +47,7 @@ public class TableResult {
 	}
 	
 	public TableResult(Integer draw, Long recordsTotal, Long recordsFiltered,
-			Object[] dataObject,String error) {
+			Object dataObject,String error) {
 		this.draw = draw;
 		this.recordsTotal = recordsTotal;
 		this.recordsFiltered = recordsFiltered;
@@ -110,7 +110,7 @@ public class TableResult {
 		this.recordsFiltered = recordsFiltered;
 	}
 
-	public Object[] getDataObject() {
+	public Object getDataObject() {
 		return dataObject;
 	}
 

@@ -20,7 +20,7 @@ public class GlUserManagerServiceImpl implements GlUserManagerService {
 	public TableResult glUserListService(GlUser glUser, TableSide tableSide) {
 		Query<GlUser> query = datastore.createQuery(GlUser.class);
 		long count = datastore.createQuery(GlUser.class).count();
-		return new TableResult(tableSide.getDraw(), count, count, query.asList().toArray());
+		return new TableResult(tableSide.getDraw(), count, count, query.asList());
 	}
 
 }

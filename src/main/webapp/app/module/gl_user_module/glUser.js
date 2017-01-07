@@ -20,7 +20,8 @@ angular.module('glUserApp', ['commonApp'])
 					'title': '用户昵称'
 				}, {
 					'data': 'mobile',
-					'title': '用户手机号'
+					'title': '用户手机号',
+					'name':'mobile111111111'
 				}, {
 					'data': 'status',
 					'title': '用户状态'
@@ -51,10 +52,10 @@ angular.module('glUserApp', ['commonApp'])
 
 		
 		$scope.queryTable=function(){
-			console.log(selectData($scope.Api));
-			console.log(selectData($scope.Api)[0]);
-			console.log(selectData($scope.Api)[1]);
-			// $scope.Api.ajax.url(tableUrl+serializeService('glUserId')).load();
+//			console.log(selectData($scope.Api));
+//			console.log(selectData($scope.Api)[0]);
+//			console.log(selectData($scope.Api)[1]);
+			 $scope.Api.ajax.url(tableUrl+serializeService('glUserId')).load();
 		};
 		
 	});
