@@ -12,8 +12,10 @@
 	<!--皮肤-->
 	<link rel="stylesheet" type="text/css" href="/app/adminLTE/dist/css/skins/skin-blue.min.css">
 	<!-- 图标字体：引用CDN，因为图标字体引用了woff、ttf等文件。 -->
+	<!-- 
 	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
+	 -->
 	 
 	<link rel="stylesheet" type="text/css" href="/app/lib/dataTables/1.10/dataTables.bootstrap.css">
 	 
@@ -39,7 +41,7 @@
 	<script type="text/javascript" src="/app/lib/angularJS-UI-Router/0.3.2/angular-ui-router.min.js"></script>
 	<script type="text/javascript" src="/app/module/index_module/dependency.js"></script>
 	<script type="text/javascript" src="/app/module/common_module/common.js"></script>
-	<script type="text/javascript" src="/app/module/ui-router.js"></script>
+	
 	<script type="text/javascript" src="/app/module/gl_user_module/glUser.js"></script>
 	<script type="text/javascript" src="/app/module/index_module/index.js"></script>
 </head>
@@ -150,7 +152,7 @@ BODY标签选项:
 			        <div class="pull-left info">
 			          <p>用户名</p>
 			          <!-- 状态 -->
-			          <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+			          <a><i class="fa fa-circle text-success"></i> 在线</a>
 			        </div>
 			    </div>
 				<!-- /.侧边栏用户面板 -->
@@ -179,7 +181,7 @@ BODY标签选项:
 					<!-- 未选中的菜单
 					<li><a href="#"><i class="fa fa-link"></i><span>主菜单2</span></a></li> -->
 					<li class="treeview">
-						<a href="#"><i class="fa fa-link"></i><span>用户管理</span>
+						<a><i class="fa fa-link"></i><span>用户管理</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
@@ -189,26 +191,15 @@ BODY标签选项:
 						</ul>
 					</li>
 					<li class="treeview">
-						<a href="#"><i class="fa fa-link"></i><span>用户管理</span>
+						<a><i class="fa fa-link"></i><span>意见反馈管理</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a ui-sref="glUser">用户列表</a></li>
+							<li><a ui-sref="glUser">意见反馈列表</a></li>
 						</ul>
 					</li>
-					<li class="treeview">
-						<a href="#"><i class="fa fa-link"></i><span>用户管理</span>
-							<span class="pull-right-container">
-								<i class="fa fa-angle-left pull-right"></i>
-							</span>
-						</a>
-						<ul class="treeview-menu">
-							<li><a ui-sref="glUser">用户列表</a></li>
-						</ul>
-					</li>
-
 
 				</ul>
 				<!-- /.侧边栏菜单 -->

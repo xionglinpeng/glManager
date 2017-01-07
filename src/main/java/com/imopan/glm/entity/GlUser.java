@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
-@Entity(value="User")
+@Entity(value="User",noClassnameStored=false)
 public class GlUser {
 	
 	@Id
@@ -20,6 +20,10 @@ public class GlUser {
 	 */
 	private String mobile;
 	
+	/**
+	 * <p>用户状态</p>
+	 */
+	private String status;
 	/**
 	 * <p>用户正在玩的游戏=>对应所属游戏</p>
 	 */
@@ -55,6 +59,12 @@ public class GlUser {
 	}
 	public String getMobile() {
 		return mobile;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public void setMobile(String mobile) {
 		this.mobile = mobile;

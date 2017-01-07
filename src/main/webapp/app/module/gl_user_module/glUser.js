@@ -1,42 +1,60 @@
 window.indexAppDependency.push("glUserApp");
-angular.module('glUserApp', ['commonApp']).controller('glUserCtrl',
-	function($scope) {
+angular.module('glUserApp', ['commonApp'])
+	.config(function($stateProvider) {
+		$stateProvider.state('glUser',{
+			url:'/glUser',
+			templateUrl:'/app/module/gl_user_module/glUser.html',
+			controller:'glUserCtrl'
+		});
+	})
+	.constant('tableUrl','/glUser/lists')
+	.controller('glUserCtrl',function($scope,tableUrl,serializeService,selectData) {
 
 		$scope.glUserListDataTableOption = function() {
-			return {
+			var dtOption = {
 				ajax: {
-					url: "/glUser/lists",
-					dataSrc: function(json) {
-						return json.datas;
-					}
+					url: tableUrl,
 				},
 				columns: [{
-					'data': 'name',
+					'data': 'nickname',
 					'title': '用户昵称'
 				}, {
-					'data': 'age',
+					'data': 'mobile',
 					'title': '用户手机号'
 				}, {
-					'data': 'sex',
+					'data': 'status',
 					'title': '用户状态'
 				}, {
-					'data': 'height',
+					'data': 'playingGame.gname',
 					'title': '所属游戏'
 				}, {
-					'data': 'weight',
+					'data': 'favoriteTypes',
 					'title': '游戏类型',
 				}, {
-					'data': 'beautiful',
-					'title': '性别'
+					'data': 'gender',
+					'title': '性别',
+					'render':function(data,type,rowData,meta){
+						return data=='M'?'男':(data=='F'?'女':data);
+					}
 				}, {
-					'data': 'beautiful',
-					'title': '操作'
+					'data': 'operation',
+					'title': '操作',
+					'orderable': false,
+					'render':function(){
+						return "<a>查看用户</a>&nbsp;&nbsp;<a>禁号操作</a>";
+					}
 				}]
 			};
+			return dtOption;
 		};
-		setTimeout(function(){
-			console.log($scope.Api);
-		},3000);
 		
+
+		
+		$scope.queryTable=function(){
+			console.log(selectData($scope.Api));
+			console.log(selectData($scope.Api)[0]);
+			console.log(selectData($scope.Api)[1]);
+			// $scope.Api.ajax.url(tableUrl+serializeService('glUserId')).load();
+		};
 		
 	});

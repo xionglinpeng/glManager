@@ -31,11 +31,5 @@ $.extend($.fn.dataTable.defaults,{
 						sSortAscending : ": 以升序排列此列",
 						sSortDescending : ": 以降序排列此列",
 				}
-		},
-		columnDefs : [//定义第一列不进行排序，因为第一列一般都是序号
-			{
-				targets:[0,0],//第一列
-				orderable:false//禁用排序
-			}
-		]
+		}
 	});
