@@ -110,6 +110,7 @@ public class MongoDatastore extends AbstractFactoryBean<Datastore>{
 				//还差选项配置
 			}
 		}
+		System.out.println(url);
 		MongoClientURI mongoClientURI = new MongoClientURI(url.toString());
 		MongoClient mongoClient = new MongoClient(mongoClientURI);
 		return morphia.createDatastore(mongoClient, dbName);

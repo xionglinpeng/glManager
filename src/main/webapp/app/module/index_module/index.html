@@ -6,44 +6,56 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!--告诉浏览器能够响应屏幕宽度-->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-	<link rel="stylesheet" type="text/css" href="/app/lib/bootstrap/3.3.6/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/app/adminLTE/dist/css/AdminLTE.min.css">
 	<!--皮肤-->
 	<link rel="stylesheet" type="text/css" href="/app/adminLTE/dist/css/skins/skin-blue.min.css">
 	<!-- 图标字体：引用CDN，因为图标字体引用了woff、ttf等文件。 -->
-	<!-- 
 	<link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="http://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
-	 -->
 	 
-	<link rel="stylesheet" type="text/css" href="/app/lib/dataTables/1.10/dataTables.bootstrap.css">
-	 
-	<!-- 必须的JS脚本 -->
 	<!-- jQuery 2.2.3:这是adminLIT插件包的jQuery,adminLTE已对其进行了扩展。 -->
 	<script type="text/javascript" src="/app/lib/jQuery/2.2.3/jquery-2.2.3.min.js"></script>
-	<!-- 固定布局要求slimscroll插件 -->
-	<script type="text/javascript" src="/app/adminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- Bootstrap 3.3.6 -->
 	<script type="text/javascript" src="/app/lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<!-- AdminLTE App -->
-	<script type="text/javascript" src="/app/adminLTE/dist/js/app.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/app/lib/bootstrap/3.3.6/css/bootstrap.min.css">
+	<!-- jQuery dataTable插件 -->
+	<script type="text/javascript" src="/app/lib/dataTables/1.10/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="/app/lib/dataTables/1.10/dataTables.bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/app/lib/dataTables/1.10/dataTables.bootstrap.css">
+	<!-- AngilarJS -->
+	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular.min.js"></script>
+	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
+	<script type="text/javascript" src="/app/lib/angularJS-UI-Router/0.3.2/angular-ui-router.min.js"></script>
+
+	<!-- 必须的JS脚本 -->
 	<!-- 
 	可选,您可以添加Slimscroll和FastClick插件。
 	这两个插件都可以增强用户体验。使用Slimscroll时需要使用固定布局。 
 	-->
-	<script type="text/javascript" src="/app/lib/dataTables/1.10/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="/app/lib/dataTables/1.10/dataTables.bootstrap.min.js"></script>
-	<script type="text/javascript" src="/app/module/common_module/globalConfig.js"></script>
-
-	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular.min.js"></script>
-	<script type="text/javascript" src="/app/lib/angularJS/1.5.7/angular-resource.min.js"></script>
-	<script type="text/javascript" src="/app/lib/angularJS-UI-Router/0.3.2/angular-ui-router.min.js"></script>
-	<script type="text/javascript" src="/app/module/index_module/dependency.js"></script>
-	<script type="text/javascript" src="/app/module/common_module/common.js"></script>
+	<!-- 固定布局要求slimscroll插件 -->
+	<script type="text/javascript" src="/app/adminLTE/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<!-- AdminLTE App -->
+	<script type="text/javascript" src="/app/adminLTE/dist/js/app.min.js"></script>
 	
+	<!-- 日期时间范围选择器，参见官方网址：http://www.daterangepicker.com/ -->
+	<link rel="stylesheet" type="text/css" href="/app/lib/daterangepicker/daterangepicker.css">
+	<script type="text/javascript" src="/app/lib/daterangepicker/moment.min.js"></script>
+	<script type="text/javascript" src="/app/lib/daterangepicker/daterangepicker.js"></script>
+
+	<!-- 以下都是自定义js文件 -->
+	<!-- 业务全局配置 -->
+	<script type="text/javascript" src="/app/module/common_module/globalConfig.js"></script>
+	<!-- 模块继承依赖数组 -->
+	<script type="text/javascript" src="/app/module/index_module/dependency.js"></script>
+	<!-- 公共模块 -->
+	<script type="text/javascript" src="/app/module/common_module/common.js"></script>
+	<!-- 用户管理模块 -->
 	<script type="text/javascript" src="/app/module/gl_user_module/glUser.js"></script>
+	<!-- 反馈信息模块 -->
+	<script type="text/javascript" src="/app/module/advice_feedback_module/adviceFeedback.js"></script>
+	<!--首页模块 -->
 	<script type="text/javascript" src="/app/module/index_module/index.js"></script>
+
 </head>
 <!--
 BODY标签选项:
@@ -181,23 +193,23 @@ BODY标签选项:
 					<!-- 未选中的菜单
 					<li><a href="#"><i class="fa fa-link"></i><span>主菜单2</span></a></li> -->
 					<li class="treeview">
-						<a><i class="fa fa-link"></i><span>用户管理</span>
+						<a><i class="fa fa-users"></i><span>用户管理</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a ui-sref="glUser">用户列表</a></li>
+							<li><a ui-sref="glUser"><i class="fa fa-circle-o"></i>用户列表</a></li>
 						</ul>
 					</li>
 					<li class="treeview">
-						<a><i class="fa fa-link"></i><span>意见反馈管理</span>
+						<a><i class="fa fa-envelope-o"></i><span>意见反馈管理</span>
 							<span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a ui-sref="glUser">意见反馈列表</a></li>
+							<li><a ui-sref="adviceFeedback"><i class="fa fa-circle-o"></i>意见反馈列表</a></li>
 						</ul>
 					</li>
 

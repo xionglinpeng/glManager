@@ -65,8 +65,13 @@ angular.module('commonApp',[])
 	})
 
 	.factory('selectData', function(){
-		return function name(dataTableApi){
+		return function name(dtApi){
 			return dataTableApi.rows('.active').data();
+		};
+	})
+	.factory('queryData', function(){
+		return function name(dtApi,url){
+			dtApi.ajax.url(url).load();
 		};
 	})
 	.directive('cngDatatable', function(){
@@ -133,7 +138,13 @@ angular.module('commonApp',[])
 					});
 					if(angular.isUndefined(dtOption.headerCallback)){
 						dtOption.headerCallback = function(thead, data, start, end, display){
-							checkbox.headerCallback($scope.Table,thead);
+							//在客户端模式下headerCallback将会执行两次，第一次是表哥还没有渲染的时候，
+							//第二次是表格已经渲染完毕，有返回值得时候，
+							//因为第一回调时$scope.Table为undefined，所以这里判断$scope.Table是否为undefined，
+							//以第二次回调为准。
+							if(angular.isDefined($scope.Table)){
+								checkbox.headerCallback($scope.Table,thead);
+							}
 						};
 					}
 					if(angular.isUndefined(dtOption.rowCallback)){
@@ -169,6 +180,50 @@ angular.module('commonApp',[])
 				}else{
 					$scope.dtReturnValue = null;
 				}
+			}
+		};
+	})
+	.directive('cngDaterangepicker', function(){
+		// Runs during compile
+		return {
+			// name: '',
+			// priority: 1,
+			// terminal: true,
+//			scope: {}, // {} = isolate, true = child, false/undefined = no change
+			// controller: function($scope, $element, $attrs, $transclude) {},
+			// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+			restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+//			template: '',
+			// templateUrl: '',
+//			replace: true,
+			// transclude: true,
+			// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+			link: function($scope, iElm, iAttrs, controller) {
+				iElm.daterangepicker({
+					timePicker: true,
+					timePickerSeconds:true,
+					timePicker24Hour:true,
+					showDropdowns:true,
+					outsideClickConfig:false,
+					 isCustomDateFormat:true,
+					clearVal:true,
+					initSetValue:false,
+					locale: {
+				        "separator": " - ",
+				        "applyLabel": "确认",
+				        "cancelLabel": "清除",
+				        "fromLabel": "From",
+				        "toLabel": "To",
+				        "customRangeLabel": "Custom",
+				        "weekLabel": "W",
+				        "daysOfWeek": ["日","一","二","三","四","五","六"],
+				        "monthNames": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+				        "firstDay": 1
+				    }
+				});
+				$('#reservationtime').on('apply.daterangepicker',function(ev,picker){
+					picker.setStartDate(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+				});
 			}
 		};
 	});

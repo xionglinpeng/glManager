@@ -1,0 +1,81 @@
+
+
+<!-- Main content -->
+<section class="content">
+	<!-- 页面内容在此处 -->
+	<div class="box container-fluid">
+		<div class="box-header">
+			<section class="content-header">
+				<h1>
+					意见反馈管理<small>意见反馈列表</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+					<li class="active">意见反馈管理</li>
+					<li class="active">意见反馈列表</li>
+				</ol>
+			</section>
+		</div>
+		<div class="box-body">
+			<form class="form-inline" id="glUserId" name="glUserFom" align="right">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-clock-o"></i>
+						</div>
+						<input type="text" class="form-control pull-right" name=""  cng-daterangepicker>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-clock-o"></i>
+						</div>
+						<input type="text" class="form-control pull-right" name="">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-user"></i>
+						</div>
+						<input type="text" name="nickname" ng-model="glUser.nickname" placeholder="用户昵称" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-mobile"></i>
+						</div>
+						<input type="text" name="mobile" ng-model="glUser.mobile" placeholder="用户手机号" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<input type="text" name="" placeholder="反馈编号" class="form-control">
+				</div>
+				<div class="form-group">
+					<select name="favoriteTypes" ng-model="glUser.favoriteTypes" class="form-control">
+						<option value="">处理状态</option>
+						<option value="">状态1</option>
+						<option value="">状态2</option>
+						<option value="">状态3</option>
+						<option value="">状态4</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" ng-click='queryTable()'>查询</button>
+				</div>
+
+			</form>
+			<div class="box-header"></div>
+			<div>
+				<cng-datatable cng-property-dt-option="dtOption()"
+							   cng-property-dt-return-value="Api" 
+							   cng-property-active="true" 
+							   cng-property-checkbox-confing="checkboxConfing"/>
+			</div> 
+		</div>
+
+
+	</div>
+</section>

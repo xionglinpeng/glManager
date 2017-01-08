@@ -8,9 +8,9 @@ angular.module('glUserApp', ['commonApp'])
 		});
 	})
 	.constant('tableUrl','/glUser/lists')
-	.controller('glUserCtrl',function($scope,tableUrl,serializeService,selectData) {
+	.controller('glUserCtrl',function($scope,tableUrl,serializeService,selectData,queryData) {
 
-		$scope.glUserListDataTableOption = function() {
+		$scope.dtOption = function() {
 			var dtOption = {
 				ajax: {
 					url: tableUrl,
@@ -55,7 +55,7 @@ angular.module('glUserApp', ['commonApp'])
 //			console.log(selectData($scope.Api));
 //			console.log(selectData($scope.Api)[0]);
 //			console.log(selectData($scope.Api)[1]);
-			 $scope.Api.ajax.url(tableUrl+serializeService('glUserId')).load();
+			 queryData($scope.Api,tableUrl+serializeService('glUserId'));
 		};
 		
 	});
