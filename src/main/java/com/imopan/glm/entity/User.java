@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
-@Entity
+@Entity(value="GlmUser")
 public class User {
 	
 	@Id
@@ -12,6 +12,7 @@ public class User {
 	private String email;
 	private String password;
 	private String salt;
+	
 	public Object getId() {
 		return id;
 	}

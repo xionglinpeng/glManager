@@ -26,14 +26,17 @@
 	</context:component-scan>
 	
 	<bean id="datastore" class="com.imopan.glm.mongo.MongoDatastore">
-		<property name="packageName" value="com.imopan.glm.bean"/>
-		<property name="host" value="192.168.1.54"/>
-		<property name="port" value="27017"/>
-		<property name="dbName" value="test"/>
-		<property name="uri" value="mongodb://test:test@192.168.1.54:27017/?authSource=test"/>
-		
-<!-- 		<property name="uri" value="mongodb://advRoot:imopan1234@172.16.17.98:30000/?authSource=adv_platform"/> -->
+		<property name="packageName" value="com.imopan.glm.entity"/>
+		<property name="mongoHP">
+			<list>
+				<bean class="com.imopan.glm.mongo.MongoHP">
+					<property name="host" value="172.16.17.57"/>
+					<property name="port" value="30000"/>
+				</bean>
+			</list>
+		</property>
+		<property name="dbName" value="gamelink"/>
+		<property name="username" value="gamelink"/>
+		<property name="password" value="gamelink"/>
 	</bean>
-	
-		
 </beans>
