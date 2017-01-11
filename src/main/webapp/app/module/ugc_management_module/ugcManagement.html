@@ -1,0 +1,103 @@
+
+
+<!-- Main content -->
+<section class="content">
+	<!-- 页面内容在此处 -->
+	<div class="box container-fluid">
+		<div class="box-header">
+			<section class="content-header">
+				<h1>
+					UGC管理<small>UGC列表</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+					<li class="active">UGC管理</li>
+					<li class="active">UGC列表</li>
+				</ol>
+			</section>
+		</div>
+		<div class="box-body">
+			<form class="form-inline" id="glUserId" name="glUserFom" align="right">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-user"></i>
+						</div>
+						<input type="text" name="nickname" ng-model="glUser.nickname" placeholder="用户昵称" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-mobile-phone"></i>
+						</div>
+						<input type="text" name="mobile" ng-model="glUser.mobile" placeholder="用户手机号" class="form-control">
+					</div>
+					
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-gamepad"></i>
+						</div>
+						<select name="playingGame.gname" ng-model="glUser.playingGame.gname" class="form-control">
+							<option value="">所属游戏</option>
+							<option value="">游戏1</option>
+							<option value="">游戏2</option>
+							<option value="">游戏3</option>
+							<option value="">游戏4</option>
+							<option value="">游戏5</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-gamepad"></i>
+						</div>
+						<select name="favoriteTypes" ng-model="glUser.favoriteTypes" class="form-control">
+							<option value="">游戏类型</option>
+							<option value="">类型1</option>
+							<option value="">类型2</option>
+							<option value="">类型3</option>
+							<option value="">类型4</option>
+							<option value="">类型5</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">
+							<i class="fa fa-intersex"></i>
+						</div>
+						<select name="gender" ng-model="glUser.gender" class="form-control">
+							<option value="">性别</option>
+							<option value="">男</option>
+							<option value="">女</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<select name="status" ng-model="glUser.status" class="form-control">
+						<option value="">用户状态</option>
+						<option value="">状态1</option>
+						<option value="">状态2</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" ng-click='queryTable()'>查询</button>
+				</div>
+
+			</form>
+			<div class="box-header"></div>
+			<div>
+				<cng-datatable cng-property-dt-option="dtOption()"
+							   cng-property-dt-return-value="Api" 
+							   cng-property-active="true" 
+							   cng-property-checkbox-confing="checkboxConfing"/>
+			</div> 
+		</div>
+
+
+	</div>
+</section>
