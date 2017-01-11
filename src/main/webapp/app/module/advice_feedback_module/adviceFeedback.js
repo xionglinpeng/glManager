@@ -8,14 +8,7 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 		});
 	})
 	.constant('adviceFeedbackListUrl', '/app/module/test_module/adviceFeedback.json')
-	.controller('adviceFeedbackCtrl', function($scope,adviceFeedbackListUrl,queryData){
-//			$('#reservationtime').on('apply.daterangepicker',function(ev,picker){
-////				console.log(this);
-////				console.log(ev);
-////				console.log(picker);
-//////				picker.setStartDate(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
-////				console.log(picker.startDate);
-//			});
+	.controller('adviceFeedbackCtrl', function($scope,adviceFeedbackListUrl,queryData,$filter){
 
 		$scope.dtOption = function(){
 			return {
@@ -24,7 +17,7 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 				columns:[
 					{data:'time',name:'',title:'时间',
 					render:function(data){
-						return data;
+						return $filter('date')(data,'yyyy-MM-dd HH:mm:ss');
 					}},
 					{data:'number',name:'',title:'反馈编号'},
 					{data:'nickname',name:'',title:'用户昵称'},

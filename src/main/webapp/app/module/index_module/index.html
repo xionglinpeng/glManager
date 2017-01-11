@@ -199,7 +199,9 @@ BODY标签选项:
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a ui-sref="glUser"><i class="fa fa-circle-o"></i>用户列表</a></li>
+							<li><a ui-sref="glUser" ui-sref-opts="{reload:'glUser'}">
+								<i class="fa fa-circle-o"></i>用户列表</a>
+							</li>
 						</ul>
 					</li>
 					<li class="treeview">
@@ -209,7 +211,9 @@ BODY标签选项:
 							</span>
 						</a>
 						<ul class="treeview-menu">
-							<li><a ui-sref="adviceFeedback"><i class="fa fa-circle-o"></i>意见反馈列表</a></li>
+							<li><a ui-sref="adviceFeedback" ui-sref-opts="{reload:'adviceFeedback'}">
+								<i class="fa fa-circle-o"></i>意见反馈列表</a>
+							</li>
 						</ul>
 					</li>
 

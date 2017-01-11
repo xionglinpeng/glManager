@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.mongodb.morphia.query.Sort;
 
 /**
  * <p>DataTables服务器端</p>
@@ -124,6 +125,19 @@ public class TableSide {
 
 	public List<String> getOrders() {
 		return orders;
+	}
+	
+	public List<Sort> getSorts(){
+		List<Sort> sorts = new ArrayList<>();
+		for(String order : orders){
+			String sortField = order.split(" ")[0];
+			if(order.endsWith("desc")){
+				sorts.add(Sort.descending(sortField));
+			}else if(order.endsWith("asc")){
+				sorts.add(Sort.ascending(sortField));
+			}
+		}
+		return sorts;
 	}
 
 

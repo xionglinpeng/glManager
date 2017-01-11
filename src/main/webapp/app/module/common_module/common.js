@@ -58,22 +58,42 @@ angular.module('commonApp',[])
 			};
 		};
 	})
+
+	/**
+	 * [form表单序列化服务，内部使用的是jQuery的serialize函数。]
+	 * @param {[formId]} [form表单的id值]
+	 * @return {[type]}  [序列化的字符串，以'?'开头，例："?name=123&age=321..."]
+	 */
 	.factory('serializeService', function($document){
 		return function serializeObj(formId){
 			return  "?"+$document.find('#'+formId).serialize();
 		};
 	})
 
+	/**
+	 * [dataTable相关服务，用于获取选中行的数据]
+	 * @param  {[dtApi]} 	[dataTable对象]
+	 * @return {[type]}  [选中行的原生数据，非表格展示数据]
+	 */
 	.factory('selectData', function(){
 		return function name(dtApi){
 			return dataTableApi.rows('.active').data();
 		};
 	})
+	/**
+	 * [dataTable表格条件查询]
+	 * @param  {[dtApi]} 	[dataTable对象]
+	 * @param  {[url]} 		[查询url]
+	 * @return {[type]}     [void]
+	 */
 	.factory('queryData', function(){
 		return function name(dtApi,url){
 			dtApi.ajax.url(url).load();
 		};
 	})
+	/**
+	 * [dataTable指令]
+	 */
 	.directive('cngDatatable', function(){
 		return {
 			scope: {//声明隔离作用域
@@ -86,7 +106,7 @@ angular.module('commonApp',[])
 				checkboxConfing:"=cngPropertyCheckboxConfing" //复选框序号配置
 			},
 			restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
-			template: '<table id="aa" class="{{tableClass}}" role="grid">'+
+			template: '<table id="dataTable" class="{{tableClass}}" role="grid">'+
 					   		'<caption>{{tableCaption}}</caption>'+
 					   '</table>',
 			replace: true,//模板替换元素
@@ -183,6 +203,10 @@ angular.module('commonApp',[])
 			}
 		};
 	})
+
+	/**
+	 * [data range picker插件封装的指令，用于为input元素添加日期控件]
+	 */
 	.directive('cngDaterangepicker', function(){
 		// Runs during compile
 		return {

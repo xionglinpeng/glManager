@@ -25,16 +25,19 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
+	<!-- 客户端连接命令mongo mongodb://gamelink:gamelink@172.16.17.57:30000/gamelink -->
 	<bean id="datastore" class="com.imopan.glm.mongo.MongoDatastore">
 		<property name="packageName" value="com.imopan.glm.entity"/>
+		<property name="username" value="gamelink"/>
+		<property name="password" value="gamelink"/>
 		<property name="mongoHP">
 			<list>
 				<bean class="com.imopan.glm.mongo.MongoHP">
-					<property name="host" value="127.0.0.1"/>
-					<property name="port" value="27017"/>
+					<property name="host" value="172.16.17.57"/>
+					<property name="port" value="30000"/>
 				</bean>
 			</list>
 		</property>
-		<property name="dbName" value="test"/>
+		<property name="dbName" value="gamelink"/>
 	</bean>
 </beans>
