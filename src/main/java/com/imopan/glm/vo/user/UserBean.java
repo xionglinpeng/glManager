@@ -1,25 +1,50 @@
-package com.imopan.glm.entity;
+package com.imopan.glm.vo.user;
 
-import java.util.Date;
 import java.util.List;
 
-import org.mongodb.morphia.annotations.Entity;
+import com.imopan.glm.entity.LGame;
+import com.imopan.glm.vo.PersistentObject;
 
-@Entity(value="User",noClassnameStored=false)
-public class GlUser extends BaseEntity{
+/**
+ * 用户bean
+ * 
+ *
+ * UserBean
+ *
+ * @author bin
+ *
+ * @since 2016年12月27日 下午3:14:15
+ *
+ * @version 1.0.0
+ */
+//@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserBean extends PersistentObject{
+
 	/**
-	 *  serialVersionUID
+	 * serialVersionUID
 	 */
-	private static final long serialVersionUID = 6651127687765149086L;
+	private static final long serialVersionUID = -6072882102457142987L;
+
+	/**
+	 * 用户id
+	 */
+	private String uid;
 	
 	/**
-	 *  用户手机号
+	 * 用户手机号码
 	 */
 	private String mobile;
+	
 	/**
-	 *  用户密码
+	 * 验证码
+	 */
+	private String verifyCode;
+	
+	/**
+	 * 密码
 	 */
 	private String password;
+	
 	
 	/**
 	 *  用户昵称
@@ -45,7 +70,7 @@ public class GlUser extends BaseEntity{
 	/**
 	 *  用户头像
 	 */
-	private Attachement avatarImage;
+	private String avatarImage;
 	/**
 	 *  用户交友宣言
 	 */
@@ -55,15 +80,11 @@ public class GlUser extends BaseEntity{
 	 *  用户地理位置信息
 	 */
     private String region;
-    /**
-	 *  用户绑定的机锋账户名称
-	 */
-    private String gfAccount;
     
     /**
      * 用户喜欢的游戏类型
      */
-    private List<GameType> favoriteTypes;
+    private List<String> favoriteTypes;
     
     /**
      * 正在玩游戏的服务器
@@ -75,20 +96,14 @@ public class GlUser extends BaseEntity{
      */
 	private String gameNickname;
 	
-	/**
-	 * 本地用户与云信服务交互的token
-	 */
-	private String yunxinToken;
-	
-	/**
-	 * 用户的状态
-	 */
-	private UserStatus stauts;
-	
-	/**
-	 * 用户创建时间
-	 */
-	private Date create;
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public String getMobile() {
 		return mobile;
@@ -96,6 +111,14 @@ public class GlUser extends BaseEntity{
 
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
+	}
+
+	public String getVerifyCode() {
+		return verifyCode;
+	}
+
+	public void setVerifyCode(String verifyCode) {
+		this.verifyCode = verifyCode;
 	}
 
 	public String getPassword() {
@@ -138,11 +161,11 @@ public class GlUser extends BaseEntity{
 		this.concernedGame = concernedGame;
 	}
 
-	public Attachement getAvatarImage() {
+	public String getAvatarImage() {
 		return avatarImage;
 	}
 
-	public void setAvatarImage(Attachement avatarImage) {
+	public void setAvatarImage(String avatarImage) {
 		this.avatarImage = avatarImage;
 	}
 
@@ -162,19 +185,11 @@ public class GlUser extends BaseEntity{
 		this.region = region;
 	}
 
-	public String getGfAccount() {
-		return gfAccount;
-	}
-
-	public void setGfAccount(String gfAccount) {
-		this.gfAccount = gfAccount;
-	}
-
-	public List<GameType> getFavoriteTypes() {
+	public List<String> getFavoriteTypes() {
 		return favoriteTypes;
 	}
 
-	public void setFavoriteTypes(List<GameType> favoriteTypes) {
+	public void setFavoriteTypes(List<String> favoriteTypes) {
 		this.favoriteTypes = favoriteTypes;
 	}
 
@@ -192,30 +207,6 @@ public class GlUser extends BaseEntity{
 
 	public void setGameNickname(String gameNickname) {
 		this.gameNickname = gameNickname;
-	}
-
-	public String getYunxinToken() {
-		return yunxinToken;
-	}
-
-	public void setYunxinToken(String yunxinToken) {
-		this.yunxinToken = yunxinToken;
-	}
-
-	public UserStatus getStauts() {
-		return stauts;
-	}
-
-	public void setStauts(UserStatus stauts) {
-		this.stauts = stauts;
-	}
-
-	public Date getCreate() {
-		return create;
-	}
-
-	public void setCreate(Date create) {
-		this.create = create;
 	}
 	
 }

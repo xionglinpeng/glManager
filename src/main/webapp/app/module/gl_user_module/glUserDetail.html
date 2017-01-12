@@ -57,6 +57,31 @@
 				<div class="col-md-3">游戏角色</div>
 				<div class="col-md-3">{{glUser.gameNickname}}</div>
 			</div>
+			<table class="table table-bordered">
+                <tr>
+	                <td width="150">用户手机号</td>
+	                <td>{{glUser.mobile}}</td>
+	                <td width="150">用户游戏类型</td>
+	                <td>
+	                  	<span ng-repeat="item in glUser.favoriteTypes">
+							[{{item}}]&nbsp;&nbsp;
+						</span>
+					</td>
+                </tr>
+                <tr>
+	                <td width="150">用户昵称</td>
+	                <td>{{glUser.mobile}}</td>
+	                <td width="150">用户游戏类型</td>
+	                <td>
+	                  	<span ng-repeat="item in glUser.favoriteTypes">
+							[{{item}}]&nbsp;&nbsp;
+						</span>
+					</td>
+                </tr>
+            </table>
+
+
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box">

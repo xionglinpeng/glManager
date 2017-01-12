@@ -13,7 +13,7 @@ import com.imopan.glm.bean.ResultBean;
 import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
 import com.imopan.glm.entity.GlUser;
-import com.imopan.glm.service.GlUserManagerService;
+import com.imopan.glm.service.IGlUserManagerService;
 
 /**
  * <p>用户管理</p>
@@ -25,7 +25,7 @@ import com.imopan.glm.service.GlUserManagerService;
 public class GlUserManagerAction {
 	
 	@Autowired
-	private GlUserManagerService glUserManagerService;
+	private IGlUserManagerService iGlUserManagerService;
 	
 	/**
 	 * <p>用户列表</p>
@@ -37,13 +37,13 @@ public class GlUserManagerAction {
 	@ResponseBody
 	public TableResult glUserLists(GlUser glUser,HttpServletRequest request){
 		TableSide tableSide = new TableSide(request);
-		return glUserManagerService.glUserListService(glUser, tableSide);
+		return iGlUserManagerService.glUserListService(glUser, tableSide);
 	}
 	
 	@RequestMapping(value="/glUserDetail",method=RequestMethod.GET)
 	@ResponseBody
 	public ResultBean glUserDetail(@RequestParam("userid")String userid){
 		
-		return new ResultBean(glUserManagerService.glUserDetailService(userid));
+		return new ResultBean(iGlUserManagerService.glUserDetailService(userid));
 	}
 }

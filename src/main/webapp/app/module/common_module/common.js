@@ -55,7 +55,25 @@ angular.module('commonApp',[])
 					log(exceptionData,exceptionData.url,exceptionData.method,status,data.data);
 					errorPage();
 				},
+				/**
+				 * [dataTableExceptionHandler dataTbales请求异常处理]
+				 * @param  {[type]} error [dataTable请求异常返回的数据对象]
+				 */
+				dataTableExceptionHandler:function(error){
+					log("","","GET",error.status,error.responseJSON.data);
+					errorPage();
+				}
 			};
+		};
+	})
+
+	/**
+	 * [显示弹窗服务]
+	 * @param  {[type]} [弹窗ID]
+	 */
+	.factory('modalService', function($document){
+		return function name(modalId){
+			$document.find('#'+modalId).modal();
 		};
 	})
 
@@ -80,6 +98,7 @@ angular.module('commonApp',[])
 			return dataTableApi.rows('.active').data();
 		};
 	})
+
 	/**
 	 * [dataTable表格条件查询]
 	 * @param  {[dtApi]} 	[dataTable对象]
@@ -91,6 +110,7 @@ angular.module('commonApp',[])
 			dtApi.ajax.url(url).load();
 		};
 	})
+
 	/**
 	 * [dataTable指令]
 	 */
@@ -111,45 +131,49 @@ angular.module('commonApp',[])
 					   '</table>',
 			replace: true,//模板替换元素
 			link: function($scope, iElm, iAttrs, controller) {
+
+				$scope.checkboxConfing = {
+					"dataSrc" : function(dataAry){
+						dataAry.forEach(function(value,index,array){
+							value.checkboxs="<input type='checkbox'>"+(index+1);
+							value.operation=null;
+						});
+						return dataAry;
+					},
+					"headerCallback":function(Api,thead){
+						$(thead).find('input:checkbox').click(function(){
+				    		var nodesTable = Api.column('serial:name').nodes();
+							if ($(this).is(":checked")) {
+								nodesTable.each(function(value, index, arrays) {
+									$(value).find("input[type='checkbox']").get(0).checked=true;
+									$(value).parent("tr").addClass('active');
+								});
+							} else {
+								nodesTable.each(function(value, index, arrays) {
+									$(value).find("input[type='checkbox']").get(0).checked=false;
+									$(value).parent("tr").removeClass('active');
+								});
+							}
+				    	});
+					},
+					"rowCallback":function(row){
+						var rowDom = $(row);
+				    	rowDom.find('input:checkbox').click(function(){
+				    		if($(this).is(':checked')){
+				    			rowDom.addClass('active');
+				    		}else{
+				    			rowDom.removeClass('active');
+				    		}
+				    	});
+					}
+				};
+
 				//dataTable配置对象
 				var dtOption = $scope.dtOption();
 				//开启复选框序号
 				if(Boolean(eval($scope.active))){
-					let checkbox = {
-						"dataSrc" : function(dataAry){
-							dataAry.forEach(function(value,index,array){
-								value.checkboxs="<input type='checkbox'>"+(index+1);
-								value.operation=null;
-							});
-							return dataAry;
-						},
-						"headerCallback":function(Api,thead){
-							$(thead).find('input:checkbox').click(function(){
-					    		var nodesTable = Api.column('serial:name').nodes();
-								if ($(this).is(":checked")) {
-									nodesTable.each(function(value, index, arrays) {
-										$(value).find("input[type='checkbox']").get(0).checked=true;
-										$(value).parent("tr").addClass('active');
-									});
-								} else {
-									nodesTable.each(function(value, index, arrays) {
-										$(value).find("input[type='checkbox']").get(0).checked=false;
-										$(value).parent("tr").removeClass('active');
-									});
-								}
-					    	});
-						},
-						"rowCallback":function(row){
-							var rowDom = $(row);
-					    	rowDom.find('input:checkbox').click(function(){
-					    		if($(this).is(':checked')){
-					    			rowDom.addClass('active');
-					    		}else{
-					    			rowDom.removeClass('active');
-					    		}
-					    	});
-						}
-					};
+					
+					//设置表格索引列
 					dtOption.columns.unshift({
 						'data':'checkboxs',
 						'title':'<input type="checkbox">序号',
@@ -163,22 +187,20 @@ angular.module('commonApp',[])
 							//因为第一回调时$scope.Table为undefined，所以这里判断$scope.Table是否为undefined，
 							//以第二次回调为准。
 							if(angular.isDefined($scope.Table)){
-								checkbox.headerCallback($scope.Table,thead);
+								$scope.checkboxConfing.headerCallback($scope.Table,thead);
 							}
 						};
 					}
 					if(angular.isUndefined(dtOption.rowCallback)){
 						dtOption.rowCallback = function( row, data, index){
-							checkbox.rowCallback(row);
+							$scope.checkboxConfing.rowCallback(row);
 						};
 					}
 					if(angular.isUndefined(dtOption.dataSrc)){
 						dtOption.ajax.dataSrc = function(json){
-							return checkbox.dataSrc(json.dataObject);
+							return $scope.checkboxConfing.dataSrc(json.dataObject);
 						};
 					}
-					//开启序号复选框时，给予业务端自定义配置
-					$scope.checkboxConfing = checkbox;
 				}
 				
 				//设置表格class样式
@@ -217,12 +239,24 @@ angular.module('commonApp',[])
 			// controller: function($scope, $element, $attrs, $transclude) {},
 			// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
 			restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
-//			template: '',
+			// template: function(iElm,Aa){
+			// 	return iElm.after(
+			// 	'<input type="hidden" id="startDate" name="startTime">'+
+			// 	'<input type="hidden" id="endDate" name="endTime">');
+			// },
 			// templateUrl: '',
 //			replace: true,
 			// transclude: true,
 			// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
 			link: function($scope, iElm, iAttrs, controller) {
+				console.log(iAttrs);
+				var ngmodel = iAttrs.ngmodel;
+
+				var startDate = $('<input type="text" id="startDate" ng-model="startDate" name="startTime">');
+				var endDate = $('<input type="hidden" id="endDate" name="endTime">');
+				iElm.after(endDate);
+				iElm.after(startDate);
+
 				iElm.daterangepicker({
 					timePicker: true,
 					timePickerSeconds:true,
@@ -245,8 +279,25 @@ angular.module('commonApp',[])
 				        "firstDay": 1
 				    }
 				});
-				$('#reservationtime').on('apply.daterangepicker',function(ev,picker){
-					picker.setStartDate(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+				iElm.on('apply.daterangepicker',function(ev,picker){
+					startDate.val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
+					endDate.val(picker.endDate.format('YYYY-MM-DD HH:mm:ss'));
+
+					//如果设置了ngModel属性（注意：不是ng-model指令）
+					if(angular.isDefined(ngmodel)){
+						//分割ngmodel属性值
+						for(let item of ngmodel.split("|")){
+							console.log(item.indexOf("."))
+							//以.分割符进行分割迭代
+							for(let property of item.split(".")){
+								if(angular.isUndefined($scope[property])){
+									$scope[property] = {};
+								}else{
+									
+								}
+							}
+						}
+					}
 				});
 			}
 		};

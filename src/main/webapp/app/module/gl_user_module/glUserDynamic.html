@@ -1,219 +1,44 @@
 <div class="row">
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
+	<div class="col-md-3 col-sm-6 col-xs-12" ng-repeat="item in dynamic">
+	  <div class="info-box bg-aqua" data-toggle="modal" data-target="#denamicModal"  ng-click="getDynamic(item)">
 	    <span class="info-box-icon"><i class="fa fa-envelope-o"></i></span>
 	
 	    <div class="info-box-content">
-	      <span class="info-box-text">Messages</span>
-	      <span class="info-box-number">1,410</span>
+	      <span class="info-box-text">{{item.publishDate}}</span>
+	      <span class="info-box-number">{{item.content}}</span>
 	    </div>
 	    <!-- /.info-box-content -->
 	  </div>
 	  <!-- /.info-box -->
 	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Bookmarks</span>
-	      <span class="info-box-number">410</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Uploads</span>
-	      <span class="info-box-number">13,648</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Likes</span>
-	      <span class="info-box-number">93,139</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
 </div>
-<div class="row"></div>
-<div class="row">
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon"><i class="fa fa-envelope-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Messages</span>
-	      <span class="info-box-number">1,410</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
+
+<div class="modal fade modal-primary" id="denamicModal" 
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4>
+					<div>
+						<img alt="头像" src="{{glUser.avatarImage.resURI}}" class="img-rounded" 
+					width="80" height="80">
+						<span class="pull-right">{{singleDynamic.publishDate}}</span>
+					</div>
+					
+					
+				</h4>
+			</div>
+			<div class="modal-body">
+				{{singleDynamic.content}}
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-danger" ng-click="delDynamic()">删除</button>
+				<button class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
 	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Bookmarks</span>
-	      <span class="info-box-number">410</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Uploads</span>
-	      <span class="info-box-number">13,648</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Likes</span>
-	      <span class="info-box-number">93,139</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-</div>
-<div class="row"></div>
-<div class="row">
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon"><i class="fa fa-envelope-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Messages</span>
-	      <span class="info-box-number">1,410</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Bookmarks</span>
-	      <span class="info-box-number">410</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Uploads</span>
-	      <span class="info-box-number">13,648</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Likes</span>
-	      <span class="info-box-number">93,139</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-</div>
-<div class="row"></div>
-<div class="row">
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon"><i class="fa fa-envelope-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Messages</span>
-	      <span class="info-box-number">1,410</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-green"><i class="fa fa-flag-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Bookmarks</span>
-	      <span class="info-box-number">410</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-yellow"><i class="fa fa-files-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Uploads</span>
-	      <span class="info-box-number">13,648</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
-	<div class="col-md-3 col-sm-6 col-xs-12">
-	  <div class="info-box bg-aqua">
-	    <span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
-	
-	    <div class="info-box-content">
-	      <span class="info-box-text">Likes</span>
-	      <span class="info-box-number">93,139</span>
-	    </div>
-	    <!-- /.info-box-content -->
-	  </div>
-	  <!-- /.info-box -->
-	</div>
-	<!-- /.col -->
 </div>

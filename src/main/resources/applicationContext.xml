@@ -30,6 +30,7 @@
 		<property name="packageName" value="com.imopan.glm.entity"/>
 		<property name="username" value="gamelink"/>
 		<property name="password" value="gamelink"/>
+		<property name="dbName" value="gamelink"/>
 		<property name="mongoHP">
 			<list>
 				<bean class="com.imopan.glm.mongo.MongoHP">
@@ -38,6 +39,5 @@
 				</bean>
 			</list>
 		</property>
-		<property name="dbName" value="gamelink"/>
 	</bean>
 </beans>

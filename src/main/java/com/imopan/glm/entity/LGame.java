@@ -5,7 +5,7 @@ package com.imopan.glm.entity;
  * 游戏字段
  * </p>
  */
-public class Game {
+public class LGame {
 	/**
 	 * <p>
 	 * 游戏Id

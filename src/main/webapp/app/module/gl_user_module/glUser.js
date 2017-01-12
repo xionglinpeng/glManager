@@ -35,12 +35,12 @@ angular.module('glUserApp', ['commonApp'])
 	/**
 	 * 常量：加载表格数据的URL
 	 */
-	.constant('tableUrl','/glUser/lists')
+	.constant('glUserTableUrl','/glUser/lists')
 	/**
 	 * [description]
 	 * @param  {[type]} $rootScope       [...]
 	 * @param  {[type]} $scope           [...]
-	 * @param  {[type]} tableUrl         [加载表格数据的URL常量]
+	 * @param  {[type]} glUserTableUrl   [加载表格数据的URL常量]
 	 * @param  {[type]} serializeService [序列化表单服务，common.js创建]
 	 * @param  {[type]} selectData       [获取表格选择行数据服务，common.js创建]
 	 * @param  {[type]} queryData        [查询表格数据服务，common.js创建]
@@ -48,7 +48,7 @@ angular.module('glUserApp', ['commonApp'])
 	 * @param  {[type]} $state)          [ui.router模块的路由状态服务，用于路由切换之间传递参数]
 	 */
 	.controller('glUserCtrl',function(
-			$rootScope,$scope,tableUrl,serializeService,selectData,queryData,$compile,$state) {
+			$rootScope,$scope,glUserTableUrl,serializeService,selectData,queryData,$compile,$state) {
 
 		//控制当前视图显示（默认）
 		$rootScope.isView=true;
@@ -69,7 +69,7 @@ angular.module('glUserApp', ['commonApp'])
 		$scope.dtOption = function() {
 			return {
 				ajax: {
-					url: tableUrl,
+					url: glUserTableUrl,
 				},
 				order:[1,'desc'],//dataTable默认是以第0列排序，此处设置默认已第一列进行排序
 				columns: [{
@@ -83,7 +83,10 @@ angular.module('glUserApp', ['commonApp'])
 				}, {
 					'data': 'status',
 					'title': '用户状态',
-					'name': 'status'
+					'name': 'status',
+					'render':function(data){
+						return data?data:"";
+					}
 				}, {
 					'data': 'playingGame',
 					'title': '所属游戏',
@@ -122,7 +125,7 @@ angular.module('glUserApp', ['commonApp'])
 		 * jQuery序列化表单参数。
 		 */
 		$scope.queryTable=function(){
-			 queryData($scope.Api,tableUrl+serializeService('glUserId'));
+			 queryData($scope.Api,glUserTableUrl+serializeService('glUserId'));
 		};
 		
 		/**
@@ -132,7 +135,6 @@ angular.module('glUserApp', ['commonApp'])
 		 * @param  {[type]} rowIndex [参数数据所在表格行的索引]
 		 */
 		$scope.stateUserDetail = function(rowIndex){
-			console.log($scope.Api.row(rowIndex).data());
 			$state.go('glUser.detail',$scope.Api.row(rowIndex).data());
 		};
 		
@@ -157,27 +159,33 @@ angular.module('glUserApp', ['commonApp'])
 		//控制主路由隐藏
 		$rootScope.isView=false;
 		
-		$state.go('glUser.detail.photo');
+		//执行首次加载默认路由视图
+		$state.go('glUser.detail.dynamic');
 		
-		$scope.imgs = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0" +
-		"iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3J" +
-		"nLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCA" +
-		"xNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMTQwI" +
-		"iBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ1LjUiIHk9IjcwIiB" +
-		"zdHlsZT0iZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWw" +
-		"sIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXp" +
-		"lOjEwcHQ7ZG9taW5hbnQtYmFzZWxpbmU6Y2VudHJhbCI+MTQweDE0MDwvdGV4dD48L2c+PC" +
-		"9zdmc+";
-		
-		console.log($stateParams);
-		
+		//查询用户详情数据
 		$http.get("/glUser/glUserDetail?userid="+$stateParams.id)
 		.success(function(data){
 			console.log(data);
+			//用户信息
 			$scope.glUser = data.data.glUser;
+			//用户相册
+			$scope.photo = data.data.attachements;
+			//用户动态
+			$scope.dynamic = data.data.broadcasts;
 		}).error(handlerExceptionService.httpExceptionHandler);
 		
 		
+		$scope.getPhoto = function(photo){
+			$scope.singlePhoto = photo;
+		};
+
+		$scope.getDynamic = function(dynamic){
+			$scope.singleDynamic = dynamic;
+		};
+
+		$scope.delDynamic = function(dynamic){
+			alert("删除");
+		};
 		
 		
 	});

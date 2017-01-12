@@ -11,7 +11,7 @@ import com.imopan.glm.entity.GlUser;
  * @author xlp
  *
  */
-public interface GlUserManagerService {
+public interface IGlUserManagerService {
 	
 	/**
 	 * <p>用户列表服务</p>

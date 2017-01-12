@@ -1,6 +1,7 @@
 package com.imopan.glm.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,11 +14,13 @@ import org.springframework.stereotype.Service;
 
 import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
+import com.imopan.glm.entity.Attachement;
+import com.imopan.glm.entity.Broadcast;
 import com.imopan.glm.entity.GlUser;
-import com.imopan.glm.service.GlUserManagerService;
+import com.imopan.glm.service.IGlUserManagerService;
 
 @Service
-public class GlUserManagerServiceImpl implements GlUserManagerService {
+public class GlUserManagerServiceImpl implements IGlUserManagerService {
 	
 	@Autowired
 	private Datastore datastore;
@@ -33,12 +36,12 @@ public class GlUserManagerServiceImpl implements GlUserManagerService {
 		if(StringUtils.isNotBlank(glUser.getMobile())){
 			query.field("mobile").equal(glUser.getMobile());
 		}
-		if(StringUtils.isNotBlank(glUser.getStatus())){
-			query.field("status").equal(glUser.getStatus());
-		}
-		if(StringUtils.isNotBlank(glUser.getGender())){
-			query.field("gender").equal(glUser.getGender());
-		}
+//		if(StringUtils.isNotBlank(glUser.getStauts().value())){
+//			query.field("status").equal(glUser.getStauts().value());
+//		}
+//		if(StringUtils.isNotBlank(glUser.getGender())){
+//			query.field("gender").equal(glUser.getGender());
+//		}
 		
 		long count = query.count();
 		
@@ -53,13 +56,35 @@ public class GlUserManagerServiceImpl implements GlUserManagerService {
 	@Override
 	public Map<String, Object> glUserDetailService(String userid) {
 		Map<String, Object> result = new HashMap<>();
-		Query<GlUser> query = datastore.createQuery(GlUser.class);
-		query.field("_id").equal(new ObjectId(userid));
-		GlUser glUser = query.get();
+		GlUser glUser = getByGlUserId(new ObjectId(userid));
 		System.out.println(glUser);
 		result.put("glUser", glUser);
 		
+		List<Attachement> attachements = getByAttachementUid(userid);
+		result.put("attachements", attachements);
+		
+		List<Broadcast> broadcasts = getByBroadcastUid(userid);
+		result.put("broadcasts", broadcasts);
+		
 		return result;
+	}
+	
+	private GlUser getByGlUserId(ObjectId objectId){
+		Query<GlUser> query = datastore.createQuery(GlUser.class);
+		query.field("_id").equal(objectId);
+		return query.get();
+	}
+	
+	private List<Attachement> getByAttachementUid(String uid){
+		Query<Attachement> query = datastore.createQuery(Attachement.class);
+		query.disableValidation().field("uid").equal(uid);
+		return query.asList();
+	}
+	
+	private List<Broadcast> getByBroadcastUid(String uid){
+		Query<Broadcast> query = datastore.createQuery(Broadcast.class);
+		query.disableValidation().field("userInfo.uid").equal(uid);
+		return query.asList();
 	}
 
 }
