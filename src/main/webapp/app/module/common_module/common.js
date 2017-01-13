@@ -279,6 +279,11 @@ angular.module('commonApp',[])
 				        "firstDay": 1
 				    }
 				});
+				
+				var pro = function(property){
+					
+				}
+				
 				iElm.on('apply.daterangepicker',function(ev,picker){
 					startDate.val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
 					endDate.val(picker.endDate.format('YYYY-MM-DD HH:mm:ss'));

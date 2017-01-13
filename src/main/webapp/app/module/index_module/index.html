@@ -41,7 +41,11 @@
 	<link rel="stylesheet" type="text/css" href="/app/lib/daterangepicker/daterangepicker.css">
 	<script type="text/javascript" src="/app/lib/daterangepicker/moment.min.js"></script>
 	<script type="text/javascript" src="/app/lib/daterangepicker/daterangepicker.js"></script>
-	
+
+	<link rel="stylesheet" type="text/css" href="/app/lib/dad/jquery.dad.css">
+	<script type="text/javascript" src="/app/lib/dad/jquery.dad.min.js"></script>
+
+	<script type="text/javascript" src="/app/adminLTE/plugins/iCheck/icheck.min.js"></script>
 	<!-- 以下都是自定义js文件 -->
 	<!-- 业务全局配置 -->
 	<script type="text/javascript" src="/app/module/common_module/globalConfig.js"></script>
@@ -53,6 +57,8 @@
 	<script type="text/javascript" src="/app/module/gl_user_module/glUser.js"></script>
 	<!-- 反馈信息模块 -->
 	<script type="text/javascript" src="/app/module/advice_feedback_module/adviceFeedback.js"></script>
+	<!-- 推荐系统模块 -->
+	<script type="text/javascript" src="/app/module/recommend_module/recommend.js"></script>
 	<!--首页模块 -->
 	<script type="text/javascript" src="/app/module/index_module/index.js"></script>
 	<!--UGC管理模块 -->
@@ -215,6 +221,21 @@ BODY标签选项:
 						<ul class="treeview-menu">
 							<li><a ui-sref="adviceFeedback" ui-sref-opts="{reload:'adviceFeedback'}">
 								<i class="fa fa-circle-o"></i>意见反馈列表</a>
+							</li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a><i class="fa fa-envelope-o"></i><span>推荐系统</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a ui-sref="focusByFigure" ui-sref-opts="{reload:'focusByFigure'}">
+								<i class="fa fa-circle-o"></i>焦点轮播图</a>
+							</li>
+							<li><a ui-sref="searchKeywords" ui-sref-opts="{reload:'searchKeywords'}">
+								<i class="fa fa-circle-o"></i>搜索关键字</a>
 							</li>
 						</ul>
 					</li>
