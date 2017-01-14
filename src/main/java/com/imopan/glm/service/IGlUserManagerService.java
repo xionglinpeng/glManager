@@ -22,5 +22,10 @@ public interface IGlUserManagerService {
 	public TableResult glUserListService(GlUser glUser,TableSide tableSide);
 	
 	
+	/**
+	 * <p>用户详情。</p>
+	 * @param userid 当前用户集合的_id。
+	 * @return
+	 */
 	public Map<String,Object> glUserDetailService(String userid);
 }

@@ -8,6 +8,10 @@
 		<li class="active">用户详情</li>
 	</ol>
 </section>
+
+<style type="text/css">
+	.glUserDetail{height: 47px;line-height: 47px;}
+</style>
 <!-- Main content -->
 <section class="content">
 	<!-- 页面内容在此处 -->
@@ -25,60 +29,41 @@
 			</div>
 		</div>
 		<div class="box-body">
-			<div class="row">
-				<div class="col-md-3">用户手机号</div>
-				<div class="col-md-3">{{glUser.mobile}}</div>
-				<div class="col-md-3">用户游戏类型</div>
-				<div class="col-md-3">
-					<span ng-repeat="item in glUser.favoriteTypes">
-						[{{item}}]&nbsp;&nbsp;
-					</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">用户昵称</div>
-				<div class="col-md-3">{{glUser.nickname}}</div>
-				<div class="col-md-3">用户交友签名</div>
-				<div class="col-md-3">{{glUser.motto}}</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">用户正在玩的游戏</div>
-				<div class="col-md-3">{{glUser.playingGame.gname}}</div>
-				<div class="col-md-3">用户关注的游戏</div>
-				<div class="col-md-3">
-					<span ng-repeat="item in glUser.concernedGame">
-						[{{item.gname}}]&nbsp;&nbsp;
-					</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3">所在服务器</div>
-				<div class="col-md-3">{{glUser.gameServer}}</div>
-				<div class="col-md-3">游戏角色</div>
-				<div class="col-md-3">{{glUser.gameNickname}}</div>
-			</div>
-			<table class="table table-bordered">
-                <tr>
-	                <td width="150">用户手机号</td>
-	                <td>{{glUser.mobile}}</td>
-	                <td width="150">用户游戏类型</td>
-	                <td>
-	                  	<span ng-repeat="item in glUser.favoriteTypes">
+			<div class="row col-md-12 h3">
+				<div class="row bg-success glUserDetail">
+					<div class="col-md-2 text-nowrap">手机号：</div>
+					<div class="col-md-4">{{glUser.mobile}}</div>
+					<div class="col-md-2">用户游戏类型：</div>
+					<div class="col-md-4">
+						<span ng-repeat="item in glUser.favoriteTypes">
 							[{{item}}]&nbsp;&nbsp;
 						</span>
-					</td>
-                </tr>
-                <tr>
-	                <td width="150">用户昵称</td>
-	                <td>{{glUser.mobile}}</td>
-	                <td width="150">用户游戏类型</td>
-	                <td>
-	                  	<span ng-repeat="item in glUser.favoriteTypes">
-							[{{item}}]&nbsp;&nbsp;
+					</div>
+				</div>
+				<div class="row glUserDetail">
+					<div class="col-md-2">昵称：</div>
+					<div class="col-md-4">{{glUser.nickname}}</div>
+					<div class="col-md-2">交友签名：</div>
+					<div class="col-md-4">{{glUser.motto}}</div>
+				</div>
+				<div class="row glUserDetail">
+					<div class="col-md-2">正在玩的游戏：</div>
+					<div class="col-md-4">{{glUser.playingGame.gname}}</div>
+					<div class="col-md-2">关注的游戏：</div>
+					<div class="col-md-4">
+						<span ng-repeat="item in glUser.concernedGame">
+							[{{item.gname}}]&nbsp;&nbsp;
 						</span>
-					</td>
-                </tr>
-            </table>
+					</div>
+				</div>
+				<div class="row glUserDetail">
+					<div class="col-md-2">所在服务器：</div>
+					<div class="col-md-4">{{glUser.gameServer}}</div>
+					<div class="col-md-2">游戏角色：</div>
+					<div class="col-md-4">{{glUser.gameNickname}}</div>
+				</div>
+			</div>
+
 
 
 

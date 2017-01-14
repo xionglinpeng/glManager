@@ -14,6 +14,10 @@ public class Keywords extends BaseEntity{
 	 */
 	private String keywordId;
 	/**
+	 * <p>当前关键字词组的排序位置</p>
+	 */
+	private int sort;
+	/**
 	 * <p>当前关键字词组：第一个关键词</p>
 	 */
 	private String keyword1;
@@ -34,6 +38,14 @@ public class Keywords extends BaseEntity{
 	 */
 	private boolean publish;
 	
+	
+	
+	public int getSort() {
+		return sort;
+	}
+	public void setSort(int sort) {
+		this.sort = sort;
+	}
 	public String getKeywordId() {
 		return keywordId;
 	}
@@ -58,13 +70,13 @@ public class Keywords extends BaseEntity{
 	public void setKeyword3(String keyword3) {
 		this.keyword3 = keyword3;
 	}
-	public boolean isSave() {
+	public boolean getSave() {
 		return save;
 	}
 	public void setSave(boolean save) {
 		this.save = save;
 	}
-	public boolean isPublish() {
+	public boolean getPublish() {
 		return publish;
 	}
 	public void setPublish(boolean publish) {
@@ -72,8 +84,10 @@ public class Keywords extends BaseEntity{
 	}
 	@Override
 	public String toString() {
-		return "Keywords [keywordId=" + keywordId + ", keyword1=" + keyword1 + ", keyword2=" + keyword2 + ", keyword3="
-				+ keyword3 + ", save=" + save + ", publish=" + publish + "]";
+		return "Keywords [keywordId=" + keywordId + ", sort=" + sort + ", keyword1=" + keyword1 + ", keyword2="
+				+ keyword2 + ", keyword3=" + keyword3 + ", save=" + save + ", publish=" + publish + "]";
 	}
+	
+	
 	
 }

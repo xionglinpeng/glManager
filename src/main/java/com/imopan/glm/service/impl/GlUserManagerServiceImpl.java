@@ -53,27 +53,27 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 		return new TableResult(tableSide.getDraw(), count, count, query.asList());
 	}
 
+	
+	
 	@Override
 	public Map<String, Object> glUserDetailService(String userid) {
 		Map<String, Object> result = new HashMap<>();
-		GlUser glUser = getByGlUserId(new ObjectId(userid));
-		System.out.println(glUser);
+		Query<GlUser> query = datastore.createQuery(GlUser.class);
+		query.field("_id").equal(new ObjectId(userid));
+		GlUser glUser = query.get();
 		result.put("glUser", glUser);
-		
-		List<Attachement> attachements = getByAttachementUid(userid);
-		result.put("attachements", attachements);
-		
-		List<Broadcast> broadcasts = getByBroadcastUid(userid);
-		result.put("broadcasts", broadcasts);
-		
 		return result;
 	}
 	
-	private GlUser getByGlUserId(ObjectId objectId){
-		Query<GlUser> query = datastore.createQuery(GlUser.class);
-		query.field("_id").equal(objectId);
-		return query.get();
-	}
+	
+	
+	
+	
+//	List<Attachement> attachements = getByAttachementUid(userid);
+//	result.put("attachements", attachements);
+//	
+//	List<Broadcast> broadcasts = getByBroadcastUid(userid);
+//	result.put("broadcasts", broadcasts);
 	
 	private List<Attachement> getByAttachementUid(String uid){
 		Query<Attachement> query = datastore.createQuery(Attachement.class);

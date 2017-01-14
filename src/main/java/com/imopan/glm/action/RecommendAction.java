@@ -49,4 +49,17 @@ public class RecommendAction {
 		}
 		return iRecommendService.saveKeywordService(keywords);
 	}
+	
+	
+	
+	
+//	@RequestMapping(value="/saveFocusByFigure",method=RequestMethod.POST)
+//	@ResponseBody
+//	public ResultBean saveKeywords(@RequestBody List<game> keywords){
+//		System.out.println(keywords.size());
+//		for (Keywords keywords2 : keywords) {
+//			System.out.println(keywords2);
+//		}
+//		return iRecommendService.saveKeywordService(keywords);
+//	}
 }
