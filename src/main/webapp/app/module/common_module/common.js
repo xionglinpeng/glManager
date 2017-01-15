@@ -226,36 +226,39 @@ angular.module('commonApp',[])
 		};
 	})
 
+	.directive('cngDate', function(){
+		return {
+			require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+			restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+			link: function($scope, iElm, iAttrs, controller) {
+				var date = iElm.val();
+				console.log("directive cngDate date = "+date);
+				controller.$setViewValue(date);
+			}
+		};
+	})
 	/**
 	 * [data range picker插件封装的指令，用于为input元素添加日期控件]
 	 */
-	.directive('cngDaterangepicker', function(){
-		// Runs during compile
+	.directive('cngDaterangepicker', function($compile){
 		return {
-			// name: '',
-			// priority: 1,
-			// terminal: true,
-//			scope: {}, // {} = isolate, true = child, false/undefined = no change
-			// controller: function($scope, $element, $attrs, $transclude) {},
-			// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
-			restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
-			// template: function(iElm,Aa){
-			// 	return iElm.after(
-			// 	'<input type="hidden" id="startDate" name="startTime">'+
-			// 	'<input type="hidden" id="endDate" name="endTime">');
-			// },
-			// templateUrl: '',
-//			replace: true,
-			// transclude: true,
-			// compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+			restrict: 'A', 
 			link: function($scope, iElm, iAttrs, controller) {
 				console.log(iAttrs);
-				var ngmodel = iAttrs.ngmodel;
 
-				var startDate = $('<input type="text" id="startDate" ng-model="startDate" name="startTime">');
-				var endDate = $('<input type="hidden" id="endDate" name="endTime">');
-				iElm.after(endDate);
-				iElm.after(startDate);
+				var startDateModel = 'startDate';
+				var endDateModel = 'endDate';
+				if(angular.isDefined(iAttrs.ngmodel)){
+					let ngmodel = iAttrs.ngmodel.split("|");
+					startDateModel = ngmodel[0];
+					startDateModel = ngmodel[1];
+				}
+
+				
+
+				var startDate = $('<input type="text" id="startDate" name="startDate" ng-model="startDate" cng-date>');
+				var endDate = $('<input type="hidden" id="endDate" name="endDate" ng-model="endDate" cng-date>');
+				iElm.after(startDate).after(endDate);
 
 				iElm.daterangepicker({
 					timePicker: true,
@@ -280,29 +283,19 @@ angular.module('commonApp',[])
 				    }
 				});
 				
-				var pro = function(property){
-					
-				}
+
 				
 				iElm.on('apply.daterangepicker',function(ev,picker){
-					startDate.val(picker.startDate.format('YYYY-MM-DD HH:mm:ss'));
-					endDate.val(picker.endDate.format('YYYY-MM-DD HH:mm:ss'));
+					var startDatePicker = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
+					var endDatePicker = picker.endDate.format('YYYY-MM-DD HH:mm:ss');
 
-					//如果设置了ngModel属性（注意：不是ng-model指令）
-					if(angular.isDefined(ngmodel)){
-						//分割ngmodel属性值
-						for(let item of ngmodel.split("|")){
-							console.log(item.indexOf("."))
-							//以.分割符进行分割迭代
-							for(let property of item.split(".")){
-								if(angular.isUndefined($scope[property])){
-									$scope[property] = {};
-								}else{
-									
-								}
-							}
-						}
-					}
+					startDate.val(startDatePicker);
+					endDate.val(endDatePicker);
+					
+					$compile(startDate)($scope);
+					$compile(endDate)($scope);
+
+
 				});
 			}
 		};

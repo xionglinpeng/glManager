@@ -99,9 +99,11 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 		 * [queryTable 查询表格数据]
 		 */
 		$scope.queryTable = function(){
+			console.log($scope.startDate);
+			console.log($scope.endDate);
 			console.log(adviceFeedbackListUrl+serializeService('adviceFeedbackId'));
-			
-			queryData($scope.Api,adviceFeedbackListUrl+serializeService('adviceFeedbackId'));
+//			
+//			queryData($scope.Api,adviceFeedbackListUrl+serializeService('adviceFeedbackId'));
 		};
 
 		/**
@@ -109,7 +111,7 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 		 * @param  {[type]} rowIndex [当前反馈信息的行索引]
 		 */
 		$scope.lookOverAdviceFeedback = function(rowIndex){
-			console.log($scope.startDate);
+			console.log($scope.User.date);
 			$scope.singleAdviceFeedback = $scope.Api.row(rowIndex).data();
 			//显示弹窗
 			modalService('adviceFeedbackModal');
