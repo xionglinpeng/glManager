@@ -236,70 +236,114 @@ angular.module('commonApp',[])
 			}
 		};
 	})
+
+	.directive('cngDatepicker', function(){
+		return {
+			require: 'cngDaterangepicker', // Array = multiple requires, ? = optional, ^ = check parent elements
+			restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+			link: function($scope, iElm, iAttrs, controller) {alert(22);
+				//默认配置值
+				var ngname = 'date',ngmodel='date',option = $scope.daterangepickerOption;
+
+				if(angular.isDefined(iAttrs.ngname)){
+					ngname = iAttrs.ngname;
+				}
+				if(angular.isDefined(iAttrs.ngmodel)){
+					ngmodel = iAttrs.ngmodel;
+				}
+				var daterangepickerOption = $.extend(option, {singleDatePicker:true});
+				
+				controller.daterangepickerOption(daterangepickerOption);
+				controller.applyEvent(function(ev,picker){
+					controller.daterangepickerApply(picker.startDate,
+						controller.hiddenElement(ngname,ngmodel));
+				});
+
+
+			}
+		};
+	})
+
+
 	/**
 	 * [data range picker插件封装的指令，用于为input元素添加日期控件]
 	 */
 	.directive('cngDaterangepicker', function($compile){
 		return {
 			restrict: 'A', 
+			controller:function($scope, $element, $attrs, $transclude){
+				//daterangepicker插件封装在此指令中的默认配置
+				this.daterangepickerOption = function(option){
+					$element.daterangepicker($.extend({
+						timePicker: true,//开启HH:mm
+						timePickerSeconds:true,//开启ss
+						timePicker24Hour:true,//24小时制
+						showDropdowns:true,//日期下拉选择
+						outsideClickConfig:false,//自定义属性(修改了插件源代码)，是否开启点击空白赋值日期
+						isCustomDateFormat:true,//自定义属性(修改了插件源代码)，是否使用自定义日期格式yyyy-MM-dd HH:mm:ss。
+						clearVal:true,//自定义属性(修改了插件源代码),是否开启cancel.daterangepicker事件，点击clear时清除表单value值。
+						initSetValue:false,//自定义属性(修改了插件源代码)，是否开启初始化设置默认值
+						locale: {
+					        "separator": " - ",
+					        "applyLabel": "确认",
+					        "cancelLabel": "清除",
+					        "fromLabel": "From",
+					        "toLabel": "To",
+					        "customRangeLabel": "Custom",
+					        "weekLabel": "W",
+					        "daysOfWeek": ["日","一","二","三","四","五","六"],
+					        "monthNames": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+					        "firstDay": 1
+					    }
+					},option));
+				};
+				this.hiddenElement = function(name,model){
+					var dateHidden = $('<input type="hidden" name="'+name+'" ng-model="'+model+'" cng-date>');
+					$element.after(dateHidden);
+					return dateHidden;
+				};
+
+				this.daterangepickerApply = function(datePicker,hidden){
+					//为隐藏域value赋值
+					hidden.val(datePicker.format('YYYY-MM-DD HH:mm:ss'));
+					//编译元素使指令生效，赋值ng-model指令
+					console.log(123);
+					console.log($compile);
+					$compile(hidden)($scope);
+				};
+
+				this.applyEvent = function(fun){
+					$element.on('apply.daterangepicker',fun);
+				};
+			},
 			link: function($scope, iElm, iAttrs, controller) {
 				//配置属性
-				var ngmodel = iAttrs.ngmodel;
-				var ngname = iAttrs.ngname;
+				var ngmodel = iAttrs.ngmodel,
+				ngname = iAttrs.ngname,
+				option = $scope.daterangepickerOption;
+				alert(ngmodel);
 				//获取ng-model指令属性，用于为$scope作用域赋值。
-				var startDateModel = 'startDate';
-				var endDateModel = 'endDate';
+				var startDateModel = 'startDate',endDateModel = 'endDate';
 				if(angular.isDefined(ngmodel)){
 					let ngmodel = ngmodel.split("|");
 					startDateModel = ngmodel[0];
 					endDateModel = ngmodel[1];
 				}
 				//获取name属性配置，用于get请求序列化
-				var startDateName = 'startDate';
-				var endDateName = 'endDate';
+				var startDateName = 'startDate',endDateName = 'endDate';
 				if(angular.isDefined(ngname)){
 					let ngmodel = ngname.split("|");
 					startDateModel = ngmodel[0];
 					startDateModel = ngmodel[1];
 				}
-				//增加隐藏域表单元素
-				var startDate = $('<input type="hidden" id="startDate" name="'+startDateName+'" ng-model="'+startDateModel+'" cng-date>');
-				var endDate = $('<input type="hidden" id="endDate" name="'+endDateName+'" ng-model="'+endDateModel+'" cng-date>');
-				iElm.after(startDate).after(endDate);
-				//daterangepicker插件封装在此指令中的默认配置
-				iElm.daterangepicker({
-					timePicker: true,//开启HH:mm
-					timePickerSeconds:true,//开启ss
-					timePicker24Hour:true,//24小时制
-					showDropdowns:true,//日期下拉选择
-					outsideClickConfig:false,//自定义属性(修改了插件源代码)
-					isCustomDateFormat:true,//自定义属性(修改了插件源代码)
-					clearVal:true,//自定义属性(修改了插件源代码)
-					initSetValue:false,//自定义属性(修改了插件源代码)
-					locale: {
-				        "separator": " - ",
-				        "applyLabel": "确认",
-				        "cancelLabel": "清除",
-				        "fromLabel": "From",
-				        "toLabel": "To",
-				        "customRangeLabel": "Custom",
-				        "weekLabel": "W",
-				        "daysOfWeek": ["日","一","二","三","四","五","六"],
-				        "monthNames": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
-				        "firstDay": 1
-				    }
-				});
-				//绑定daterangepicker插件的apply.daterangepicker事件，
-				//当点击确认按钮时触发
-				iElm.on('apply.daterangepicker',function(ev,picker){
-					var startDatePicker = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
-					var endDatePicker = picker.endDate.format('YYYY-MM-DD HH:mm:ss');
-					//为隐藏域value赋值
-					startDate.val(startDatePicker);
-					endDate.val(endDatePicker);
-					//编译元素使指令生效，赋值ng-model指令
-					$compile(startDate)($scope);
-					$compile(endDate)($scope);
+				var startDate = controller.hiddenElement(startDateName,startDateModel),
+				endDate = controller.hiddenElement(endDateName,endDateModel);
+
+
+				controller.daterangepickerOption(option);
+				controller.applyEvent(function(ev,picker){
+					controller.daterangepickerApply(picker.startDate,startDate);
+					controller.daterangepickerApply(picker.endDate,endDate);
 				});
 			}
 		};
