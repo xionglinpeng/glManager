@@ -119,6 +119,16 @@
 			<artifactId>morphia</artifactId>
 			<version>1.3.0</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.3.2.RELEASE</version>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.3.2.RELEASE</version>
+		</dependency>
 
 	</dependencies>
 	<build>

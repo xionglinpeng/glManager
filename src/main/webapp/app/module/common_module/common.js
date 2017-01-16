@@ -97,6 +97,9 @@ angular.module('commonApp',[])
 				if(Boolean(eval($scope.active))){
 					let checkbox = {
 						"dataSrc" : function(dataAry){
+							console.log("11111111111111111111111111");
+							console.log(dataAry);
+							console.log("11111111111111111111111111");
 							dataAry.forEach(function(value,index,array){
 								value.checkboxs="<input type='checkbox'>"+(index+1);
 								value.operation=null;
@@ -154,6 +157,7 @@ angular.module('commonApp',[])
 					}
 					if(angular.isUndefined(dtOption.dataSrc)){
 						dtOption.ajax.dataSrc = function(json){
+							console.log(json);
 							return checkbox.dataSrc(json.dataObject);
 						};
 					}
