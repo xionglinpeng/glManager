@@ -21,12 +21,14 @@
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
 			<version>7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
+			<scope>provided</scope> 
 		</dependency>
 		<!-- apache -->
 		<dependency>
@@ -131,6 +133,18 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			
+			
+			<!-- 配置Tomcat插件 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<port>8999</port>
+					<path>/</path>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 	<repositories>
@@ -140,4 +154,5 @@
 			<url>http://maven.jahia.org/maven2/</url>
 		</repository>
 	</repositories>
+	
 </project>

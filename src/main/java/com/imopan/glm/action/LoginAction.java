@@ -94,12 +94,12 @@ public class LoginAction {
 		}
 		//验证验证码是否匹配
 		//获取session中的验证码
-		Object kaptcha = session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		/*Object kaptcha = session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
 		if(kaptcha==null||!kaptcha.toString().equals(loginBean.getKaptcha())){
 			logger.info(LogFormart.logFormat("login")+"kaptcha validated faild: request kaptcha="+kaptcha+"; bean kaptcha="+loginBean.getKaptcha());
 			result.put("failMsg", "kaptcha validated faild!");
 			return new ResultBean(result);
-		}
+		}*/
 		//解密密码
 		PrivateKey privateKey = (PrivateKey) session.getAttribute(RSACrypt.PRIVATE_KEY);
 		String password = RSACrypt.decrypt(privateKey, loginBean.getPassword());
