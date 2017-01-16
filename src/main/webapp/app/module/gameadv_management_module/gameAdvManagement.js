@@ -11,7 +11,7 @@ angular.module('gameAdvManagementApp', ['commonApp'])
     $stateProvider.state('associatedGame', {
         url: '/associatedGame',
         templateUrl: '/app/module/gameadv_management_module/associatedGame.html',
-        controller: 'gameAdvManagementCtrl'
+        controller: 'associatedGameCtrl'
     });
     })
     .directive('fileModel', ['$parse', function ($parse) {
@@ -63,6 +63,7 @@ angular.module('gameAdvManagementApp', ['commonApp'])
         };
     }])
     .controller('gameAdvManagementCtrl', function ($scope,$http,$compile,serializeService, selectData, queryData,fileReader) {
+        console.log("gameAdvManagementCtrl")
         var tableUrl = '/gameAdvManagement/lists';
         var offlineUrl =  '/gameAdvManagement/offlineGameAdv';
         $scope.dtOption = function () {
@@ -131,14 +132,19 @@ angular.module('gameAdvManagementApp', ['commonApp'])
         $scope.queryTable = function () {
             queryData($scope.Api, tableUrl + serializeService('gameAdvManagementId'));
         };
-        /*======================================关联游戏========================================*/
-        $scope.getFile = function () {
-            fileReader.readAsDataUrl($scope.file, $scope)
-                .then(function(result) {
-                    console.log(result);
-                    $scope.imageSrc = result;
-                });
+
+
+
+    })
+    .controller('associatedGameCtrl', function ($scope,$http,$compile ,fileReader) {
+        console.log("associatedGameCtrl");
+        var postCfg = {
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            cache:true
         };
+
+
+
 
         $scope.gameAdv = {
             advName:"",
@@ -154,23 +160,27 @@ angular.module('gameAdvManagementApp', ['commonApp'])
         //加载用户列表
         var urlGame = '/gameAdvManagement/getAllGame';
         $scope.getAllGame=function($http,urlGame,postCfg){
+
             $http.post(urlGame,  null, postCfg)
                 .success(function (data) {
-                    if(data["code"]==0){
-                        if(data["dataList"].length>0){
-                            $scope.userlist=data["dataList"];
-                            $scope.channel.mpBusinessName=$scope.userlist[0].trueName+"("+$scope.userlist[0].id+")";
-                            $scope.mpBusinessName = $scope.channel.mpBusinessName;
-                        }else{
-                        }
-                    }else{
-                        console.log('请求失败');
-                    }
+                    console.log(data)
+                    $scope.GameCentres = data.GameCentres;
+                    $scope.gameAdv.game=$scope.GameCentres[0];
                 }).error(function(data){
                     console.log('request failed!');
                 });
-        }
+        };
         $scope.getAllGame($http,urlGame,postCfg);
+
+
+        $scope.getFile = function () {
+            fileReader.readAsDataUrl($scope.file, $scope)
+                .then(function(result) {
+                    console.log(result);
+                    $scope.imageSrc = result;
+                });
+        };
+
 
         //保存关联专题
         $scope.saveAssociatedGame = function(){

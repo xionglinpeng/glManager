@@ -1,4 +1,6 @@
 window.indexAppDependency.unshift("ui.router");
+window.indexAppDependency.unshift("angular-bootstrap-select");
+window.indexAppDependency.unshift("angular-bootstrap-select.extra");
 angular.module('indexApp',window.indexAppDependency)
 .config(function($stateProvider,$urlRouterProvider) {
 	$urlRouterProvider.when('','home');

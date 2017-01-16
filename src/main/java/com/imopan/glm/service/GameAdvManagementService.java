@@ -9,9 +9,12 @@
 
 package com.imopan.glm.service;
 
+import java.util.List;
+
 import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
 import com.imopan.glm.entity.GameAdv;
+import com.imopan.glm.entity.game.GameCentre;
 import com.imopan.glm.vo.GameAdvBean;
 
 /** 
@@ -27,5 +30,7 @@ public interface GameAdvManagementService {
 	TableResult gameAdvManagementLists(GameAdvBean gameAdv, TableSide tableSide);
 
 	Integer offlineGameAdv(String id, Integer status);
+
+	List<GameCentre> getAllGame();
 
 }

@@ -10,6 +10,7 @@
 package com.imopan.glm.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
+import com.imopan.glm.entity.game.GameCentre;
 import com.imopan.glm.service.GameAdvManagementService;
 import com.imopan.glm.vo.GameAdvBean;
 
@@ -101,8 +103,9 @@ public class GameAdvManagementAction {
 	@ResponseBody
 	public Map<String,Object> getAllGame(){
 		Map<String,Object> result = new HashMap<String, Object>(16,0.75f);
-		
-		return null;
+		List<GameCentre> list = gameAdvManagementServiceImpl.getAllGame();
+		result.put("GameCentres", list);
+		return result;
 	}
 	
 }

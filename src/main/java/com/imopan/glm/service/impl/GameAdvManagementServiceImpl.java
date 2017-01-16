@@ -25,6 +25,7 @@ import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
 import com.imopan.glm.entity.Broadcast;
 import com.imopan.glm.entity.GameAdv;
+import com.imopan.glm.entity.game.GameCentre;
 import com.imopan.glm.service.GameAdvManagementService;
 import com.imopan.glm.vo.GameAdvBean;
 
@@ -74,6 +75,19 @@ public class GameAdvManagementServiceImpl implements GameAdvManagementService {
 		UpdateResults update = datastore.update(query, createUpdateOperations,true);
 		int updatedCount = update.getUpdatedCount();
 		return updatedCount;
+	}
+
+	@Override
+	public List<GameCentre> getAllGame() {
+		Query<GameCentre> query = datastore.createQuery(GameCentre.class);
+		
+		/*Integer start = 1;
+		Integer length = 100;
+
+		FindOptions fo = new FindOptions().skip(start).limit(length);*/
+		
+		List<GameCentre> asList = query.asList();
+		return asList;
 	}
 
 }
