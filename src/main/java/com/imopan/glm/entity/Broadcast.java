@@ -69,6 +69,10 @@ public class Broadcast extends BaseEntity {
 	 * 分享信息
 	 */
 	private ShareBean share;
+	/**
+	 * 帖子状态：1open,2close
+	 */
+	private Integer status;
 
 	/**
 	 * 附件.图片等.
@@ -143,6 +147,14 @@ public class Broadcast extends BaseEntity {
 	}
 
 	
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 	/**
 	 * Gets the 是否分享.

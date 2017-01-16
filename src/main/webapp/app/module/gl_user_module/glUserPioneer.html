@@ -1,19 +1,32 @@
+
+<ul class="nav nav-tabs" data-cng-nav-active>
+	<li id="pioneerMenu"><a data-toggle="tab" ng-click="readStatus()">全部</a></li>
+	<li><a data-toggle="tab" ng-click="readStatus(0)">进行中任务</a></li>
+	<li><a data-toggle="tab" ng-click="readStatus(2)">已完成任务</a></li>
+</ul>
 <div>
-	<button class="btn btn-primary">进行中任务</button>
-	<button class="btn btn-success">已完成任务</button>
+	<cng-datatable cng-property-dt-option="dtOption()"
+				   cng-property-dt-return-value="pioneerApi" 
+				   cng-property-active="true" 
+				   cng-property-checkbox-confing="checkboxConfing"/>
 </div>
-<div>
-	<table class="table table-bordered">
-		<caption></caption>
-		<thead>
-			<tr>
-				<th>header</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td>data</td>
-			</tr>
-		</tbody>
-	</table>
+
+
+<div class="modal fade modal-primary" id="gameTaskModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4>任务说明</h4>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+			</div>
+		</div>
+	</div>
 </div>

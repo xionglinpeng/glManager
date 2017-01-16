@@ -4,6 +4,39 @@ window.indexAppDependency.push("glUserApp");
 var glUserApp = angular.module('glUserApp', ['commonApp']);
 
 
+
+/**
+ * [当前指令用于nav菜单样式的触发]
+ */
+glUserApp.directive('cngNavActive',function($location){
+	return function($scope, iElm, iAttrs){
+		var lis = iElm.find('li');
+		lis.removeClass('active');
+		
+		var path = $location.$$path.split('/');
+		var endPath = path[path.length-1];
+		lis.each(function(index,elm){
+			//注意li元素的ID值
+			if(this.id===endPath){
+				$(this).addClass('active');
+			}
+			if(this.id==='pioneerMenu'){
+				$(this).addClass('active');
+			}
+			
+		 	$(this).click(function(){
+		 		lis.removeClass('active');
+		 		$(this).addClass('active');
+		 	});
+		});
+	};
+});
+
+
+
+/**
+ * [glUser模块路由配置]
+ */
 glUserApp.config(function($stateProvider) {
 	$stateProvider.state('glUser',{
 		url:'/glUser',
@@ -11,7 +44,7 @@ glUserApp.config(function($stateProvider) {
 		controller:'glUserCtrl'
 	});
 	$stateProvider.state('glUser.detail',{
-		url:'/detail/:id',
+		url:'/detail/:id/photo',
 		templateUrl:'/app/module/gl_user_module/glUserDetail.html',
 		controller:'glUserDetailCtrl',
 	});
@@ -51,17 +84,17 @@ glUserApp.constant('glUserTableUrl','/glUser/lists');
 
 
 
-	/**
-	 * [description]
-	 * @param  {[type]} $rootScope       [...]
-	 * @param  {[type]} $scope           [...]
-	 * @param  {[type]} glUserTableUrl   [加载表格数据的URL常量]
-	 * @param  {[type]} serializeService [序列化表单服务，common.js创建]
-	 * @param  {[type]} selectData       [获取表格选择行数据服务，common.js创建]
-	 * @param  {[type]} queryData        [查询表格数据服务，common.js创建]
-	 * @param  {[type]} $compile         [AngualrJS编译服务]
-	 * @param  {[type]} $state)          [ui.router模块的路由状态服务，用于路由切换之间传递参数]
-	 */
+/**
+ * [description]
+ * @param  {[type]} $rootScope       [...]
+ * @param  {[type]} $scope           [...]
+ * @param  {[type]} glUserTableUrl   [加载表格数据的URL常量]
+ * @param  {[type]} serializeService [序列化表单服务，common.js创建]
+ * @param  {[type]} selectData       [获取表格选择行数据服务，common.js创建]
+ * @param  {[type]} queryData        [查询表格数据服务，common.js创建]
+ * @param  {[type]} $compile         [AngualrJS编译服务]
+ * @param  {[type]} $state)          [ui.router模块的路由状态服务，用于路由切换之间传递参数]
+ */
 glUserApp.controller('glUserCtrl',function(
 		$rootScope,$scope,glUserTableUrl,serializeService,selectData,queryData,$compile,$state) {
 
@@ -112,7 +145,18 @@ glUserApp.controller('glUserCtrl',function(
 			}, {
 				'data': 'favoriteTypes',
 				'title': '游戏类型',
-				'name': 'favoriteTypes'
+				'name': 'favoriteTypes',
+				render:function(data){
+					if($.type(data)==='array'){
+						var favoriteTypes = "";
+						data.forEach(function(elm,index,array){
+							favoriteTypes+="["+elm.gtName+"] ";
+						});
+						return favoriteTypes;
+					}else{
+						return data;
+					}
+				}
 			}, {
 				'data': 'gender',
 				'title': '性别',
@@ -180,15 +224,15 @@ glUserApp.controller('glUserDetailCtrl',function($scope,$rootScope,$stateParams,
 	$rootScope.isView=false;
 	
 	//执行首次加载默认路由视图
-	// $state.go('glUser.detail.dynamic');
+	$state.go('glUser.detail.photo');
 	
 	//查询用户详情数据
-	var glUserDetailHttp = $http.get("/glUser/glUserDetail?userid="+$stateParams.id);
+	var glUserDetailHttp = $http.get("/glUser/glUserDetail/"+$stateParams.id);
 	glUserDetailHttp.error(handlerExceptionService.httpExceptionHandler);
 	glUserDetailHttp.success(function(result){
-		console.log(result);
 		//用户信息
 		$scope.glUser = result.data.glUser;
+		$scope.data = result.data;
 	});
 	
 
@@ -203,13 +247,27 @@ glUserApp.controller('glUserDetailCtrl',function($scope,$rootScope,$stateParams,
  * @param  {[type]}       [description]
  * @return {[type]}       [description]
  */
-glUserApp.controller('photoCtrl',function($scope,$http,handlerExceptionService){
+glUserApp.controller('photoCtrl',function($scope,$http,$stateParams,handlerExceptionService){
+	
 
-	var photoHttp = $http.get('/glUser/photo');
+	/**
+	 * [photoHttp 初始化查询当前用户的所有相册。]
+	 * @type {[type]}
+	 */
+	var photoHttp = $http.get('/glUser/photo/'+$stateParams.id);
 	photoHttp.error(handlerExceptionService.httpExceptionHandler);
 	photoHttp.success(function(result){
 		console.log(result);
+		$scope.photo = result.data;
 	});
+	
+	/**
+	 * [getPhoto 相册图片大图]
+	 * @param  {[type]} photo [点击的相册对象]
+	 */
+	$scope.getPhoto = function(photo){
+		$scope.singlePhoto = photo;
+	};
 });
 
 
@@ -219,13 +277,40 @@ glUserApp.controller('photoCtrl',function($scope,$http,handlerExceptionService){
  * @param  {[type]}       [description]
  * @return {[type]}       [description]
  */
-glUserApp.controller('dynamicCtrl',function($scope,$http,handlerExceptionService){
+glUserApp.controller('dynamicCtrl',function($scope,$http,$stateParams,handlerExceptionService){
 
-	var dynamicHttp = $http.get('/glUser/dynamic');
+	//初始化查询用户董涛
+	var dynamicHttp = $http.get('/glUser/dynamic/'+$stateParams.id);
 	dynamicHttp.error(handlerExceptionService.httpExceptionHandler);
 	dynamicHttp.success(function(result){
 		console.log(result);
+		$scope.dynamic = result.data;
 	});
+	
+
+	/**
+	 * [getDynamic 动态详情弹窗数据]
+	 * @param  {[type]} dynamic [当前弹出的动态对象]
+	 */
+	$scope.getDynamic = function(dynamic){
+		$scope.singleDynamic = dynamic;
+	};
+
+
+	/**
+	 * [delDynamic 逻辑关闭动态]
+	 * @return {[type]} [description]
+	 */
+	$scope.closeDynamic = function(dynamic){
+		var delDynamicHttp = $http({
+			url:'/glUser/colseDynamic/'+$scope.singleDynamic.id+'/2',
+			method:'PUT'
+		});
+		delDynamicHttp.error(handlerExceptionService.httpExceptionHandler);
+		delDynamicHttp.success(function(result){
+			if(result.data=='OK'){alert('关闭成功！');}
+		});
+	};
 });
 
 
@@ -237,18 +322,33 @@ glUserApp.controller('dynamicCtrl',function($scope,$http,handlerExceptionService
  */
 glUserApp.controller('giftBagCtrl',function($scope,$http,handlerExceptionService){
 
+	/**
+	 * [giftBagHttp 初始化加载当前用户的礼包]
+	 * @type {[type]}
+	 */
 	var giftBagHttp = $http.get('/glUser/giftBag');
 	giftBagHttp.error(handlerExceptionService.httpExceptionHandler);
 	giftBagHttp.success(function(result){
-		console.log(result);
+		$scope.giftBag = result.data;
 	});
 	
 
-
+	/**
+	 * [getDiftBag 礼包详情弹窗数据]
+	 * @param  {[type]} dynamic [当前弹出的动态对象]
+	 */
+	$scope.getDiftBag = function(giftBag){
+		$scope.singleGiftBag = giftBag;
+	};
 
 
 });
 
+
+/**
+ * 用户尖兵任务的URL
+ */
+glUserApp.constant('pioneerUrl', '/glUser/pioneer');
 
 
 
@@ -257,12 +357,50 @@ glUserApp.controller('giftBagCtrl',function($scope,$http,handlerExceptionService
  * @param  {[type]}       [description]
  * @return {[type]}       [description]
  */
-glUserApp.controller('pioneerCtrl',function($scope,$http,handlerExceptionService){
+glUserApp.controller('pioneerCtrl',function($scope,$http,$compile,$stateParams,$filter,modalService,pioneerUrl,queryData,handlerExceptionService){
+	
+	
+	$scope.dtOption = function(){
+		return {
+//			ajax:{url:pioneerUrl+"?uid="+$stateParams.id},
+			ajax:{url:pioneerUrl},
+			order:[1,'desc'],
+			pageLength:10,
+			language:{
+				sEmptyTable : "<div class='text-center'>没有尖兵任务</div>"
+			},
+			columns:[
+			    {'data':'imgUrl','name':'imgUrl','title':'游戏LOGO','render':function(data){
+			    	return '<img src="'+data+'" class="img-circle" width="50px"></img>';
+			    }},
+			    {'data':'finishTime','name':'finishTime','title':'完成时间','render':function(data){
+			    	return data?$filter('date')(data,'yyyy-MM-dd HH:mm:ss'):data;
+			    }},
+			    {'data':'status','name':'status','title':'状态','render':function(data){
+			    	return data?(data==2?'已完成':'进行中'):data;
+			    }},
+			    {'data':'gname','name':'gname','title':'游戏名称'},
+			    {'data':'operation','title':'任务说明','orderable':false,
+			    'createdCell':function(td, cellData, rowData, rowIndex, colIndex){
+			    	$compile('<button class="btn btn-success" ng-click="lookTaskExplain('+rowIndex+')">查看任务说明</button>')($scope).appendTo(td);
+			    }},
+			]
+		};
+	};
+	
+	$scope.readStatus = function(status){
+		queryData($scope.pioneerApi,pioneerUrl+"?status="+status+"&&uid="+$stateParams.id);
+	};
 
-	var pioneerHttp = $http.get('/glUser/pioneer');
-	pioneerHttp.error(handlerExceptionService.httpExceptionHandler);
-	pioneerHttp.success(function(result){
-		console.log(result);
-	});
+	/**
+	 * [lookTaskExplain 查看任务说明]
+	 * @param  {[type]} rowIndex [查询的任务行索引]
+	 */
+	$scope.lookTaskExplain = function(rowIndex){
+		var rowData = $scope.pioneerApi.row(rowIndex).data();
+		modalService('gameTaskModal');
+	};
+	
+
 });
 

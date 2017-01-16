@@ -19,7 +19,7 @@ $.extend($.fn.dataTable.defaults,{
 				sInfo : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
 				sInfoEmpty : "显示第 0 至 0 项结果，共 0 项",
 				sInfoFiltered : "(由 _MAX_ 项结果过滤)",
-				sEmptyTable : "对不起，查询不到相关数据!",
+				sEmptyTable : "<div class='text-center'>对不起，查询不到相关数据!</div>",
 				sLoadingRecords : "载入中...",
 				oPaginate : {
 						sFirst : "首页",

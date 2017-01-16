@@ -63,7 +63,10 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 						data : 'glUser.mobile',
 						name : 'glUser.mobile',
 						title : '手机号',
-						orderable : false
+						orderable : false,
+						render:function(data){
+							return data?data:'';
+						}
 					},
 					{
 						data : 'content',
@@ -111,7 +114,6 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 		 * @param  {[type]} rowIndex [当前反馈信息的行索引]
 		 */
 		$scope.lookOverAdviceFeedback = function(rowIndex){
-			console.log($scope.User.date);
 			$scope.singleAdviceFeedback = $scope.Api.row(rowIndex).data();
 			//显示弹窗
 			modalService('adviceFeedbackModal');
@@ -128,8 +130,9 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 				url:"/adviceFeedback/dispose/"+rowData.id,
 				method:"PUT",
 			}).success(function(data){
-				console.log(data);
-				Messenger().post("Welcome to the darkside (tm)");
+				if(data.data.updatedExisting){
+					alert('处理成功！');
+				}
 				//重新渲染表格
 				$scope.Api.ajax.reload();
 			}).error(handlerExceptionService.httpExceptionHandler);

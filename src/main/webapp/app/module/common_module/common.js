@@ -95,7 +95,7 @@ angular.module('commonApp',[])
 	 */
 	.factory('selectData', function(){
 		return function name(dtApi){
-			return dataTableApi.rows('.active').data();
+			return dtApi.rows('.active').data();
 		};
 	})
 
@@ -229,10 +229,9 @@ angular.module('commonApp',[])
 	.directive('cngDate', function(){
 		return {
 			require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
-			restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+			restrict: 'A',
 			link: function($scope, iElm, iAttrs, controller) {
 				var date = iElm.val();
-				console.log("directive cngDate date = "+date);
 				controller.$setViewValue(date);
 			}
 		};
@@ -244,31 +243,39 @@ angular.module('commonApp',[])
 		return {
 			restrict: 'A', 
 			link: function($scope, iElm, iAttrs, controller) {
-				console.log(iAttrs);
-
+				//配置属性
+				var ngmodel = iAttrs.ngmodel;
+				var ngname = iAttrs.ngname;
+				//获取ng-model指令属性，用于为$scope作用域赋值。
 				var startDateModel = 'startDate';
 				var endDateModel = 'endDate';
-				if(angular.isDefined(iAttrs.ngmodel)){
-					let ngmodel = iAttrs.ngmodel.split("|");
+				if(angular.isDefined(ngmodel)){
+					let ngmodel = ngmodel.split("|");
+					startDateModel = ngmodel[0];
+					endDateModel = ngmodel[1];
+				}
+				//获取name属性配置，用于get请求序列化
+				var startDateName = 'startDate';
+				var endDateName = 'endDate';
+				if(angular.isDefined(ngname)){
+					let ngmodel = ngname.split("|");
 					startDateModel = ngmodel[0];
 					startDateModel = ngmodel[1];
 				}
-
-				
-
-				var startDate = $('<input type="text" id="startDate" name="startDate" ng-model="startDate" cng-date>');
-				var endDate = $('<input type="hidden" id="endDate" name="endDate" ng-model="endDate" cng-date>');
+				//增加隐藏域表单元素
+				var startDate = $('<input type="hidden" id="startDate" name="'+startDateName+'" ng-model="'+startDateModel+'" cng-date>');
+				var endDate = $('<input type="hidden" id="endDate" name="'+endDateName+'" ng-model="'+endDateModel+'" cng-date>');
 				iElm.after(startDate).after(endDate);
-
+				//daterangepicker插件封装在此指令中的默认配置
 				iElm.daterangepicker({
-					timePicker: true,
-					timePickerSeconds:true,
-					timePicker24Hour:true,
-					showDropdowns:true,
-					outsideClickConfig:false,
-					 isCustomDateFormat:true,
-					clearVal:true,
-					initSetValue:false,
+					timePicker: true,//开启HH:mm
+					timePickerSeconds:true,//开启ss
+					timePicker24Hour:true,//24小时制
+					showDropdowns:true,//日期下拉选择
+					outsideClickConfig:false,//自定义属性(修改了插件源代码)
+					isCustomDateFormat:true,//自定义属性(修改了插件源代码)
+					clearVal:true,//自定义属性(修改了插件源代码)
+					initSetValue:false,//自定义属性(修改了插件源代码)
 					locale: {
 				        "separator": " - ",
 				        "applyLabel": "确认",
@@ -282,20 +289,17 @@ angular.module('commonApp',[])
 				        "firstDay": 1
 				    }
 				});
-				
-
-				
+				//绑定daterangepicker插件的apply.daterangepicker事件，
+				//当点击确认按钮时触发
 				iElm.on('apply.daterangepicker',function(ev,picker){
 					var startDatePicker = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
 					var endDatePicker = picker.endDate.format('YYYY-MM-DD HH:mm:ss');
-
+					//为隐藏域value赋值
 					startDate.val(startDatePicker);
 					endDate.val(endDatePicker);
-					
+					//编译元素使指令生效，赋值ng-model指令
 					$compile(startDate)($scope);
 					$compile(endDate)($scope);
-
-
 				});
 			}
 		};

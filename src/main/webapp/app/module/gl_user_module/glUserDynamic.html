@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-3 col-sm-6 col-xs-12" ng-repeat="item in dynamic">
+	<div class="col-md-4 col-sm-6 col-xs-12" ng-repeat="item in dynamic">
 	  <div class="info-box bg-aqua" data-toggle="modal" data-target="#denamicModal"  ng-click="getDynamic(item)">
 	    <span class="info-box-icon"><i class="fa fa-envelope-o"></i></span>
 	
@@ -22,21 +22,24 @@
 					<span aria-hidden="true">&times;</span>
 					<span class="sr-only">Close</span>
 				</button>
-				<h4>
-					<div>
-						<img alt="头像" src="{{glUser.avatarImage.resURI}}" class="img-rounded" 
-					width="80" height="80">
-						<span class="pull-right">{{singleDynamic.publishDate}}</span>
+				<div>
+					<div class="col-md-3">
+						<img alt="头像" src="{{glUser.avatarImage.resURI}}" class="img-rounded" height="80" width="80">
 					</div>
-					
-					
-				</h4>
+					<div class="col-md-9 pull-left">
+						<h4>
+						<p>发表时间：{{singleDynamic.publishDate}}</p>
+						
+						<p width="100%">动态状态：{{singleDynamic.status==2?'已关闭':'已开启'}}</p>
+						</h4>
+					</div>
+				</div>
 			</div>
 			<div class="modal-body">
 				{{singleDynamic.content}}
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-danger" ng-click="delDynamic()">删除</button>
+				<button class="btn btn-danger" ng-disabled="singleDynamic.status==2" ng-click="closeDynamic()">关闭</button>
 				<button class="btn btn-default" data-dismiss="modal">返回</button>
 			</div>
 		</div>

@@ -9,83 +9,109 @@
 	</ol>
 </section>
 
-<style type="text/css">
-	.glUserDetail{height: 47px;line-height: 47px;}
+<style>
+li {
+  word-break: break-all;/* 在合适的点换行 */
+  word-wrap: break-word;/* 指定如果足够长得话，应该换行 */
+  overflow: hidden;/* 内容会被修剪，并且其余内容是不可见的。 */
+}
 </style>
 <!-- Main content -->
 <section class="content">
-	<!-- 页面内容在此处 -->
-	<div class="box container-fluid">
-		<div class="box-header">
-			<h1 class="box-title"><b>用户详情</b></h1>
-			<span class="btn btn-primary btn-flat btn-xs">正常用户</span>
-
-			<div class="box-tools pull-right">
-				<button class="btn btn-success">解封</button>
-				<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-					<i class="fa fa-minus"></i></button>
-				<button ng-click="isGlUserViewTrue()" ui-sref="glUser" type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-					<i class="fa fa-times"></i></button>
+	<div class="row">
+		<div class="col-md-3">
+			<div class="box box-primary">
+				<div class="box-body box-profile">
+					<img class="profile-user-img img-responsive img-circle" src="{{glUser.avatarImage.resURI}}" alt="用户头像">
+					<h3 class="profile-username text-center">{{glUser.nickname}}</h3>
+					<p class="text-muted text-center"></p>
+					<ul class="list-group list-group-unbordered">
+		                <li class="list-group-item">
+		                	<b>手机号</b>
+		                	<a class="pull-right">
+		                		{{glUser.mobile}}
+		                	</a>
+		                </li>
+		                <li class="list-group-item">
+		                	<b>交友签名</b>
+		                	<a class="pull-right">
+		                		{{glUser.motto}}
+		                	</a>
+		                </li>
+		            </ul>
+				</div>
+			</div>
+			<div class="box box-primary">
+				<div class="box-header with-border">
+            		<h3 class="box-title">我的游戏</h3>
+            	</div>
+            	<div class="box-body">
+            		<strong><i class="fa fa-book margin-r-5"></i>关注的游戏</strong>
+            		<p class="text-muted">
+            			<span ng-repeat="item in glUser.concernedGame" ng-class="$index%2==0?'label label-success':'label label-danger'">
+							{{item.gname}}
+						</span>
+            		</p>
+            		<hr>
+            		<strong><i class="fa fa-book margin-r-5"></i>正在玩的游戏</strong>
+            		<p class="text-muted">{{glUser.playingGame.gname}}</p>
+            		<hr>
+            		<strong><i class="fa fa-book margin-r-5"></i>游戏类型</strong>
+            		<p class="text-muted">
+						<span ng-repeat="item in glUser.favoriteTypes" ng-class="$index%2==0?'label label-info':'label label-warning'">
+							{{item.gtName}}
+						</span>
+					</p>
+					<hr>
+            		<strong><i class="fa fa-book margin-r-5"></i>所在服务器</strong>
+            		<p class="text-muted">{{glUser.gameServer}}</p>
+            		<hr>
+            		<strong><i class="fa fa-book margin-r-5"></i>游戏角色</strong>
+            		<p class="text-muted">{{glUser.gameNickname}}</p>
+            		<hr>
+            	</div>
 			</div>
 		</div>
-		<div class="box-body">
-			<div class="row col-md-12 h3">
-				<div class="row bg-success glUserDetail">
-					<div class="col-md-2 text-nowrap">手机号：</div>
-					<div class="col-md-4">{{glUser.mobile}}</div>
-					<div class="col-md-2">用户游戏类型：</div>
-					<div class="col-md-4">
-						<span ng-repeat="item in glUser.favoriteTypes">
-							[{{item}}]&nbsp;&nbsp;
-						</span>
+		<div class="col-md-9">
+			<div class="nav-tabs-custom">
+				<ul class="nav nav-tabs" data-cng-nav-active>
+					<li id="photo" class="active">
+						<a ui-sref="glUser.detail.photo" data-toggle="tab">
+							相册
+							<span class="badge" style="background-color: rebeccapurple;">{{data.photo_num}}</span>
+						</a>
+					</li>
+					<li id="dynamic">
+						<a ui-sref="glUser.detail.dynamic" data-toggle="tab">
+							动态
+							<span class="badge" style="background-color: rebeccapurple;">{{data.dynamic_num}}</span>
+						</a>
+					</li>
+					<li id="giftBag">
+						<a ui-sref="glUser.detail.giftBag" data-toggle="tab">
+							礼包
+							<span class="badge" style="background-color: rebeccapurple;"></span>
+						</a>
+					</li>
+					<li id="pioneer">
+						<a ui-sref="glUser.detail.pioneer" data-toggle="tab">
+							尖兵任务
+							<span class="badge" style="background-color: rebeccapurple;">{{data.pioneer_num}}</span>
+						</a>
+					</li>
+		            <div class="pull-right">
+			            <button ng-click="isGlUserViewTrue()" ui-sref="glUser" type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="后退">
+							<i class="fa fa-times"></i>
+						</button>
 					</div>
-				</div>
-				<div class="row glUserDetail">
-					<div class="col-md-2">昵称：</div>
-					<div class="col-md-4">{{glUser.nickname}}</div>
-					<div class="col-md-2">交友签名：</div>
-					<div class="col-md-4">{{glUser.motto}}</div>
-				</div>
-				<div class="row glUserDetail">
-					<div class="col-md-2">正在玩的游戏：</div>
-					<div class="col-md-4">{{glUser.playingGame.gname}}</div>
-					<div class="col-md-2">关注的游戏：</div>
-					<div class="col-md-4">
-						<span ng-repeat="item in glUser.concernedGame">
-							[{{item.gname}}]&nbsp;&nbsp;
-						</span>
-					</div>
-				</div>
-				<div class="row glUserDetail">
-					<div class="col-md-2">所在服务器：</div>
-					<div class="col-md-4">{{glUser.gameServer}}</div>
-					<div class="col-md-2">游戏角色：</div>
-					<div class="col-md-4">{{glUser.gameNickname}}</div>
-				</div>
-			</div>
-
-
-
-
-			<div class="row">
-				<div class="col-md-12">
-					<div class="box">
-						<div class="box-header">
-							<h1 class="box-title"><b><a ui-sref="glUser.detail.photo">用户相册</a></b></h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<h1 class="box-title"><b><a ui-sref="glUser.detail.dynamic">用户动态</a></b></h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<h1 class="box-title"><b><a ui-sref="glUser.detail.giftBag">用户礼包</a></b></h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<h1 class="box-title"><b><a ui-sref="glUser.detail.pioneer">用户尖兵任务</a></b></h1>
-							<div class="box-tools pull-right">
-								<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-									<i class="fa fa-minus"></i></button>
-							</div>
-						</div>
-						<div class="box-footer">
-							<ui-view>用户详情图片礼包任务等信息</ui-view>
-						</div>
+				</ul>
+				<div class="tab-content">
+					<!-- 注意：active类显示 -->
+					<div class="tab-pane active">
+						<ui-view></ui-view>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>		
 </section>
