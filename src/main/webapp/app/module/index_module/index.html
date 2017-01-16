@@ -46,9 +46,13 @@
 	<script type="text/javascript" src="/app/lib/bootstrap-select/bootstrap-select.js"></script>
 	<script type="text/javascript" src="/app/lib/bootstrap-select/angular-bootstrap-select.js"></script>
 
-	<!--<link rel="stylesheet" type="text/css" href="/app/lib/select/select2.css">
-	<script type="text/javascript" src="/app/lib/select/select2.js"></script>-->
-
+	<!--checklist-model-->
+	<script type="text/javascript" src="app/lib/checklist/checklist-model.js"></script>
+	<!-- datetimepicker see: https://github.com/dalelotts/angular-bootstrap-datetimepicker-->
+	<link rel="stylesheet" href="app/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
+	<script src="app/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+	<script src="app/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
+	<!--<script src="app/lib/angularJS-UI-bootstrap/angular-locale_zh.js"></script>-->
 
 	<!-- 以下都是自定义js文件 -->
 	<!-- 业务全局配置 -->
@@ -59,6 +63,9 @@
 	<script type="text/javascript" src="/app/module/common_module/common.js"></script>
 	<!-- 用户管理模块 -->
 	<script type="text/javascript" src="/app/module/gl_user_module/glUser.js"></script>
+	<!-- 游戏模块 -->
+	<script type="text/javascript" src="/app/module/game_module/gameState.js"></script>
+	<script type="text/javascript" src="/app/module/game_module/game.js"></script>
 	<!-- 反馈信息模块 -->
 	<script type="text/javascript" src="/app/module/advice_feedback_module/adviceFeedback.js"></script>
 	<!--首页模块 -->
@@ -222,6 +229,16 @@ BODY标签选项:
 						</a>
 						<ul class="treeview-menu">
 							<li><a ui-sref="adviceFeedback"><i class="fa fa-circle-o"></i>意见反馈列表</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a><i class="fa fa-envelope-o"></i><span>游戏产品库</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a ui-sref="gameList"><i class="fa fa-circle-o"></i>游戏列表</a></li>
 						</ul>
 					</li>
 

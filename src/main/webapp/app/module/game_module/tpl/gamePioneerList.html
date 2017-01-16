@@ -1,0 +1,34 @@
+
+
+<!-- Main content -->
+<section class="content">
+    <!-- 页面内容在此处 -->
+    <div class="box container-fluid">
+        <div class="box-header">
+            <section class="content-header">
+                <h1>
+                    游戏产品库<small>游戏尖兵列表</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+                    <li class="active">游戏产品库</li>
+                    <li class="active">游戏尖兵列表</li>
+                </ol>
+            </section>
+        </div>
+        <div class="box-body">
+            <form class="form-inline" id="glGame" name="glUserFom" align="right">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" ng-click="gamePioneerAdd(gid)">添加任务</button>
+                </div>
+            </form>
+            <div class="box-header"></div>
+            <div>
+                <cng-datatable cng-property-dt-option="dtOption()"
+                               cng-property-dt-return-value="Api"/>
+            </div>
+        </div>
+
+
+    </div>
+</section>
