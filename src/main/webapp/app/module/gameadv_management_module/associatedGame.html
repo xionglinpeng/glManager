@@ -1,0 +1,109 @@
+
+
+<!-- Main content -->
+<section class="content">
+	<!-- 页面内容在此处 -->
+	<div class="box container-fluid">
+		<div class="box-header with-border">
+			<section class="content-header">
+				<h1>
+					专题系统<small>关联专题</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+					<li class="active">专题系统</li>
+					<li class="active">关联专题</li>
+				</ol>
+			</section>
+		</div>
+			<form class="form-horizontal" name="gameAdvForm" >
+			<div class="box-body">
+
+				<div class="form-group" ng-class="{'has-success':!gameAdvForm.advName.$invalid,'has-warning':gameAdvForm.advName.$error.required}">
+					<label class="col-sm-2 control-label">专题名</label>
+					<div class="col-sm-10">
+						<div class="row">
+							<div class="col-sm-7">
+								<input type="text"  name="advName" ng-model="advName" required class="form-control input-sm" placeholder="请输入专题名"  >
+							</div>
+							<div class="col-sm-4">
+								<span class="help-block" ng-show="gameAdvForm.advName.$error.required"><i class="fa fa-bell-o"></i>请输入专题名</span>
+								<span class="help-block" ng-show="!gameAdvForm.advName.$invalid"><i class="fa fa-check"></i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">专题导读图</label>
+					<div class="col-sm-10">
+						<div class="row">
+							<div class="col-sm-7">
+								<img ng-src="{{imageSrc}}"  file-model="myFile" style="max-width:300px;max-height:300px;display:block;" />
+								<input type="file" file-model="myFile"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">专题URL</label>
+					<div class="col-sm-10">
+						<div class="row">
+							<div class="col-sm-7">
+								<input type="text"  name="advUrl" ng-model="advUrl" class="form-control input-sm" required placeholder="请输入专题URL"  >
+							</div>
+							<div class="col-sm-4">
+								<span class="help-block" ng-show="gameAdvForm.advUrl.$error.required"><i class="fa fa-bell-o"></i>请输入专题URL</span>
+								<span class="help-block" ng-show="!gameAdvForm.advUrl.$invalid"><i class="fa fa-check"></i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">选择关联游戏</label>
+					<div class="col-sm-10">
+						<div class="row">
+							<div class="col-sm-7">
+								<input type="text"  name="game.gid" ng-model="game.gid" class="form-control input-sm" placeholder="请选择关联游戏"  >
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group" ng-class="{'has-success':!gameAdvForm.game.gid.$error.required,'has-warning':gameAdvForm.game.gid.$error.required}">
+					<label class="col-sm-2 control-label"><i style="color: red;font-size: 12px;font-weight: bold;">*</i>选择关联游戏</label>
+					<div class="col-sm-10">
+						<div class="row">
+							<div class="col-sm-7">
+								<select class="form-control input-sm" selectpicker ng-model="game.gid"  data-live-search="true"
+										ng-options="user.trueName+'('+user.id+')' as user.trueName for user in userlist"></select>
+							</div>
+							<div class="col-sm-4">
+								<span class="help-block" ng-show="gameAdvForm.game.gid.$error.required"><i class="fa fa-bell-o"></i>选择关联游戏</span>
+								<span class="help-block" ng-show="!gameAdvForm.game.gid.$error.required"><i class="fa fa-check"></i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">发布时间</label>
+					<div class="col-sm-10">
+						<div class="row">
+							<div class="col-sm-7">
+								<input type="text"  name="activeTime" ng-model="activeTime" class="form-control input-sm" placeholder="发布时间"  >
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer">
+				<button type="button" class="btn btn-default" ng-click="">返回</button>
+				<button type="button" class="btn btn-warning pull-right" ng-click="" >上架</button>
+				<button type="button" class="btn btn-info pull-right" ng-click="" >保存</button>
+			</div>
+		</form>
+
+	</div>
+</section>

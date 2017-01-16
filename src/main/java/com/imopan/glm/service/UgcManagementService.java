@@ -26,4 +26,6 @@ public interface UgcManagementService {
 	TableResult ugcManagementLists(BroadcastBean broadcastBean,
 			TableSide tableSide);
 
+	Integer closeBroadcast(String id, Integer status);
+
 }

@@ -40,6 +40,16 @@ public class Broadcast extends BaseEntity {
 	private UserBean userInfo;
 
 	/**
+	 * 是否被举报
+	 */
+	private Boolean isReport;
+	
+	/**
+	 * 帖子状态：1open,2close
+	 */
+	private Integer status;
+	
+	/**
 	 * 动态内容
 	 */
 	private String content;
@@ -84,6 +94,23 @@ public class Broadcast extends BaseEntity {
 	 * 地理位置
 	 */
 	private GeometryBean geometry;
+
+	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Boolean getIsReport() {
+		return isReport;
+	}
+
+	public void setIsReport(Boolean isReport) {
+		this.isReport = isReport;
+	}
 
 	/**
 	 * Gets the 动态内容.
