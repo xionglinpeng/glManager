@@ -42,9 +42,9 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 //		if(StringUtils.isNotBlank(glUser.getStauts().value())){
 //			query.field("status").equal(glUser.getStauts().value());
 //		}
-//		if(StringUtils.isNotBlank(glUser.getGender())){
-//			query.field("gender").equal(glUser.getGender());
-//		}
+		if(StringUtils.isNotBlank(glUser.getGender())){
+			query.field("gender").equal(glUser.getGender());
+		}
 		
 		long count = query.count();
 		

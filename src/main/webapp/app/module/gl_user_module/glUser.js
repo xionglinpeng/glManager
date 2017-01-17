@@ -184,6 +184,7 @@ glUserApp.controller('glUserCtrl',function(
 	 * jQuery序列化表单参数。
 	 */
 	$scope.queryTable=function(){
+		console.log(serializeService('glUserId'));
 		 queryData($scope.Api,glUserTableUrl+serializeService('glUserId'));
 	};
 	
