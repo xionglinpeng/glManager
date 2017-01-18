@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @version 1.0.0
  */
 
-@Entity(noClassnameStored=false)
+@Entity(noClassnameStored=true)
 public class GameAdv extends BaseEntity {
 
  

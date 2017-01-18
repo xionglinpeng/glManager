@@ -19,6 +19,7 @@ import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
 
 /** 
  * ClassName:QiniuUploadUtil <br/> 
@@ -39,6 +40,9 @@ public class QiniuUploadUtil {
 
 	  //密钥配置
 	  static Auth auth = Auth.create(ACCESS_KEY, SECRET_KEY);
+	  
+	  //访问图片的外网域名
+	  static String u = "http://img.gfan.com/";
 
 
 	  //自动识别要上传的空间(bucket)的存储区域是华东、华北、华南。
@@ -108,16 +112,20 @@ public class QiniuUploadUtil {
 	   * @param filePath  文件路径
 	   * @param fileName  保存后的文件名 （可为空）
 	   * @param bucketname 空间名称 （可为空，默认为‘gamelink’）
-	   * @return 
+	   * @return  返回图片链接地址
 	   * @throws IOException 
 	   * @since JDK 1.7
 	   */
-	  public static Response uploadUtil(String filePath,String fileName,String bucketname) throws IOException{
+	  public static String uploadUtil(String filePath,String fileName,String bucketname) throws IOException{
 		  if(StringUtils.isNotEmpty(bucketname)){
 			  QiniuUploadUtil.bucketname = bucketname;
 		  }
 		  Response uploadByFilePath = uploadByFilePath(filePath,fileName);
-		  return uploadByFilePath;
+		  if(uploadByFilePath != null){
+			  String s = uploadByFilePath.jsonToMap().get("key").toString();
+			  return u+s;
+		  }
+		  return null;
 	  }
 	  
 	  /**
@@ -128,24 +136,28 @@ public class QiniuUploadUtil {
 	   * @param b 数组
 	   * @param fileName 文件名称（可为空）
 	   * @param bucketname 空间名称（可为空，默认为‘gamelink’）
-	   * @return
+	   * @return	返回图片链接地址
 	   * @throws IOException 
 	   * @since JDK 1.7
 	   */
-	  public static Response uploadUtil(byte[] b,String fileName,String bucketname) throws IOException{
+	  public static String uploadUtil(byte[] b,String fileName,String bucketname) throws IOException{
 		  if(StringUtils.isNotEmpty(bucketname)){
 			  QiniuUploadUtil.bucketname = bucketname;
 		  }
 		  Response uploadByFilePath = uploadByByte(b,fileName);
-		  return uploadByFilePath;
+		  if(uploadByFilePath != null){
+			  String s = uploadByFilePath.jsonToMap().get("key").toString();
+			  return u+s;
+		  }
+		  return null;
 	  }
 	  
 	  public static void main(String[] args) {
-		  
+		  String a = "";
 		  String filepath = "C:\\Users\\Administrator\\Desktop\\0357433bafacec8.jpg";
 		  try {
-			Response uploadUtil = uploadUtil(filepath,null,null);
-			System.out.println(uploadUtil.bodyString());
+			String uploadUtil = uploadUtil(filepath,"zxc.jpg",null);
+			System.out.println(uploadUtil);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

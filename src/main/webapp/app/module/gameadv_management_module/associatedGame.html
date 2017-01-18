@@ -24,7 +24,7 @@
 					<div class="col-sm-10">
 						<div class="row">
 							<div class="col-sm-7">
-								<input type="text"  name="advName" ng-model="advName" required class="form-control input-sm" placeholder="请输入专题名"  >
+								<input type="text"  name="advName" ng-model="gameAdv.advName" required class="form-control input-sm" placeholder="请输入专题名"  >
 							</div>
 							<div class="col-sm-4">
 								<span class="help-block" ng-show="gameAdvForm.advName.$error.required"><i class="fa fa-bell-o"></i>请输入专题名</span>
@@ -34,23 +34,23 @@
 					</div>
 				</div>
 
-				<div class="form-group" ng-class="{'has-success':!gameAdvForm.advName.$invalid,'has-warning':gameAdvForm.advName.$error.required}">
+				<div class="form-group" ng-class="{'has-success':!gameAdvForm.fn.$invalid,'has-warning':gameAdvForm.fn.$error.required}">
 					<label class="col-sm-2 control-label"><i style="color: red;font-size: 12px;font-weight: bold;">*</i>专题导读图</label>
 					<div class="col-sm-10">
 						<div class="row">
 							<div class="col-sm-7">
-								<img ng-src="{{imageSrc}}"  file-model="myFile" style="max-width:300px;max-height:300px;display:block;" />
-								<input type="file" file-model="myFile"/>
+								<img ng-src="{{gameAdv.imageSrc}}"  file-model="myFile" style="max-width:300px;max-height:300px;display:block;" />
+								<input type="file"  file-model="myFile"/>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" ng-class="{'has-success':!gameAdvForm.advUrl.$invalid,'has-warning':gameAdvForm.advUrl.$error.required}">
 					<label class="col-sm-2 control-label"><i style="color: red;font-size: 12px;font-weight: bold;">*</i>专题URL</label>
 					<div class="col-sm-10">
 						<div class="row">
 							<div class="col-sm-7">
-								<input type="text"  name="advUrl" ng-model="advUrl" class="form-control input-sm" required placeholder="请输入专题URL"  >
+								<input type="text"  name="advUrl" ng-model="gameAdv.advUrl" class="form-control input-sm" required placeholder="请输入专题URL"  >
 							</div>
 							<div class="col-sm-4">
 								<span class="help-block" ng-show="gameAdvForm.advUrl.$error.required"><i class="fa fa-bell-o"></i>请输入专题URL</span>
@@ -60,51 +60,53 @@
 					</div>
 				</div>
 
-				<!--<div class="form-group">
-					<label class="col-sm-2 control-label">选择关联游戏</label>
-					<div class="col-sm-10">
-						<div class="row">
-							<div class="col-sm-7">
-								<input type="text"  name="game.gid" ng-model="game.gid" class="form-control input-sm" placeholder="请选择关联游戏"  >
-							</div>
-						</div>
-					</div>
-				</div>-->
-
-				<div class="form-group" >
+				<div class="form-group" ng-class="{'has-success':!gameAdvForm.gname.$invalid,'has-warning':gameAdvForm.gname.$error.required}">
 					<label class="col-sm-2 control-label"><i style="color: red;font-size: 12px;font-weight: bold;">*</i>选择关联游戏</label>
 					<div class="col-sm-10">
 						<div class="row">
 							<div class="col-sm-7">
-								<select name="gname" class="form-control input-sm" selectpicker ng-model="gameAdv.game"  data-live-search="true"
+								<select name="gname" class="form-control input-sm" selectpicker ng-model="gameAdv.game" required data-live-search="true"
 										ng-options="gameCentre as gameCentre.gname for gameCentre in GameCentres"></select>
 							</div>
 
-
-
-							<!--<div class="col-sm-4">
+							<div class="col-sm-4">
 								<span class="help-block" ng-show="gameAdvForm.game.$error.required"><i class="fa fa-bell-o"></i>选择关联游戏</span>
 								<span class="help-block" ng-show="!gameAdvForm.game.$error.required"><i class="fa fa-check"></i></span>
-							</div>-->
-						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-2 control-label">发布时间</label>
-					<div class="col-sm-10">
-						<div class="row">
-							<div class="col-sm-7">
-								<input type="text"  name="activeTime" ng-model="activeTime" class="form-control input-sm" placeholder="发布时间"  >
 							</div>
 						</div>
 					</div>
 				</div>
+
+
+				<div class="form-group" ng-class="{'has-success':!gameAdvForm.time.$invalid,'has-warning':gameAdvForm.time.$error.required}">
+					<label class="col-sm-2 control-label">发布时间</label>
+
+					<div class="col-sm-3">
+						<div class="dropdown">
+							<a class="dropdown-toggle" id="dropdown" role="button" data-toggle="dropdown" data-target="#">
+								<div class="input-group">
+									<span type="text" id="date" name="date" ng-readonly="true"  class="form-control"  ng-bind="gameAdv.activeTime|date:'yyyy-MM-dd HH:mm' "></span>
+									<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+								</div>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker name="time"   data-ng-model="gameAdv.activeTime"
+												  data-datetimepicker-config="{ dropdownSelector: '#dropdown' ,parseFormat :'YY'}"></datetimepicker>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+
+
+
+
+
 			</div>
 			<div class="box-footer">
 				<button type="button" class="btn btn-default" ng-click="">返回</button>
 				<button type="button" class="btn btn-warning pull-right" ng-click="" >上架</button>
-				<button type="button" class="btn btn-info pull-right" ng-click="" >保存</button>
+				<button type="button" class="btn btn-info pull-right" ng-click="saveAssociatedGame()" ng-disabled="gameAdvForm.$invalid">保存</button>
 			</div>
 		</form>
 

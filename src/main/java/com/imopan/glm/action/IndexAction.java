@@ -19,7 +19,7 @@ public class IndexAction {
 		//获取用户已经成功登录的标记
 		Object loginSunccessMark = session.getAttribute(Login.LOGIN_SUNCCESS_MARK_KEY);
 		//没有取到标记，或者标记不正确，重定向至登录页
-		if(!isdebug){
+		if(!false){
 			if(loginSunccessMark==null||!loginSunccessMark.toString()
 					.equals(Login.LOGIN_SUNCCESS_MARK_VALUE)){
 				indexPage = "login_module/login";
