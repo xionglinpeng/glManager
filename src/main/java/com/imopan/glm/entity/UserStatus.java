@@ -22,4 +22,13 @@ public enum UserStatus {
         return this.value;
     }
     
+    
+    public static UserStatus value(String value){
+    	for (UserStatus userStatus : UserStatus.values()) {
+    		if(userStatus.getValue().equals(value)){
+    			return userStatus;
+    		}
+		}
+    	return null;
+    }
 }

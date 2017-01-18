@@ -1,0 +1,54 @@
+/**
+ * Created by Administrator on 2017/1/14.
+ */
+window.indexAppDependency.push("gameApp");
+angular.module('gameApp', ['commonApp','checklist-model','ngResource','ui.bootstrap.datetimepicker'])
+    .config(function($stateProvider) {
+        $stateProvider
+            .state('gameList',{
+                url:'/gameList',
+                templateUrl:'app/module/game_module/tpl/gameList.html',
+                controller:'gameListCtrl'
+            })
+            .state('gameAdd',{
+                url:'/gameAdd',
+                templateUrl:'app/module/game_module/tpl/gameBase.html',
+                controller:'gameAddCtrl'
+            })
+            .state('gameUpdate',{
+                url:'/gameUpdate',
+                templateUrl:'app/module/game_module/tpl/game.html',
+                controller:'gameUpdateCtrl'
+            })
+            .state('gamePioneerList',{
+                url:'/gamePioneerList/:gid',
+                templateUrl:'app/module/game_module/tpl/gamePioneerList.html',
+                controller:'gamePioneerListCtrl'
+            })
+            .state('gamePioneerAdd',{
+                url:'/gamePioneerAdd/:gid',
+                templateUrl:'app/module/game_module/tpl/gamePioneer.html',
+                controller:'gamePioneerAddCtrl'
+            })
+            .state('gamePioneerUpdate',{
+                url:'/gamePioneerUpdate/:gid/:pid',
+                templateUrl:'app/module/game_module/tpl/gamePioneer.html',
+                controller:'gamePioneerUpdateCtrl'
+            })
+            .state('gameGiftList',{
+                url:'/gameGiftList/:gid',
+                templateUrl:'app/module/game_module/tpl/gameGiftList.html',
+                controller:'gameGiftListCtrl'
+            })
+            .state('gameGiftAdd',{
+                url:'/gameGiftAdd/:gid',
+                templateUrl:'app/module/game_module/tpl/gamePioneer.html',
+                controller:'gamePioneerAddCtrl'
+            })
+            .state('gameGiftUpdate',{
+                url:'/gameGiftUpdate/:gid/:pid',
+                templateUrl:'app/module/game_module/tpl/gamePioneer.html',
+                controller:'gamePioneerUpdateCtrl'
+            })
+        ;
+    });

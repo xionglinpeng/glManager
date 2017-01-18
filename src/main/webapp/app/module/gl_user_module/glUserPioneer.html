@@ -1,6 +1,6 @@
 
 <ul class="nav nav-tabs" data-cng-nav-active>
-	<li id="pioneerMenu"><a data-toggle="tab" ng-click="readStatus()">全部</a></li>
+	<li class="active"><a data-toggle="tab" ng-click="readStatus()">全部</a></li>
 	<li><a data-toggle="tab" ng-click="readStatus(0)">进行中任务</a></li>
 	<li><a data-toggle="tab" ng-click="readStatus(2)">已完成任务</a></li>
 </ul>
@@ -20,9 +20,10 @@
 					<span aria-hidden="true">&times;</span>
 					<span class="sr-only">Close</span>
 				</button>
-				<h4>任务说明</h4>
+				<h4>{{pioneerDetail.pname}}</h4>
 			</div>
 			<div class="modal-body">
+				{{pioneerDetail.pdesc}}
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>

@@ -3,6 +3,7 @@ package com.imopan.glm.service;
 import java.util.List;
 
 import com.imopan.glm.bean.ResultBean;
+import com.imopan.glm.entity.FocusByFigure;
 import com.imopan.glm.entity.Keywords;
 
 /**
@@ -25,4 +26,19 @@ public interface IRecommendService {
 	 * @return
 	 */
 	public ResultBean saveKeywordService(List<Keywords> keywords);
+	
+	
+	/**
+	 * <p>获取所有的焦点轮播图。</p>
+	 * @return
+	 */
+	public ResultBean getFocusByFigureService();
+	
+	
+	/**
+	 * <p>保存焦点轮播图。</p>
+	 * @param focusByFigures
+	 * @return
+	 */
+	public ResultBean saveFocusByFigureService(List<FocusByFigure> focusByFigures);
 }

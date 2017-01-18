@@ -23,15 +23,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-clock-o"></i>
 						</div>
-						<input type="text" class="form-control pull-right" data-cng-daterangepicker placeholder="时间">
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="input-group">
-						<div class="input-group-addon">
-							<i class="fa fa-clock-o"></i>
-						</div>
-						<input type="text" class="form-control pull-right" data-ngmodel="sss" data-cng-daterangepicker data-cng-datepicker placeholder="时间2">
+						<input type="text" class="form-control pull-right" style="width:310px;" data-cng-daterangepicker placeholder="时间">
 					</div>
 				</div>
 				<div class="form-group">
@@ -39,7 +31,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-user"></i>
 						</div>
-						<input type="text" name="nickname" ng-model="glUser.nickname" placeholder="用户昵称" class="form-control">
+						<input type="text" name="nickname"  placeholder="用户昵称" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
@@ -47,17 +39,17 @@
 						<div class="input-group-addon">
 							<i class="fa fa-mobile"></i>
 						</div>
-						<input type="text" name="glUser.mobile" ng-model="glUser.mobile" placeholder="用户手机号" class="form-control">
+						<input type="text" name="glUser.mobile"  placeholder="用户手机号" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
-					<input type="text" name="" placeholder="反馈编号" class="form-control">
+					<input type="text" name="feedbackId" placeholder="反馈编号" class="form-control">
 				</div>
 				<div class="form-group">
-					<select name="favoriteTypes" ng-model="glUser.favoriteTypes" class="form-control">
+					<select name="status" class="form-control">
 						<option value="">处理状态</option>
-						<option value="">已处理</option>
-						<option value="">未处理</option>
+						<option value="processed">已处理</option>
+						<option value="notProcessed">未处理</option>
 					</select>
 				</div>
 				<div class="form-group">
@@ -78,7 +70,7 @@
 	</div>
 </section>
 
-<div class="modal fade modal-primary" id="adviceFeedbackModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade modal-default" id="adviceFeedbackModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -103,7 +95,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<textarea name="" 
-						style="width: 100%;height: 250px;margin-top: 15px;margin-bottom: 15px;color: black;resize:vertical"
+						style="width: 100%;height: 200px;margin-top: 15px;margin-bottom: 15px;color: black;resize:vertical"
 						>{{singleAdviceFeedback.content}}</textarea>
 					</div>
 				</div>
@@ -114,7 +106,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<textarea name="" style="width: 100%;height: 150px;margin-top: 15px;color: black;resize:vertical"></textarea>
+						<textarea name="" style="width: 100%;height: 100px;margin-top: 15px;color: black;resize:vertical"></textarea>
 					</div>
 				</div>
 			</div>

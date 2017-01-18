@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imopan.glm.bean.ResultBean;
+import com.imopan.glm.entity.FocusByFigure;
 import com.imopan.glm.entity.Keywords;
 import com.imopan.glm.service.IRecommendService;
 
@@ -52,14 +53,31 @@ public class RecommendAction {
 	
 	
 	
+	/**
+	 * <p>获取所有的焦点轮播图。</p>
+	 * @return
+	 */
+	@RequestMapping(value="/focusByFigures",method=RequestMethod.GET)
+	@ResponseBody
+	public ResultBean focusByFigures(){
+		return iRecommendService.getFocusByFigureService();
+	}
 	
-//	@RequestMapping(value="/saveFocusByFigure",method=RequestMethod.POST)
-//	@ResponseBody
-//	public ResultBean saveKeywords(@RequestBody List<game> keywords){
-//		System.out.println(keywords.size());
-//		for (Keywords keywords2 : keywords) {
-//			System.out.println(keywords2);
-//		}
-//		return iRecommendService.saveKeywordService(keywords);
-//	}
+	
+	
+	/**
+	 * <p>保存修改焦点轮播图。</p>
+	 * @param focusByFigures
+	 * @return
+	 */
+	@RequestMapping(value="/saveFocusByFigure",method=RequestMethod.POST)
+	@ResponseBody
+	public ResultBean savefocusByFigures(@RequestBody List<FocusByFigure> focusByFigures){
+		System.out.println(focusByFigures.size());
+		for (FocusByFigure FocusByFigure2 : focusByFigures) {
+			System.out.println(FocusByFigure2);
+		}
+		return iRecommendService.saveFocusByFigureService(focusByFigures);
+//		return null;
+	}
 }

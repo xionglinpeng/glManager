@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.imopan.glm.bean.ResultBean;
+import com.imopan.glm.entity.FocusByFigure;
 import com.imopan.glm.entity.Keywords;
 import com.imopan.glm.service.IRecommendService;
 
@@ -61,6 +62,53 @@ public class RecommendServiceImpl implements IRecommendService {
 	@Override
 	public ResultBean getKeywordService() {
 		return new ResultBean(datastore.createQuery(Keywords.class).order("sort").asList());
+	}
+	
+	
+	
+	@Override
+	public ResultBean getFocusByFigureService() {
+		return new ResultBean(datastore.createQuery(FocusByFigure.class).order("sort").asList());
+	}
+
+	
+	
+	@Override
+	public ResultBean saveFocusByFigureService(List<FocusByFigure> focusByFigures) {
+		//迭代所有上传的焦点轮播图组
+		for (FocusByFigure focusByFigure : focusByFigures) {
+			//判断是否有FocusByFigureId
+			if(StringUtils.isNotBlank(focusByFigure.getFocusByFigureId()))
+			{//有FocusByFigureId，表示当前焦点轮播图组是数据库中已经有的焦点轮播图组。
+			//所以执行修改或删除操作
+				Query<FocusByFigure> query = datastore.createQuery(FocusByFigure.class)
+						.field("_id").equal(new ObjectId(focusByFigure.getFocusByFigureId()));
+				if(focusByFigure.isSave())
+				{//修改当前焦点轮播图组。
+					UpdateOperations<FocusByFigure> operations = datastore.createUpdateOperations(FocusByFigure.class);
+					operations.set("title", focusByFigure.getTitle());
+					operations.set("link", focusByFigure.getLink());
+					operations.set("imageUrl", focusByFigure.getImageUrl());
+					operations.set("save", focusByFigure.isSave());
+					operations.set("publish", focusByFigure.isPublish());
+					operations.set("sort", focusByFigure.getSort());
+					datastore.update(query, operations);
+				}
+				else
+				{//delete为ture，表示要删除当前焦点轮播图组。
+					datastore.delete(query);
+				}
+			}
+			else
+			{//没有FocusByFigureId，表示新增加的焦点轮播图组，执行保存操作。
+				if(StringUtils.isNotBlank(focusByFigure.getTitle())&&
+						StringUtils.isNotBlank(focusByFigure.getLink())&&
+						StringUtils.isNotBlank(focusByFigure.getImageUrl())){
+					datastore.save(focusByFigure);
+				}
+			}
+		}
+		return new ResultBean("OK");
 	}
 
 }

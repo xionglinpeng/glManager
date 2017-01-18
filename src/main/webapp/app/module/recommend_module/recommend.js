@@ -1,5 +1,9 @@
 window.indexAppDependency.push("recommendApp");
 angular.module('recommendApp',[])
+
+
+
+
 	.directive('cngRecommend', function($compile,recommendEventService,iCheckService){
 		return {
 			link: function($scope, iElm, iAttrs, controller) {
@@ -14,19 +18,19 @@ angular.module('recommendApp',[])
 		        	var size = iElm.find(".oneself").size()+1;
 		        	//替换自定义表达式<%=leng%>
 		        	var oneselfTemplate = $scope.template.replace(/<%=leng%>/g,size);
-		        	//是新添加的搜索关键词组默认勾选以及排序。
-		        	if(angular.isUndefined($scope.keyword)){
-						$scope.keyword = {};
+		        	//使新添加的 组默认勾选以及排序。
+					if(angular.isUndefined($scope.group)){
+						$scope.group = {};
 					}
-					if(angular.isUndefined($scope.keyword['keyword'+size])){
-						$scope.keyword['keyword'+size] = {};
+					if(angular.isUndefined($scope.group['group'+size])){
+						$scope.group['group'+size] = {};
 					}
-					$scope.keyword['keyword'+size].sort = size;
-					$scope.keyword['keyword'+size].save = false;
-					$scope.keyword['keyword'+size].keyword1 = undefined;
-					$scope.keyword['keyword'+size].keyword2 = undefined;
-					$scope.keyword['keyword'+size].keyword3 = undefined;
-					//清空表达式
+					$scope.group['group'+size].sort = size;
+					$scope.group['group'+size].save = false;
+					$scope.group['group'+size].group1 = undefined;
+					$scope.group['group'+size].group2 = undefined;
+					$scope.group['group'+size].group3 = undefined;
+					//新增的组 清空表达式 icheck对应的表达式
 					var jqOneselfTemplate = $(oneselfTemplate);
 					jqOneselfTemplate.find('input[type="checkbox"][id="save"]').attr('cng-recommend-icheck','');
 					jqOneselfTemplate.find('input[type="checkbox"][id="publish"]').attr('cng-recommend-icheck','');
@@ -35,6 +39,7 @@ angular.module('recommendApp',[])
 		        	var compileTemplate = $compile(jqOneselfTemplate)($scope);
 		        	//每次点击添加按钮，将模板追加到容器张
 		        	$scope.container.append(compileTemplate);
+		        	//重置拖拽事件
 	                recommendEventService($scope,iElm);
 	                //处理复选框
 	                iCheckService(compileTemplate);
@@ -56,13 +61,16 @@ angular.module('recommendApp',[])
 			function IndexNum(){
 		        $.each(iElm.find('div.dads-children'),function(){
 		            var New_num=$(this).index()+1;
-		            $(this).find('h3').html('关键词组'+New_num+'<input id="currentSort" type="hidden" value="'+New_num+'">');
+		            $(this).find('h3').html('组'+New_num+'<input id="currentSort" type="hidden" value="'+New_num+'">');
 		        });
 		        //重定义排序
 		        $.each(iElm.find('h3 #currentSort:hidden'),function(){
+		        	//当前新的位置
 		        	var currentSort = this.value;
+		        	//旧的位置
 		        	var oldSort = $(this).parent("h3").next("#sort").val();
-		        	$scope.keyword['keyword'+oldSort].sort = currentSort;
+		        	//重置位置
+		        	$scope.group['group'+oldSort].sort = currentSort;
 		        });
 		    }
 		    (function Dad(){
@@ -144,7 +152,7 @@ angular.module('recommendApp',[])
 	.directive('cngRecommendIcheck',function(){
 		return function($scope,iElm,iAttrs){
 			iElm.on('ifChecked ifUnchecked',function(){
-				$scope.keyword['keyword'+iAttrs.recommendsort][iAttrs.recommendtype] = $(this).is(':checked');
+				$scope.group['group'+iAttrs.recommendsort][iAttrs.recommendtype] = $(this).is(':checked');
 			});
 			if(iAttrs.cngRecommendIcheck==='true'){
 				iElm.iCheck('check');
@@ -177,32 +185,78 @@ angular.module('recommendApp',[])
 
 
 
-	.controller('focusByFigureCtrl', function(){
+	.controller('focusByFigureCtrl', function($scope,$http,handlerExceptionService,recommendService){
+
+
+		var getFocusByFigure = function(){
+			$http.get("/recommend/focusByFigures")
+			.success(function(data){
+				var focusByFigures = data.data;
+				for(let i=1;i<=focusByFigures.length;i++){
+					//如果没有，这创建对象
+					if(angular.isUndefined($scope.group)){
+						$scope.group = {};
+					}
+					if(angular.isUndefined($scope.group['group'+i])){
+						$scope.group['group'+i] = {};
+					}
+					var groupObj = 'group'+i;
+					var j = i-1;
+					//赋值，显示表单元素值
+					$scope.group[groupObj].groupId = focusByFigures[j].id;
+					$scope.group[groupObj].group1 = focusByFigures[j].title;
+					$scope.group[groupObj].group2 = focusByFigures[j].link;
+					$scope.group[groupObj].group3 = focusByFigures[j].imageUrl;
+					$scope.group[groupObj].save = focusByFigures[j].save;
+					$scope.group[groupObj].publish = focusByFigures[j].publish;
+					$scope.group[groupObj].sort = focusByFigures[j].sort;
+					//下面的两个属性用于展示搜索关键字状态，不与数据库字段关联
+					$scope.group[groupObj].saveStatus = focusByFigures[j].save;
+					$scope.group[groupObj].publishStatus = focusByFigures[j].publish;
+				}
+				//执行HTML DOM操作，显示页面元素
+				recommendService($scope,focusByFigures.length);
+			})
+			.error(handlerExceptionService.httpExceptionHandler);
+		};
+
+
+		getFocusByFigure();
+
 		$scope.save = function(){
 			//将请求对象转换此对象数据，用于服务端接收
 			var dataAry = [];
-			for(let item in $scope.keyword){
-				if($scope.keyword.hasOwnProperty(item)){
-					var keyword = $scope.keyword[item];	
-					//删除取消保存的对象
-					if(!$scope.keyword[item].save){
-						delete $scope.keyword[item];
-					}
+			console.log($scope.group);
+			for(let item in $scope.group){
+				if($scope.group.hasOwnProperty(item)){
+					var focusByFigure = $scope.group[item];
+					//对象转换，使其对应服务端的实体字段
+					focusByFigure.focusByFigureId = focusByFigure.groupId;
+					focusByFigure.title = focusByFigure.group1;
+					focusByFigure.link = focusByFigure.group2;
+					focusByFigure.imageUrl = focusByFigure.group3;
 					//转换成数组
-					dataAry.push(keyword);
+					dataAry.push(focusByFigure);
+					//删除取消保存的对象
+					if(!$scope.group[item].save){
+						delete $scope.group[item];
+					}
 				}
 			}
+			console.log(dataAry);
 			//发送至服务端
-			$http.post("/recommend/saveKeywords", dataAry)
+			$http.post("/recommend/saveFocusByFigure", dataAry)
 			.success(function(data){
 				if(data.data=="OK"){
 					alert("保存成功");
 					//重新加载页面数据
-					getKeywords();
+					getFocusByFigure();
 				}
 			})
 			.error(handlerExceptionService.httpExceptionHandler);
 		};
+
+
 	})
 	
 
@@ -219,25 +273,25 @@ angular.module('recommendApp',[])
 				var keywords = data.data;
 				for(let i=1;i<=keywords.length;i++){
 					//如果没有，这创建对象
-					if(angular.isUndefined($scope.keyword)){
-						$scope.keyword = {};
+					if(angular.isUndefined($scope.group)){
+						$scope.group = {};
 					}
-					if(angular.isUndefined($scope.keyword['keyword'+i])){
-						$scope.keyword['keyword'+i] = {};
+					if(angular.isUndefined($scope.group['group'+i])){
+						$scope.group['group'+i] = {};
 					}
-					var keywordObj = 'keyword'+i;
+					var groupObj = 'group'+i;
 					var j = i-1;
 					//赋值，显示表单元素值
-					$scope.keyword[keywordObj].keywordId = keywords[j].id;
-					$scope.keyword[keywordObj].keyword1 = keywords[j].keyword1;
-					$scope.keyword[keywordObj].keyword2 = keywords[j].keyword2;
-					$scope.keyword[keywordObj].keyword3 = keywords[j].keyword3;
-					$scope.keyword[keywordObj].save = keywords[j].save;
-					$scope.keyword[keywordObj].publish = keywords[j].publish;
-					$scope.keyword[keywordObj].sort = keywords[j].sort;
+					$scope.group[groupObj].groupId = keywords[j].id;
+					$scope.group[groupObj].group1 = keywords[j].keyword1;
+					$scope.group[groupObj].group2 = keywords[j].keyword2;
+					$scope.group[groupObj].group3 = keywords[j].keyword3;
+					$scope.group[groupObj].save = keywords[j].save;
+					$scope.group[groupObj].publish = keywords[j].publish;
+					$scope.group[groupObj].sort = keywords[j].sort;
 					//下面的两个属性用于展示搜索关键字状态，不与数据库字段关联
-					$scope.keyword[keywordObj].saveStatus = keywords[j].save;
-					$scope.keyword[keywordObj].publishStatus = keywords[j].publish;
+					$scope.group[groupObj].saveStatus = keywords[j].save;
+					$scope.group[groupObj].publishStatus = keywords[j].publish;
 				}
 				//执行HTML DOM操作，显示页面元素
 				recommendService($scope,keywords.length);
@@ -254,15 +308,20 @@ angular.module('recommendApp',[])
 		$scope.save = function(){
 			//将请求对象转换此对象数据，用于服务端接收
 			var dataAry = [];
-			for(let item in $scope.keyword){
-				if($scope.keyword.hasOwnProperty(item)){
-					var keyword = $scope.keyword[item];	
-					//删除取消保存的对象
-					if(!$scope.keyword[item].save){
-						delete $scope.keyword[item];
-					}
+			for(let item in $scope.group){
+				if($scope.group.hasOwnProperty(item)){
+					var keyword = $scope.group[item];	
+					//对象转换，使其对应服务端的实体字段
+					keyword.keywordId = keyword.groupId;
+					keyword.keyword1 = keyword.group1;
+					keyword.keyword2 = keyword.group2;
+					keyword.keyword3 = keyword.group3;
 					//转换成数组
 					dataAry.push(keyword);
+					//删除取消保存的对象
+					if(!$scope.group[item].save){
+						delete $scope.group[item];
+					}
 				}
 			}
 			//发送至服务端

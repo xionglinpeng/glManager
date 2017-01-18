@@ -18,8 +18,13 @@ import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
 import com.imopan.glm.entity.Attachement;
 import com.imopan.glm.entity.Broadcast;
+import com.imopan.glm.entity.GameGiftTask;
 import com.imopan.glm.entity.GameTask;
 import com.imopan.glm.entity.GlUser;
+import com.imopan.glm.entity.UserStatus;
+import com.imopan.glm.entity.game.GameCentre;
+import com.imopan.glm.entity.game.GamePioneer;
+import com.imopan.glm.entity.game.GameType;
 import com.imopan.glm.service.IGlUserManagerService;
 
 @Service
@@ -30,7 +35,7 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public TableResult glUserListService(GlUser glUser, TableSide tableSide) {
+	public TableResult glUserListService(GlUser glUser,String gtName,TableSide tableSide) {
 		Query<GlUser> query = datastore.createQuery(GlUser.class);
 		
 		if(StringUtils.isNotBlank(glUser.getNickname())){
@@ -39,12 +44,19 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 		if(StringUtils.isNotBlank(glUser.getMobile())){
 			query.field("mobile").equal(glUser.getMobile());
 		}
-//		if(StringUtils.isNotBlank(glUser.getStauts().value())){
-//			query.field("status").equal(glUser.getStauts().value());
-//		}
+		if(StringUtils.isNotBlank(glUser.getStatus())){
+			query.disableValidation().field("status").equal(glUser.getStatus());
+		}
 		if(StringUtils.isNotBlank(glUser.getGender())){
 			query.field("gender").equal(glUser.getGender());
 		}
+		if(StringUtils.isNotBlank(gtName)){
+			query.field("favoriteTypes.gtName").equal(gtName);
+		}
+		if(glUser.getPlayingGame()!=null&&StringUtils.isNotBlank(glUser.getPlayingGame().getGname())){
+			query.field("playingGame.gname").equal(glUser.getPlayingGame().getGname());
+		}
+		
 		
 		long count = query.count();
 		
@@ -52,10 +64,33 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 			query.order(sort); 
 		}
 		query.offset(tableSide.getStart()).limit(tableSide.getLength());
-		
-		return new TableResult(tableSide.getDraw(), count, count, query.asList());
+		List<GlUser> glUsers = query.asList();
+		return new TableResult(tableSide.getDraw(), count, count, glUsers);
 	}
 
+	
+	@Override
+	public ResultBean gameTypeService() {
+		return new ResultBean(datastore.createQuery(GameType.class).asList());
+	}
+	
+	
+	
+	
+	@Override
+	public ResultBean glUserForbidNormalService(String status, String userid) {
+		Query<GlUser> query = datastore.createQuery(GlUser.class);
+		query.field("_id").equal(new ObjectId(userid));
+		UpdateOperations<GlUser> operations = datastore.createUpdateOperations(GlUser.class);
+		if(UserStatus.value(status)==null){
+			status = UserStatus.NORMAL.getValue();
+		}
+		operations.disableValidation().set("status", status);
+		datastore.update(query, operations);
+		return new ResultBean("OK");
+	}
+	
+	
 	
 	
 	@Override
@@ -74,9 +109,10 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 		Query<Broadcast> dynamic = datastore.createQuery(Broadcast.class);
 		dynamic.disableValidation().field("userInfo.uid").equal(userid);
 		result.put("dynamic_num", dynamic.count());
-		
 		//查询用户礼包数量
-		
+		Query<GameGiftTask> gameGiftTask = datastore.createQuery(GameGiftTask.class);
+		gameGiftTask.field("uid").equal(userid);
+		result.put("giftBag_num", gameGiftTask.count());
 		//查询用户尖兵任务数量
 		Query<GameTask> pioneer = datastore.createQuery(GameTask.class);
 		pioneer.field("uid").equal(userid);
@@ -124,9 +160,11 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 	
 
 	@Override
-	public ResultBean glUserGiftBagService() {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultBean glUserGiftBagService(String userid) {
+		Query<GameGiftTask> query = datastore.createQuery(GameGiftTask.class);
+		query.field("uid").equal(userid);
+		List<GameGiftTask> GameGiftTasks = query.asList();
+		return new ResultBean(GameGiftTasks);
 	}
 
 
@@ -137,7 +175,7 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 		Query<GameTask> query = datastore.createQuery(GameTask.class);
 		if(StringUtils.isNotBlank(gameTask.getStatus())){
 			//2表示已经完成的尖兵任务
-			if(gameTask.getUid().equals("2")){
+			if(gameTask.getStatus().equals("2")){
 				query.field("status").equal(gameTask.getStatus());
 			}else{
 				query.field("status").notEqual('2');
@@ -157,6 +195,28 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 		List<GameTask> tasks = query.asList();
 		
 		return new TableResult(tableSide.getDraw(), count, count, tasks);
+	}
+
+
+
+	@Override
+	public ResultBean pioneerDetailService(String pioneerGid) {
+		Query<GameCentre> query = datastore.createQuery(GameCentre.class);
+		query.field("_id").equal(new ObjectId(pioneerGid));
+		GameCentre gameCentre = query.get();
+		List<GamePioneer> pioneers = gameCentre.getPioneers();
+		if(pioneers!=null&&!pioneers.isEmpty()){
+			GamePioneer gamePioneer = null;
+			for (GamePioneer pioneer : pioneers) {
+				if(pioneer.getStatus().equals("1")){
+					gamePioneer = pioneer;
+					break;
+				}
+			}
+			return new ResultBean(gamePioneer);
+		}else{
+			return new ResultBean(0);
+		}
 	}
 
 }

@@ -119,7 +119,17 @@
 			<artifactId>morphia</artifactId>
 			<version>1.3.0</version>
 		</dependency>
-
+		<!-- 七牛云sdk -->
+		<!-- <dependency>
+			<groupId>com.qiniu</groupId>
+			<artifactId>qiniu-java-sdk</artifactId>
+			<version>[7.2.0, 7.2.99]</version>
+		</dependency> -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.3.2.RELEASE</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>glManager</finalName>
@@ -142,6 +152,7 @@
 				<configuration>
 					<port>8999</port>
 					<path>/</path>
+					<uriEncoding>UTF-8</uriEncoding>
 				</configuration>
 			</plugin>
 			

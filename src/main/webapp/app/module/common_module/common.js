@@ -172,8 +172,7 @@ angular.module('commonApp',[])
 				var dtOption = $scope.dtOption();
 				//开启复选框序号
 				if(Boolean(eval($scope.active))){
-					
-					//设置表格索引列
+
 					dtOption.columns.unshift({
 						'data':'checkboxs',
 						'title':'<input type="checkbox">序号',
@@ -237,11 +236,76 @@ angular.module('commonApp',[])
 		};
 	})
 
-	.directive('cngDatepicker', function(){
+
+	.factory('datepickerService', function($compile){
+		return function name($scope, $element, $attrs, $transclude){
+			//daterangepicker插件封装在此指令中的默认配置
+			this.daterangepickerOption = function(option){
+				$element.daterangepicker($.extend({
+					timePicker: true,//开启HH:mm
+					timePickerSeconds:true,//开启ss
+					timePicker24Hour:true,//24小时制
+					showDropdowns:true,//日期下拉选择
+					outsideClickConfig:false,//自定义属性(修改了插件源代码)，是否开启点击空白赋值日期
+					isCustomDateFormat:true,//自定义属性(修改了插件源代码)，是否使用自定义日期格式yyyy-MM-dd HH:mm:ss。
+					// clearVal:true,//自定义属性(修改了插件源代码),是否开启cancel.daterangepicker事件，点击clear时清除表单value值。
+					initSetValue:false,//自定义属性(修改了插件源代码)，是否开启初始化设置默认值
+					locale: {
+				        "separator": " - ",
+				        "applyLabel": "确认",
+				        "cancelLabel": "清除",
+				        "fromLabel": "From",
+				        "toLabel": "To",
+				        "customRangeLabel": "Custom",
+				        "weekLabel": "W",
+				        "daysOfWeek": ["日","一","二","三","四","五","六"],
+				        "monthNames": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+				        "firstDay": 1
+				    }
+				},option));
+			};
+			this.hiddenElement = function(name,model){
+				//创建一个隐藏域jQuery对象
+				var dateHidden = $('<input type="hidden" name="'+name+'" ng-model="'+model+'" cng-date>');
+				//禁止表单元素手动操作
+				$element.attr('readonly',true);
+				//将隐藏域追加到表单元素之后
+				$element.after(dateHidden);
+				return dateHidden;
+			};
+
+			this.daterangepickerApply = function(datePicker,hidden){
+				//为隐藏域value赋值
+				hidden.val(datePicker.format('YYYY-MM-DD HH:mm:ss'));
+				//编译元素使指令生效，赋值ng-model指令
+				$compile(hidden)($scope);
+			};
+
+			this.daterangepickerCancel = function(hidden){
+				//清空隐藏域的value值
+				hidden.val('');
+				//编译元素使指令生效，ng-model指令对应的值清空
+				$compile(hidden)($scope);
+			};
+
+			this.applyEvent = function(fun){
+				$element.on('apply.daterangepicker',fun);
+			};
+
+
+			this.cancelEvent = function(fun){
+				$element.on('cancel.daterangepicker',fun);
+			};
+		};
+	})
+
+
+
+	.directive('cngDatepicker', function(datepickerService){
 		return {
-			require: 'cngDaterangepicker', // Array = multiple requires, ? = optional, ^ = check parent elements
-			restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
-			link: function($scope, iElm, iAttrs, controller) {alert(22);
+			restrict: 'A',
+			controller:datepickerService,
+			link: function($scope, iElm, iAttrs, controller) {
 				//默认配置值
 				var ngname = 'date',ngmodel='date',option = $scope.daterangepickerOption;
 
@@ -254,12 +318,17 @@ angular.module('commonApp',[])
 				var daterangepickerOption = $.extend(option, {singleDatePicker:true});
 				
 				controller.daterangepickerOption(daterangepickerOption);
+
+				var date = controller.hiddenElement(ngname,ngmodel);
+				
 				controller.applyEvent(function(ev,picker){
-					controller.daterangepickerApply(picker.startDate,
-						controller.hiddenElement(ngname,ngmodel));
+					controller.daterangepickerApply(picker.startDate,date);
 				});
 
-
+				controller.cancelEvent(function(ev,picker){
+					iElm.val('');
+					controller.daterangepickerCancel(date);
+				});
 			}
 		};
 	})
@@ -268,60 +337,15 @@ angular.module('commonApp',[])
 	/**
 	 * [data range picker插件封装的指令，用于为input元素添加日期控件]
 	 */
-	.directive('cngDaterangepicker', function($compile){
+	.directive('cngDaterangepicker', function(datepickerService){
 		return {
 			restrict: 'A', 
-			controller:function($scope, $element, $attrs, $transclude){
-				//daterangepicker插件封装在此指令中的默认配置
-				this.daterangepickerOption = function(option){
-					$element.daterangepicker($.extend({
-						timePicker: true,//开启HH:mm
-						timePickerSeconds:true,//开启ss
-						timePicker24Hour:true,//24小时制
-						showDropdowns:true,//日期下拉选择
-						outsideClickConfig:false,//自定义属性(修改了插件源代码)，是否开启点击空白赋值日期
-						isCustomDateFormat:true,//自定义属性(修改了插件源代码)，是否使用自定义日期格式yyyy-MM-dd HH:mm:ss。
-						clearVal:true,//自定义属性(修改了插件源代码),是否开启cancel.daterangepicker事件，点击clear时清除表单value值。
-						initSetValue:false,//自定义属性(修改了插件源代码)，是否开启初始化设置默认值
-						locale: {
-					        "separator": " - ",
-					        "applyLabel": "确认",
-					        "cancelLabel": "清除",
-					        "fromLabel": "From",
-					        "toLabel": "To",
-					        "customRangeLabel": "Custom",
-					        "weekLabel": "W",
-					        "daysOfWeek": ["日","一","二","三","四","五","六"],
-					        "monthNames": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
-					        "firstDay": 1
-					    }
-					},option));
-				};
-				this.hiddenElement = function(name,model){
-					var dateHidden = $('<input type="hidden" name="'+name+'" ng-model="'+model+'" cng-date>');
-					$element.after(dateHidden);
-					return dateHidden;
-				};
-
-				this.daterangepickerApply = function(datePicker,hidden){
-					//为隐藏域value赋值
-					hidden.val(datePicker.format('YYYY-MM-DD HH:mm:ss'));
-					//编译元素使指令生效，赋值ng-model指令
-					console.log(123);
-					console.log($compile);
-					$compile(hidden)($scope);
-				};
-
-				this.applyEvent = function(fun){
-					$element.on('apply.daterangepicker',fun);
-				};
-			},
+			controller:datepickerService,
 			link: function($scope, iElm, iAttrs, controller) {
 				//配置属性
 				var ngmodel = iAttrs.ngmodel,
 				ngname = iAttrs.ngname,
 				option = $scope.daterangepickerOption;
-				alert(ngmodel);
 				//获取ng-model指令属性，用于为$scope作用域赋值。
 				var startDateModel = 'startDate',endDateModel = 'endDate';
 				if(angular.isDefined(ngmodel)){
@@ -339,11 +363,16 @@ angular.module('commonApp',[])
 				var startDate = controller.hiddenElement(startDateName,startDateModel),
 				endDate = controller.hiddenElement(endDateName,endDateModel);
 
-
 				controller.daterangepickerOption(option);
 				controller.applyEvent(function(ev,picker){
 					controller.daterangepickerApply(picker.startDate,startDate);
 					controller.daterangepickerApply(picker.endDate,endDate);
+				});
+				
+				controller.cancelEvent(function(ev,picker){
+					iElm.val('');
+					controller.daterangepickerCancel(startDate);
+					controller.daterangepickerCancel(endDate);
 				});
 			}
 		};

@@ -102,12 +102,7 @@ angular.module('adviceFeedbackApp', ['commonApp'])
 		 * [queryTable 查询表格数据]
 		 */
 		$scope.queryTable = function(){
-			console.log($scope.startDate);
-			console.log($scope.endDate);
-			console.log(adviceFeedbackListUrl+serializeService('adviceFeedbackId'));
-			console.log($scope.sss);
-//			
-//			queryData($scope.Api,adviceFeedbackListUrl+serializeService('adviceFeedbackId'));
+			queryData($scope.Api,adviceFeedbackListUrl+serializeService('adviceFeedbackId'));
 		};
 
 		/**

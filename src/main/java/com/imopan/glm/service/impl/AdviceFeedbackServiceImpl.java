@@ -1,6 +1,7 @@
 package com.imopan.glm.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +29,7 @@ public class AdviceFeedbackServiceImpl implements IAdviceFeedbackService {
 	
 	@SuppressWarnings("deprecation")
 	@Override
-	public TableResult adviceFeedbackListService(Feedback feedback, TableSide tableSide) {
+	public TableResult adviceFeedbackListService(Feedback feedback,Date startDate,Date endDate,TableSide tableSide) {
 		Query<Feedback> query = datastore.createQuery(Feedback.class);
 		
 		List<String> uids = new ArrayList<>();
@@ -42,12 +43,21 @@ public class AdviceFeedbackServiceImpl implements IAdviceFeedbackService {
 			}
 			query.field("uid").in(uids);
 		}
+		if(endDate!=null&&startDate!=null){
+			query.field("insertDate").lessThanOrEq(endDate);
+			query.field("insertDate").greaterThanOrEq(startDate);
+		}
 		
 		if(StringUtils.isNotBlank(feedback.getNickname())){
 			query.field("nickname").equal(feedback.getNickname());
 		}
 		if(StringUtils.isNotBlank(feedback.getFeedbackId())){
-			query.field("_id").equal(new ObjectId(feedback.getFeedbackId()));
+			ObjectId objectId = null;
+			try {
+				objectId = new ObjectId(feedback.getFeedbackId());
+			} catch (IllegalArgumentException e) {
+			}
+			query.field("_id").equal(objectId);
 		}
 		if(StringUtils.isNotBlank(feedback.getStatus())){
 			if(feedback.getStatus().equals("processed")){

@@ -47,6 +47,18 @@
 
 	<link rel="stylesheet" type="text/css" href="/app/adminLTE/plugins/iCheck/square/blue.css">
 	<script type="text/javascript" src="/app/adminLTE/plugins/iCheck/icheck.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/app/lib/bootstrap-select/bootstrap-select.css">
+	<script type="text/javascript" src="/app/lib/bootstrap-select/bootstrap-select.js"></script>
+	<script type="text/javascript" src="/app/lib/bootstrap-select/angular-bootstrap-select.js"></script>
+
+	<!--checklist-model-->
+	<script type="text/javascript" src="app/lib/checklist/checklist-model.js"></script>
+	<!-- datetimepicker see: https://github.com/dalelotts/angular-bootstrap-datetimepicker-->
+	<link rel="stylesheet" href="app/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
+	<script src="app/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+	<script src="app/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
+	<!--<script src="app/lib/angularJS-UI-bootstrap/angular-locale_zh.js"></script>-->
+
 	<!-- 以下都是自定义js文件 -->
 	<!-- 业务全局配置 -->
 	<script type="text/javascript" src="/app/module/common_module/globalConfig.js"></script>
@@ -56,6 +68,9 @@
 	<script type="text/javascript" src="/app/module/common_module/common.js"></script>
 	<!-- 用户管理模块 -->
 	<script type="text/javascript" src="/app/module/gl_user_module/glUser.js"></script>
+	<!-- 游戏模块 -->
+	<script type="text/javascript" src="/app/module/game_module/gameState.js"></script>
+	<script type="text/javascript" src="/app/module/game_module/game.js"></script>
 	<!-- 反馈信息模块 -->
 	<script type="text/javascript" src="/app/module/advice_feedback_module/adviceFeedback.js"></script>
 	<!-- 推荐系统模块 -->
@@ -64,6 +79,8 @@
 	<script type="text/javascript" src="/app/module/index_module/index.js"></script>
 	<!--UGC管理模块 -->
 	<script type="text/javascript" src="/app/module/ugc_management_module/ugcManagement.js"></script>
+	<!--专题管理模块 -->
+	<script type="text/javascript" src="/app/module/gameadv_management_module/gameAdvManagement.js"></script>
 
 </head>
 <!--
@@ -240,6 +257,16 @@ BODY标签选项:
 							</li>
 						</ul>
 					</li>
+					<li class="treeview">
+						<a><i class="fa fa-envelope-o"></i><span>游戏产品库</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a ui-sref="gameList"><i class="fa fa-circle-o"></i>游戏列表</a></li>
+						</ul>
+					</li>
 
 
 					<li class="treeview">
@@ -250,6 +277,16 @@ BODY标签选项:
 						</a>
 						<ul class="treeview-menu">
 							<li><a ui-sref="ugcManagement"><i class="fa fa-circle-o"></i>UGC内容管理</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a><i class="fa fa-envelope-o"></i><span>专题系统</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a ui-sref="gameAdvManagement"><i class="fa fa-circle-o"></i>专题管理</a></li>
 						</ul>
 					</li>
 

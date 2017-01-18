@@ -1,0 +1,38 @@
+
+
+<!-- Main content -->
+<section class="content">
+	<!-- 页面内容在此处 -->
+	<div class="box container-fluid">
+		<div class="box-header">
+			<section class="content-header">
+				<h1>
+					专题系统<small>专题管理</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
+					<li class="active">专题系统</li>
+					<li class="active">专题管理</li>
+				</ol>
+			</section>
+		</div>
+		<div class="box-body">
+			<form class="form-inline" id="gameAdvManagementId" name="gameAdvManagementFom" align="right">
+
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" ui-sref="associatedGame">关联专题</button>
+				</div>
+
+			</form>
+			<div class="box-header"></div>
+			<div>
+				<cng-datatable cng-property-dt-option="dtOption()"
+							   cng-property-dt-return-value="Api" 
+							   cng-property-active="true" 
+							   cng-property-checkbox-confing="checkboxConfing"/>
+			</div> 
+		</div>
+
+
+	</div>
+</section>

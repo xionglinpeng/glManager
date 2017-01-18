@@ -32,15 +32,18 @@
 </section>
 
 <script type="text/template" id="searchKeywordsTemplate">
+	<!-- .oneself 在指令中此类获取获取其数量-->
 	<div class="box box-primary listInd oneself">
 		<div class="box-header with-border" style="position: relative;">
 			<span style="display: block;position: absolute;top:0;bottom:0;left:60px;right:80px;cursor: pointer;"></span>
 			<h3 class="box-title">
-				关键词组<%=leng%>
+				组<%=leng%>
 			</h3>
-			<input type="hidden" id="sort" value="{{keyword.keyword<%=leng%>.sort}}">
+			<!-- 此隐藏域用于记录当前组初始位置 -->
+			<input type="hidden" id="sort" value="{{group.group<%=leng%>.sort}}">
 			<div class="pull-right box-tools">
-				<button type="button" class="btn btn-danger btn-sm" data-pain="remove" ng-if="!keyword.keyword<%=leng%>.keywordId">删除</button>
+				<!-- ng-if="!group.group<%=leng%>.groupId" 表示数据库中是存在当前组的，所以不能直接删除DOM元素 -->
+				<button type="button" class="btn btn-danger btn-sm" data-pain="remove" ng-if="!group.group<%=leng%>.groupId">删除</button>
 			</div>
 		</div>
 		<div class="box-body">
@@ -48,7 +51,7 @@
 				<label class="col-sm-2 control-label">1.关键词</label>
 				<div class="col-sm-10">
 					<div class="col-xs-5" style="padding-left:0;">
-						<input type="text" class="form-control" placeholder="关键词......" ng-model="keyword.keyword<%=leng%>.keyword1">
+						<input type="text" class="form-control" placeholder="关键词......" ng-model="group.group<%=leng%>.group1">
 					</div>
 					<div class="col-xs-1">
 						<span class="help-block"></span>
@@ -57,12 +60,12 @@
 						<span class="text-success">状态:</span>
 					</div>
 					<div class="col-xs-2">
-						<span class="text-info" ng-if="keyword.keyword<%=leng%>.saveStatus">已保存</span>
-						<span class="text-danger" ng-if="!keyword.keyword<%=leng%>.saveStatus">未保存</span>
+						<span class="text-info" ng-if="group.group<%=leng%>.saveStatus">已保存</span>
+						<span class="text-danger" ng-if="!group.group<%=leng%>.saveStatus">未保存</span>
 					</div>
 					<div class="col-xs-2">
-						<span class="text-info" ng-if="keyword.keyword<%=leng%>.publishStatus">已发布</span>
-						<span class="text-danger" ng-if="!keyword.keyword<%=leng%>.publishStatus">未发布</span>
+						<span class="text-info" ng-if="group.group<%=leng%>.publishStatus">已发布</span>
+						<span class="text-danger" ng-if="!group.group<%=leng%>.publishStatus">未发布</span>
 					</div>
 					<div class="col-xs-3">
 					</div>
@@ -72,15 +75,15 @@
 				<label class="col-sm-2 control-label">2.关键词</label>
 				<div class="col-sm-10">
 					<div class="col-xs-5" style="padding-left:0;">
-						<input type="text" class="form-control" placeholder="关键词......" ng-model="keyword.keyword<%=leng%>.keyword2"></div>
+						<input type="text" class="form-control" placeholder="关键词......" ng-model="group.group<%=leng%>.group2"></div>
 					<div class="col-xs-2">
 						<span class="help-block"></span>
 					</div>
 					<div class="col-xs-2">
-						<input type="checkbox" id="save" cng-recommend-icheck="{{keyword.keyword<%=leng%>.save}}" recommendsort="<%=leng%>" recommendtype="save">&nbsp;&nbsp;保存
+						<input type="checkbox" id="save" cng-recommend-icheck="{{group.group<%=leng%>.save}}" recommendsort="<%=leng%>" recommendtype="save">&nbsp;&nbsp;保存
 					</div>
 					<div class="col-xs-2">
-						<input type="checkbox" id="publish" cng-recommend-icheck="{{keyword.keyword<%=leng%>.publish}}" recommendsort="<%=leng%>" recommendtype="publish">&nbsp;&nbsp;发布
+						<input type="checkbox" id="publish" cng-recommend-icheck="{{group.group<%=leng%>.publish}}" recommendsort="<%=leng%>" recommendtype="publish">&nbsp;&nbsp;发布
 					</div>
 					<div class="col-xs-1">
 					</div>
@@ -90,7 +93,7 @@
 				<label class="col-sm-2 control-label">3.关键词</label>
 				<div class="col-sm-10">
 					<div class="col-xs-5" style="padding-left:0;">
-						<input type="text" class="form-control" placeholder="关键词......" ng-model="keyword.keyword<%=leng%>.keyword3"></div>
+						<input type="text" class="form-control" placeholder="关键词......" ng-model="group.group<%=leng%>.group3"></div>
 					<div class="col-xs-2">
 						<span class="help-block"></span>
 					</div>

@@ -40,14 +40,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-gamepad"></i>
 						</div>
-						<select name="playingGame.gname" ng-model="glUser.playingGame.gname" class="form-control">
-							<option value="">所属游戏</option>
-							<option value="">游戏1</option>
-							<option value="">游戏2</option>
-							<option value="">游戏3</option>
-							<option value="">游戏4</option>
-							<option value="">游戏5</option>
-						</select>
+						<input type="text" name="playingGame.gname" class="form-control" placeholder="所属游戏">
 					</div>
 				</div>
 				<div class="form-group">
@@ -55,13 +48,9 @@
 						<div class="input-group-addon">
 							<i class="fa fa-gamepad"></i>
 						</div>
-						<select name="favoriteTypes.gtDesc" ng-model="glUser.favoriteTypes" class="form-control">
+						<select name="gtName" class="form-control">
 							<option value="">游戏类型</option>
-							<option value="">类型1</option>
-							<option value="">类型2</option>
-							<option value="">类型3</option>
-							<option value="">类型4</option>
-							<option value="">类型5</option>
+							<option value="{{key}}" ng-repeat="(key, value) in gameType">{{value}}</option>
 						</select>
 					</div>
 				</div>
@@ -70,7 +59,7 @@
 						<div class="input-group-addon">
 							<i class="fa fa-intersex"></i>
 						</div>
-						<select name="gender" ng-model="glUser.gender" class="form-control">
+						<select name="gender" class="form-control">
 							<option value="">性别</option>
 							<option value="M">男</option>
 							<option value="F">女</option>
@@ -78,10 +67,10 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<select name="status" ng-model="glUser.status" class="form-control">
+					<select name="status" class="form-control">
 						<option value="">用户状态</option>
-						<option value="">状态1</option>
-						<option value="">状态2</option>
+						<option value="normal">正常</option>
+						<option value="forbid">封禁</option>
 					</select>
 				</div>
 				<div class="form-group">

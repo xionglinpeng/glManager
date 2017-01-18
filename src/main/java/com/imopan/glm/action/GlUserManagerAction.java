@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imopan.glm.bean.ResultBean;
@@ -38,11 +39,39 @@ public class GlUserManagerAction {
 	 */
 	@RequestMapping(value="/lists",method=RequestMethod.GET)
 	@ResponseBody
-	public TableResult glUserLists(GlUser glUser,HttpServletRequest request){
+	public TableResult glUserLists(GlUser glUser,HttpServletRequest request,
+			@RequestParam(value="gtName",required=false)String gtName){
 		TableSide tableSide = new TableSide(request);
-		return iGlUserManagerService.glUserListService(glUser, tableSide);
+		return iGlUserManagerService.glUserListService(glUser, gtName, tableSide);
 	}
 	
+	
+	
+	/**
+	 * <p>获取所有游戏类型</p>
+	 * @return
+	 */
+	@RequestMapping(value="/gameType",method=RequestMethod.GET)
+	@ResponseBody
+	public ResultBean gameType(){
+		return iGlUserManagerService.gameTypeService();
+	}
+	
+	
+	
+	
+	/**
+	 * <p>封禁或者解封用户状态。</p>
+	 * @param status 状态。
+	 * @param userid 指定用户。
+	 * @return
+	 */
+	@RequestMapping(value="/forbidNormal/{status}/{userid}",method=RequestMethod.PUT)
+	@ResponseBody
+	public ResultBean glUserForbidNormal(@PathVariable("status")String status,
+			@PathVariable("userid")String userid){
+		return iGlUserManagerService.glUserForbidNormalService(status, userid);
+	}
 	
 	
 	
@@ -99,12 +128,15 @@ public class GlUserManagerAction {
 	}
 	
 	
-	
-	@RequestMapping(value="/giftBag",method=RequestMethod.GET)
+	/**
+	 * <p>获取指定用户的礼包。</p>
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping(value="/giftBag/{userid}",method=RequestMethod.GET)
 	@ResponseBody
-	public ResultBean giftBag(){
-		
-		return null;
+	public ResultBean giftBag(@PathVariable("userid")String userid){
+		return iGlUserManagerService.glUserGiftBagService(userid);
 	}
 	
 	
@@ -121,5 +153,18 @@ public class GlUserManagerAction {
 	public TableResult pioneer(GameTask gameTask,HttpServletRequest request){
 		TableSide tableSide = new TableSide(request);
 		return iGlUserManagerService.glUserPioneerService(gameTask, tableSide);
+	}
+	
+	
+	
+	/**
+	 * <p>获取指定尖兵任务的详情。</p>
+	 * @param pioneerGid
+	 * @return
+	 */
+	@RequestMapping(value="/pioneerDetail/{pioneerGid}",method=RequestMethod.GET)
+	@ResponseBody
+	public ResultBean pioneerDetail(@PathVariable(value="pioneerGid")String pioneerGid){
+		return iGlUserManagerService.pioneerDetailService(pioneerGid);
 	}
 }

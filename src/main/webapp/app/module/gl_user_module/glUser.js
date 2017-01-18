@@ -11,19 +11,10 @@ var glUserApp = angular.module('glUserApp', ['commonApp']);
 glUserApp.directive('cngNavActive',function($location){
 	return function($scope, iElm, iAttrs){
 		var lis = iElm.find('li');
-		lis.removeClass('active');
 		
 		var path = $location.$$path.split('/');
 		var endPath = path[path.length-1];
 		lis.each(function(index,elm){
-			//注意li元素的ID值
-			if(this.id===endPath){
-				$(this).addClass('active');
-			}
-			if(this.id==='pioneerMenu'){
-				$(this).addClass('active');
-			}
-			
 		 	$(this).click(function(){
 		 		lis.removeClass('active');
 		 		$(this).addClass('active');
@@ -96,7 +87,7 @@ glUserApp.constant('glUserTableUrl','/glUser/lists');
  * @param  {[type]} $state)          [ui.router模块的路由状态服务，用于路由切换之间传递参数]
  */
 glUserApp.controller('glUserCtrl',function(
-		$rootScope,$scope,glUserTableUrl,serializeService,selectData,queryData,$compile,$state) {
+		$rootScope,$scope,$http,glUserTableUrl,handlerExceptionService,serializeService,selectData,queryData,$compile,$state) {
 
 	//控制当前视图显示（默认）
 	$rootScope.isView=true;
@@ -108,6 +99,22 @@ glUserApp.controller('glUserCtrl',function(
 	$rootScope.isGlUserViewTrue=function(){
 		$rootScope.isView=true;
 	};
+	
+	
+	/**
+	 * 加载游戏类型
+	 */
+	$http.get('/glUser/gameType')
+	.error(handlerExceptionService.httpExceptionHandler)
+	.success(function(data){
+		$scope.gameType = {};
+		for(let item of data.data){
+			$scope.gameType[item.gtName] = item.gtDesc;
+		}
+	});
+	
+	
+	
 	
 	/**
 	 * [dtOption 表格插件dataTales配置对象]
@@ -122,18 +129,18 @@ glUserApp.controller('glUserCtrl',function(
 			order:[1,'desc'],//dataTable默认是以第0列排序，此处设置默认已第一列进行排序
 			columns: [{
 				'data': 'nickname',
-				'title': '用户昵称',
+				'title': '昵称',
 				'name': 'nickname'
 			}, {
 				'data': 'mobile',
-				'title': '用户手机号',
+				'title': '手机号',
 				'name':'mobile'
 			}, {
 				'data': 'status',
-				'title': '用户状态',
+				'title': '状态',
 				'name': 'status',
 				'render':function(data){
-					return data?data:"";
+					return data==='normal'?'正常':(data==='forbid'?'封禁':data);
 				}
 			}, {
 				'data': 'playingGame',
@@ -150,7 +157,7 @@ glUserApp.controller('glUserCtrl',function(
 					if($.type(data)==='array'){
 						var favoriteTypes = "";
 						data.forEach(function(elm,index,array){
-							favoriteTypes+="["+elm.gtName+"] ";
+							favoriteTypes+="["+$scope.gameType[elm.gtName]+"] ";
 						});
 						return favoriteTypes;
 					}else{
@@ -169,22 +176,25 @@ glUserApp.controller('glUserCtrl',function(
 				'title': '操作',
 				'orderable': false,
 				'createdCell':function(td, cellData, rowData, rowIndex, colIndex){
-					var dom = "<a ng-click='stateUserDetail("+rowIndex+")' " +
+					var dom = "<a ng-click='stateUserDetail("+rowIndex+")' class='btn btn-success'" +
 							">查看用户</a>&nbsp;&nbsp;" +
-							"<a ng-click='banAccount("+rowIndex+");'>禁号操作</a>";
+							"<a ng-click='banAccount(\"forbid\",\""+rowData.id+"\");' class='btn btn-info'>禁号操作</a>";
 					$compile(dom)($scope).appendTo(td);
 				}
 			}]
 		};
 	};
-
+	
+	
+	
+	
+	
 	/**
 	 * [queryTable 查询表格数据]
 	 * 由查询按钮click事件触发
 	 * jQuery序列化表单参数。
 	 */
 	$scope.queryTable=function(){
-		console.log(serializeService('glUserId'));
 		 queryData($scope.Api,glUserTableUrl+serializeService('glUserId'));
 	};
 	
@@ -204,9 +214,18 @@ glUserApp.controller('glUserCtrl',function(
 	 * [banAccount 禁止账号操作]
 	 * @param  {[type]} rowIndex [参数数据所在表格行的索引]
 	 */
-	$scope.banAccount = function(rowIndex){
-		$scope.Api.row(rowIndex).data();
-		alert("禁止账号操作");
+	$scope.banAccount = function(status,glUserId){
+		$http({
+			url:'/glUser/forbidNormal/'+status+'/'+glUserId,
+			method:'PUT'
+		}).error(handlerExceptionService.httpExceptionHandler)
+		.success(function(data){
+			if(data.data=='OK'){
+				alert("操作成功");
+				$scope.Api.ajax.reload();
+				$rootScope.glUser.status=status;
+			}
+		});
 	};
 	
 });
@@ -232,7 +251,7 @@ glUserApp.controller('glUserDetailCtrl',function($scope,$rootScope,$stateParams,
 	glUserDetailHttp.error(handlerExceptionService.httpExceptionHandler);
 	glUserDetailHttp.success(function(result){
 		//用户信息
-		$scope.glUser = result.data.glUser;
+		$rootScope.glUser = result.data.glUser;
 		$scope.data = result.data;
 	});
 	
@@ -258,7 +277,6 @@ glUserApp.controller('photoCtrl',function($scope,$http,$stateParams,handlerExcep
 	var photoHttp = $http.get('/glUser/photo/'+$stateParams.id);
 	photoHttp.error(handlerExceptionService.httpExceptionHandler);
 	photoHttp.success(function(result){
-		console.log(result);
 		$scope.photo = result.data;
 	});
 	
@@ -284,7 +302,6 @@ glUserApp.controller('dynamicCtrl',function($scope,$http,$stateParams,handlerExc
 	var dynamicHttp = $http.get('/glUser/dynamic/'+$stateParams.id);
 	dynamicHttp.error(handlerExceptionService.httpExceptionHandler);
 	dynamicHttp.success(function(result){
-		console.log(result);
 		$scope.dynamic = result.data;
 	});
 	
@@ -309,7 +326,9 @@ glUserApp.controller('dynamicCtrl',function($scope,$http,$stateParams,handlerExc
 		});
 		delDynamicHttp.error(handlerExceptionService.httpExceptionHandler);
 		delDynamicHttp.success(function(result){
-			if(result.data=='OK'){alert('关闭成功！');}
+			if(result.data=='OK'){
+				alert('关闭成功！');
+			}
 		});
 	};
 });
@@ -321,16 +340,17 @@ glUserApp.controller('dynamicCtrl',function($scope,$http,$stateParams,handlerExc
  * @param  {[type]}       [description]
  * @return {[type]}       [description]
  */
-glUserApp.controller('giftBagCtrl',function($scope,$http,handlerExceptionService){
+glUserApp.controller('giftBagCtrl',function($scope,$http,$stateParams,handlerExceptionService){
 
 	/**
 	 * [giftBagHttp 初始化加载当前用户的礼包]
 	 * @type {[type]}
 	 */
-	var giftBagHttp = $http.get('/glUser/giftBag');
+	var giftBagHttp = $http.get('/glUser/giftBag/'+$stateParams.id);
 	giftBagHttp.error(handlerExceptionService.httpExceptionHandler);
 	giftBagHttp.success(function(result){
 		$scope.giftBag = result.data;
+		console.log($scope.giftBag);
 	});
 	
 
@@ -363,8 +383,7 @@ glUserApp.controller('pioneerCtrl',function($scope,$http,$compile,$stateParams,$
 	
 	$scope.dtOption = function(){
 		return {
-//			ajax:{url:pioneerUrl+"?uid="+$stateParams.id},
-			ajax:{url:pioneerUrl},
+			ajax:{url:pioneerUrl+"?uid="+$stateParams.id},
 			order:[1,'desc'],
 			pageLength:10,
 			language:{
@@ -399,7 +418,16 @@ glUserApp.controller('pioneerCtrl',function($scope,$http,$compile,$stateParams,$
 	 */
 	$scope.lookTaskExplain = function(rowIndex){
 		var rowData = $scope.pioneerApi.row(rowIndex).data();
-		modalService('gameTaskModal');
+		var pioneerDetailHttp = $http.get('/glUser/pioneerDetail/'+rowData.gid);
+		pioneerDetailHttp.error(handlerExceptionService.httpExceptionHandler);
+		pioneerDetailHttp.success(function(data){
+			if(data.data===0){
+				alert("尖兵任务不存在。");
+			}else{
+				$scope.pioneerDetail = data.data;
+				modalService('gameTaskModal');
+			}
+		});
 	};
 	
 

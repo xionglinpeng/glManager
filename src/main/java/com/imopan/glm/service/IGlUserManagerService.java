@@ -21,7 +21,25 @@ public interface IGlUserManagerService {
 	 * @param request 表格参数
 	 * @return
 	 */
-	public TableResult glUserListService(GlUser glUser,TableSide tableSide);
+	public TableResult glUserListService(GlUser glUser,String gtName,TableSide tableSide);
+	
+	
+	
+	/**
+	 * <p>获取所有游戏类型。</p>
+	 * @return
+	 */
+	public ResultBean gameTypeService();
+	
+	
+	/**
+	 * <p>封禁或者解封用户状态。</p>
+	 * @param status 状态。
+	 * @param userid 指定用户。
+	 * @return
+	 */
+	public ResultBean glUserForbidNormalService(String status,String userid);
+	
 	
 	
 	/**
@@ -47,11 +65,6 @@ public interface IGlUserManagerService {
 	
 	
 	/**
-	 * <p>关闭指定的用户的指定动态</p>
-	 * @param status
-	 * @return
-	 */
-	/**
 	 * <p>关闭指定的动态。</p>
 	 * @param dynamicId 动态id。
 	 * @param status 状态。
@@ -60,8 +73,12 @@ public interface IGlUserManagerService {
 	public ResultBean colseDynamicService(String dynamicId,String status);
 	
 	
-	
-	public ResultBean glUserGiftBagService();
+	/**
+	 * <p>获取指定用户的礼包。</p>
+	 * @param userid
+	 * @return
+	 */
+	public ResultBean glUserGiftBagService(String userid);
 	
 	/**
 	 * <p>获取指定用户正在做，或者已经完成的尖兵任务。</p>
@@ -71,4 +88,11 @@ public interface IGlUserManagerService {
 	 */
 	public TableResult glUserPioneerService(GameTask gameTask,TableSide tableSide);
 	
+	
+	/**
+	 * <p>获取指定尖兵任务的详情。</p>
+	 * @param pioneerGid
+	 * @return
+	 */
+	public ResultBean pioneerDetailService(String pioneerGid);
 }

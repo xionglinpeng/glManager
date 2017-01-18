@@ -27,16 +27,27 @@ li {
 					<p class="text-muted text-center"></p>
 					<ul class="list-group list-group-unbordered">
 		                <li class="list-group-item">
+		                	<span ng-switch="glUser.status">
+		                	<b ng-switch-when="normal" class="label label-success">正常</b>
+		                	<b ng-switch-when="forbid" class="label label-danger">封禁</b>
+		                	<b ng-switch-default class="label label-info">{{glUser.status}}</b>
+		                	</span>
+		                	<span class="pull-right">
+		                		<span ng-if="glUser.status==='forbid'" class="btn btn-primary btn-xs" ng-click="banAccount('normal',glUser.id)">解封</span>
+		                		<span ng-if="glUser.status!=='forbid'" class="btn btn-danger btn-xs" ng-click="banAccount('forbid',glUser.id)">封禁</span>
+		                	</span>
+		                </li>
+		                <li class="list-group-item">
 		                	<b>手机号</b>
-		                	<a class="pull-right">
+		                	<span class="pull-right">
 		                		{{glUser.mobile}}
-		                	</a>
+		                	</span>
 		                </li>
 		                <li class="list-group-item">
 		                	<b>交友签名</b>
-		                	<a class="pull-right">
+		                	<span class="pull-right">
 		                		{{glUser.motto}}
-		                	</a>
+		                	</span>
 		                </li>
 		            </ul>
 				</div>
@@ -90,7 +101,7 @@ li {
 					<li id="giftBag">
 						<a ui-sref="glUser.detail.giftBag" data-toggle="tab">
 							礼包
-							<span class="badge" style="background-color: rebeccapurple;"></span>
+							<span class="badge" style="background-color: rebeccapurple;">{{data.giftBag_num}}</span>
 						</a>
 					</li>
 					<li id="pioneer">
