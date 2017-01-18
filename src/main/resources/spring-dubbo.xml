@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://code.alibabatech.com/schema/dubbo
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 消费方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="glm"  />
+
+    <!-- 使用zookeeper广播注册中心暴露服务地址 -->
+    <!-- 注册中心 -->
+    <dubbo:registry protocol="zookeeper" address="slave01.zookeeper.imopan.com:2181,slave02.zookeeper.imopan.com:2181,slave03.zookeeper.imopan.com:2181" file="d:/test/test.cach" />
+    <!-- 生成远程服务代理，可以和本地bean一样使用 -->
+
+
+    <dubbo:reference id="giftBageService" interface="com.imopan.gamelink.soa.api.IGiftBageService" />
+
+    <!--
+        <dubbo:reference id="strategyService" interface="com.imopan.gamelink.soa.api.IStrategyService" />
+
+       <dubbo:reference id="userService" interface="com.imopan.gamelink.soa.api.IUserService" />
+
+       <dubbo:reference id="gameCentreService" interface="com.imopan.gamelink.soa.api.IGameCentreService"></dubbo:reference>
+   -->
+</beans>

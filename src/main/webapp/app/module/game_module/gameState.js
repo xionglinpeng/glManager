@@ -2,7 +2,7 @@
  * Created by Administrator on 2017/1/14.
  */
 window.indexAppDependency.push("gameApp");
-angular.module('gameApp', ['commonApp','checklist-model','ngResource','ui.bootstrap.datetimepicker'])
+angular.module('gameApp', ['commonApp','checklist-model','ngResource','ui.bootstrap.datetimepicker','ui.bootstrap'])
     .config(function($stateProvider) {
         $stateProvider
             .state('gameList',{

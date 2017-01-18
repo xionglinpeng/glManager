@@ -39,4 +39,5 @@
 		<property name="username" value="gamelink"/>
 		<property name="password" value="gamelink"/>
 	</bean>
+	<import resource="spring-dubbo.xml" />
 </beans>

@@ -7,19 +7,19 @@
         <div class="box-header">
             <section class="content-header">
                 <h1>
-                    游戏产品库<small>游戏尖兵列表</small>
+                    游戏产品库<small>游戏礼包</small>
                 </h1>
-                <ol class="breadcrumb">
+          <!--      <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i>首页</a></li>
                     <li class="active">游戏产品库</li>
                     <li class="active">游戏尖兵列表</li>
-                </ol>
+                </ol>-->
             </section>
         </div>
         <div class="box-body">
             <form class="form-inline" id="glGame" name="glUserFom" align="right">
                 <div class="form-group">
-                    <button type="button" class="btn btn-primary" ng-click="gamePioneerAdd(gid)">添加任务</button>
+                    <button type="button" class="btn btn-primary" ng-click="gameGiftAdd(gid)">关联礼包</button>
                 </div>
             </form>
             <div class="box-header"></div>
@@ -32,3 +32,48 @@
 
     </div>
 </section>
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">关联礼包</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">ka后台物品id</label>
+            <div class="col-sm-9">
+                <div class="col-xs-7" style="padding-left:0;">
+                    <input type="text" ng-model="goodsId" class="form-control" placeholder="ka后台物品id......">
+                </div>
+                <div class="col-xs-5"><button type="button" ng-click="getGiftById(goodsId)" class="btn btn-default">关联</button></div>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <th width="124">物品ID</th>
+                <th>礼包名称</th>
+            </tr>
+            <tr>
+                <td ng-bind="gift.goodsId"></td>
+                <td ng-bind="gift.goodsName"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="gift.isTop" ng-true-value="1" ng-false-value="0" > 置顶至最新礼包
+                    </label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-disabled="!gift.goodsId" ng-click="save()">保存</button>
+        <button class="btn btn-info" type="button" ng-disabled="!gift.goodsId" ng-click="saveonline()">上架</button>
+    </div>
+</script>
