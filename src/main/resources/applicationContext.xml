@@ -40,4 +40,5 @@
 			</list>
 		</property>
 	</bean>
+	<import resource="spring-dubbo.xml" />
 </beans>

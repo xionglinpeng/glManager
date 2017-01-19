@@ -14,7 +14,20 @@ public class GameGoods {
 	 * 礼包ID
 	 */
 	private String goodsId;
-	
+	/**
+	 * 旧礼包ID
+	 */
+	private String oldGoodsId;
+	/**
+	 * 游戏id
+	 */
+	private String gid;
+
+	/**
+	 * 游戏名称
+	 */
+	private String gname;
+
 	/**
 	 * 礼包名称
 	 */
@@ -35,7 +48,43 @@ public class GameGoods {
 	 */
 	private Date updateTime;
 
-	
+	/**
+	 * 更新时间
+	 */
+	private Date finishTime;
+
+	public String getGid() {
+		return gid;
+	}
+
+	public void setGid(String gid) {
+		this.gid = gid;
+	}
+
+	public String getOldGoodsId() {
+		return oldGoodsId;
+	}
+
+	public void setOldGoodsId(String oldGoodsId) {
+		this.oldGoodsId = oldGoodsId;
+	}
+
+	public String getGname() {
+		return gname;
+	}
+
+	public void setGname(String gname) {
+		this.gname = gname;
+	}
+
+	public Date getFinishTime() {
+		return finishTime;
+	}
+
+	public void setFinishTime(Date finishTime) {
+		finishTime = finishTime;
+	}
+
 	public Integer getIsTop() {
 		return isTop;
 	}
