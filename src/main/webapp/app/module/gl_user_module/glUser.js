@@ -140,7 +140,7 @@ glUserApp.controller('glUserCtrl',function(
 				'title': '状态',
 				'name': 'status',
 				'render':function(data){
-					return data==='normal'?'正常':(data==='forbid'?'封禁':data);
+					return data==='NORMAL'?'正常':(data==='FORBID'?'封禁':data);
 				}
 			}, {
 				'data': 'playingGame',
@@ -178,7 +178,7 @@ glUserApp.controller('glUserCtrl',function(
 				'createdCell':function(td, cellData, rowData, rowIndex, colIndex){
 					var dom = "<a ng-click='stateUserDetail("+rowIndex+")' class='btn btn-success'" +
 							">查看用户</a>&nbsp;&nbsp;" +
-							"<a ng-click='banAccount(\"forbid\",\""+rowData.id+"\");' class='btn btn-info'>禁号操作</a>";
+							"<a ng-click='banAccount(\"FORBID\",\""+rowData.id+"\");' class='btn btn-info'>禁号操作</a>";
 					$compile(dom)($scope).appendTo(td);
 				}
 			}]
@@ -223,7 +223,7 @@ glUserApp.controller('glUserCtrl',function(
 			if(data.data=='OK'){
 				alert("操作成功");
 				$scope.Api.ajax.reload();
-				$rootScope.glUser.status=status;
+				$rootScope.glUserDetail.status=status;
 			}
 		});
 	};
@@ -251,7 +251,8 @@ glUserApp.controller('glUserDetailCtrl',function($scope,$rootScope,$stateParams,
 	glUserDetailHttp.error(handlerExceptionService.httpExceptionHandler);
 	glUserDetailHttp.success(function(result){
 		//用户信息
-		$rootScope.glUser = result.data.glUser;
+		$rootScope.glUserDetail = result.data.glUser;
+		//用户数据数量信息
 		$scope.data = result.data;
 	});
 	

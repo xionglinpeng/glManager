@@ -83,7 +83,7 @@ public class GlUser extends BaseEntity{
 	/**
 	 * 用户的状态
 	 */
-	private String status;
+	private UserStatus status;
 	
 	/**
 	 * 用户创建时间
@@ -202,12 +202,11 @@ public class GlUser extends BaseEntity{
 		this.yunxinToken = yunxinToken;
 	}
 
-
-	public String getStatus() {
+	public UserStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(UserStatus status) {
 		this.status = status;
 	}
 

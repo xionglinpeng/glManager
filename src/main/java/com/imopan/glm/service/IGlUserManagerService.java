@@ -7,6 +7,7 @@ import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
 import com.imopan.glm.entity.GameTask;
 import com.imopan.glm.entity.GlUser;
+import com.imopan.glm.entity.UserStatus;
 
 /**
  * <p>用户管理服务</p>
@@ -38,7 +39,7 @@ public interface IGlUserManagerService {
 	 * @param userid 指定用户。
 	 * @return
 	 */
-	public ResultBean glUserForbidNormalService(String status,String userid);
+	public ResultBean glUserForbidNormalService(UserStatus status,String userid);
 	
 	
 	

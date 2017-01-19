@@ -44,7 +44,7 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 		if(StringUtils.isNotBlank(glUser.getMobile())){
 			query.field("mobile").equal(glUser.getMobile());
 		}
-		if(StringUtils.isNotBlank(glUser.getStatus())){
+		if(glUser.getStatus()!=null){
 			query.disableValidation().field("status").equal(glUser.getStatus());
 		}
 		if(StringUtils.isNotBlank(glUser.getGender())){
@@ -78,12 +78,12 @@ public class GlUserManagerServiceImpl implements IGlUserManagerService {
 	
 	
 	@Override
-	public ResultBean glUserForbidNormalService(String status, String userid) {
+	public ResultBean glUserForbidNormalService(UserStatus status, String userid) {
 		Query<GlUser> query = datastore.createQuery(GlUser.class);
 		query.field("_id").equal(new ObjectId(userid));
 		UpdateOperations<GlUser> operations = datastore.createUpdateOperations(GlUser.class);
-		if(UserStatus.value(status)==null){
-			status = UserStatus.NORMAL.getValue();
+		if(status==null){
+			status = UserStatus.NORMAL;
 		}
 		operations.disableValidation().set("status", status);
 		datastore.update(query, operations);

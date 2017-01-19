@@ -75,6 +75,8 @@
 	<script type="text/javascript" src="/app/module/advice_feedback_module/adviceFeedback.js"></script>
 	<!-- 推荐系统模块 -->
 	<script type="text/javascript" src="/app/module/recommend_module/recommend.js"></script>
+
+	<script type="text/javascript" src="/app/module/manager_module/manager.js"></script>
 	<!--首页模块 -->
 	<script type="text/javascript" src="/app/module/index_module/index.js"></script>
 	<!--UGC管理模块 -->
@@ -164,7 +166,7 @@ BODY标签选项:
 					                  <a href="#" class="btn btn-default btn-flat">修改密码</a>
 					                </div>
 					                <div class="pull-right">
-					                  <a href="#" class="btn btn-default btn-flat">退出</a>
+					                  <a ng-click="quit()" class="btn btn-default btn-flat">退出</a>
 					                </div>
 				                </li>
            					</ul>
@@ -287,6 +289,16 @@ BODY标签选项:
 						</a>
 						<ul class="treeview-menu">
 							<li><a ui-sref="gameAdvManagement"><i class="fa fa-circle-o"></i>专题管理</a></li>
+						</ul>
+					</li>
+					<li class="treeview">
+						<a><i class="fa fa-envelope-o"></i><span>后台管理</span>
+							<span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+							</span>
+						</a>
+						<ul class="treeview-menu">
+							<li><a ui-sref="register"><i class="fa fa-circle-o"></i>注册账户</a></li>
 						</ul>
 					</li>
 

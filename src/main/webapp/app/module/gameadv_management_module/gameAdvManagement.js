@@ -1,5 +1,5 @@
 window.indexAppDependency.push("gameAdvManagementApp");
-angular.module('gameAdvManagementApp', ['commonApp'])
+angular.module('gameAdvManagementApp', ['commonApp','ui.bootstrap.datetimepicker','angular-bootstrap-select','angular-bootstrap-select.extra'])
     .config(function ($stateProvider) {
         $stateProvider.state('gameAdvManagement', {
             url: '/gameAdvManagement',
@@ -14,54 +14,7 @@ angular.module('gameAdvManagementApp', ['commonApp'])
         controller: 'associatedGameCtrl'
     });
     })
-    .directive('fileModel', ['$parse', function ($parse) {
-        return {
-            restrict: 'A',
-            link: function(scope, element, attrs, ngModel) {
-                var model = $parse(attrs.fileModel);
-                var modelSetter = model.assign;
-                element.bind('change', function(event){
-                    scope.$apply(function(){
-                        modelSetter(scope, element[0].files[0]);
-                    });
-                    //附件预览
-                    scope.file = (event.srcElement || event.target).files[0];
-                    scope.getFile();
-                });
-            }
-        };
-    }])
-    .factory('fileReader', ["$q", "$log", function($q, $log){
-        var onLoad = function(reader, deferred, scope) {
-            return function () {
-                scope.$apply(function () {
-                    deferred.resolve(reader.result);
-                });
-            };
-        };
-        var onError = function (reader, deferred, scope) {
-            return function () {
-                scope.$apply(function () {
-                    deferred.reject(reader.result);
-                });
-            };
-        };
-        var getReader = function(deferred, scope) {
-            var reader = new FileReader();
-            reader.onload = onLoad(reader, deferred, scope);
-            reader.onerror = onError(reader, deferred, scope);
-            return reader;
-        };
-        var readAsDataURL = function (file, scope) {
-            var deferred = $q.defer();
-            var reader = getReader(deferred, scope);
-            reader.readAsDataURL(file);
-            return deferred.promise;
-        };
-        return {
-            readAsDataUrl: readAsDataURL
-        };
-    }])
+    
     .controller('gameAdvManagementCtrl', function ($scope,$http,$compile,serializeService, selectData, queryData,fileReader) {
         console.log("gameAdvManagementCtrl")
         var tableUrl = '/gameAdvManagement/lists';
@@ -142,28 +95,24 @@ angular.module('gameAdvManagementApp', ['commonApp'])
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             cache:true
         };
-
-
-
-
         $scope.gameAdv = {
             advName:"",
             advImg:"",
             advUrl:"",
             game:{},
             insertTime:new Date(),
-            activeTime:"",
-            status:"",
-            creater:""
+            activeTime:new Date(),
+            status:1,
+            creater:"",
+            imageSrc:"",//图片的base64
+            gid:""//游戏的id
         }
 
         //加载用户列表
         var urlGame = '/gameAdvManagement/getAllGame';
         $scope.getAllGame=function($http,urlGame,postCfg){
-
             $http.post(urlGame,  null, postCfg)
                 .success(function (data) {
-                    console.log(data)
                     $scope.GameCentres = data.GameCentres;
                     $scope.gameAdv.game=$scope.GameCentres[0];
                 }).error(function(data){
@@ -173,17 +122,39 @@ angular.module('gameAdvManagementApp', ['commonApp'])
         $scope.getAllGame($http,urlGame,postCfg);
 
 
-        $scope.getFile = function () {
+        $scope.getFile = function (filename) {
             fileReader.readAsDataUrl($scope.file, $scope)
                 .then(function(result) {
-                    console.log(result);
-                    $scope.imageSrc = result;
+                    $scope.gameAdv.imageSrc = result;
                 });
+            $scope.gameAdv.fileName = filename;
         };
 
-
         //保存关联专题
+        var saveAssociatedUrl = '/gameAdvManagement/saveAssociatedGame';
         $scope.saveAssociatedGame = function(){
+            if ($scope.gameAdv.imageSrc == null) {
+               alert("表单填写不正确！");
+                return;
+            }
+
+            //处理下游戏的id
+            $scope.gameAdv.gid=$scope.gameAdv.game.id;
+
+            $http.post(saveAssociatedUrl, $scope.gameAdv , postCfg)
+                .success(function (data) {
+                    console.log(data)
+                    if(data.code == 0){
+                        alert("关联失败！");
+                    }else{
+                        alert("关联成功！");
+
+                    }
+                }).error(function(data){
+                    console.log('request failed!');
+                });
+
+
 
         }
 

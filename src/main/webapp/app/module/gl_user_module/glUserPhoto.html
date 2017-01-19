@@ -1,6 +1,6 @@
 <div class="row">	
 	<div class="col-md-2" align="center" ng-repeat="item in photo" style="margin-top: 10px;">
-		<img src="{{item.resURI}}" class="img-rounded" width="140" height="140" data-toggle="modal" data-target="#photoModal" ng-click="getPhoto(item)">
+		<img ng-src="{{item.resURI}}" class="img-rounded" width="140" height="140" data-toggle="modal" data-target="#photoModal" ng-click="getPhoto(item)">
 	</div>
 </div>
 <div class="modal fade modal-primary" id="photoModal"
@@ -12,7 +12,7 @@
 					<span aria-hidden="true">&times;</span>
 					<span class="sr-only">Close</span>
 				</button>
-				<img src="{{singlePhoto.resURI}}" style="width:100%" alt="用户相册图片" class="img-responsive img-rounded">
+				<img ng-src="{{singlePhoto.resURI}}" style="width:100%" alt="用户相册图片" class="img-responsive img-rounded">
 			</div>
 		</div>
 	</div>

@@ -108,4 +108,20 @@ public class GameAdvManagementAction {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * saveAssociatedGame:保存关联. <br/> 
+	 * 
+	 * @author zhangjiakun
+	 * @param gameAdv
+	 * @return 
+	 * @since JDK 1.7
+	 */
+	@RequestMapping(value="/saveAssociatedGame",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> saveAssociatedGame(@RequestBody GameAdvBean gameAdv){
+		Map<String,Object> map =  gameAdvManagementServiceImpl.saveAssociatedGame(gameAdv);
+		return map;
+	}
+	
 }

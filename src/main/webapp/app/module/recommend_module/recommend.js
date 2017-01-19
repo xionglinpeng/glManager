@@ -183,11 +183,59 @@ angular.module('recommendApp',[])
 
 
 
+	.controller('focusByFigureCtrl', function($scope,$http,fileReader,handlerExceptionService,recommendService){
 
 
-	.controller('focusByFigureCtrl', function($scope,$http,handlerExceptionService,recommendService){
+		/**
+		 * [getAllfocusByFigure 获取所有上传的焦点轮播图片，用于展示在弹窗上，供使用者复制图片链接地址。]
+		 * @return {[type]} [description]
+		 */
+		$scope.getAllfocusByFigure = function(){
+			$http.get('/recommend/focusByFigureImages')
+        	 .error(handlerExceptionService.httpExceptionHandler)
+        	 .success(function(data){
+        	 	$scope.focusByFigureUrl = data.data;
+        	 });
+		};
 
 
+
+		/**
+		 * [getFile 此函数由指令fileModel条用。]
+		 * @param  {[type]} filename [description]
+		 * @return {[type]}          [description]
+		 */
+		$scope.getFile = function (filename) {
+            fileReader.readAsDataUrl($scope.file, $scope)
+                .then(function(result) {                	
+                    $scope.focusByFigureImage = result;
+                });
+            // $scope.gameAdv.fileName = filename;
+        };
+
+
+
+        /**
+         * [uploadFocusByFigure 上传焦点轮播图。]
+         */
+        $scope.uploadFocusByFigure = function(){
+        	 $http.post('/recommend/uploadFocusByFigure',{'focusByFigureUrl':$scope.focusByFigureImage})
+        	 .error(handlerExceptionService.httpExceptionHandler)
+        	 .success(function(data){
+        	 	if(data.data=='OK'){
+        	 		alert('上传成功');
+        	 	}
+        	 });
+        };
+
+
+
+
+
+        /**
+         * [getFocusByFigure description]
+         * @return {[type]} [description]
+         */
 		var getFocusByFigure = function(){
 			$http.get("/recommend/focusByFigures")
 			.success(function(data){
@@ -223,10 +271,16 @@ angular.module('recommendApp',[])
 
 		getFocusByFigure();
 
+
+
+
+		/**
+		 * [save description]
+		 * @return {[type]} [description]
+		 */
 		$scope.save = function(){
 			//将请求对象转换此对象数据，用于服务端接收
 			var dataAry = [];
-			console.log($scope.group);
 			for(let item in $scope.group){
 				if($scope.group.hasOwnProperty(item)){
 					var focusByFigure = $scope.group[item];
@@ -243,7 +297,6 @@ angular.module('recommendApp',[])
 					}
 				}
 			}
-			console.log(dataAry);
 			//发送至服务端
 			$http.post("/recommend/saveFocusByFigure", dataAry)
 			.success(function(data){

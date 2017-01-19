@@ -36,6 +36,20 @@ public interface IRecommendService {
 	
 	
 	/**
+	 * <p>获取所有的焦点轮播图片。</p>
+	 * @return
+	 */
+	public ResultBean focusByFigureImageService();
+	
+	
+	/**
+	 * <p>保存上传的焦点轮播图URL。</p>
+	 * @param imageUrl
+	 * @return
+	 */
+	public ResultBean saveFocusByFigureUrlService(String imageUrl);
+	
+	/**
 	 * <p>保存焦点轮播图。</p>
 	 * @param focusByFigures
 	 * @return

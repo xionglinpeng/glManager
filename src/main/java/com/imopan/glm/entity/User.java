@@ -9,6 +9,7 @@ public class User {
 	
 	@Id
 	private ObjectId id;
+	private String nickname;
 	private String email;
 	private String password;
 	private String salt;
@@ -18,6 +19,12 @@ public class User {
 	}
 	public void setId(ObjectId id) {
 		this.id = id;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 	public String getEmail() {
 		return email;

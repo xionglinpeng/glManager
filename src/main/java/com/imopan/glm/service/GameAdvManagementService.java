@@ -10,10 +10,10 @@
 package com.imopan.glm.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
-import com.imopan.glm.entity.GameAdv;
 import com.imopan.glm.entity.game.GameCentre;
 import com.imopan.glm.vo.GameAdvBean;
 
@@ -32,5 +32,7 @@ public interface GameAdvManagementService {
 	Integer offlineGameAdv(String id, Integer status);
 
 	List<GameCentre> getAllGame();
+
+	Map<String, Object> saveAssociatedGame(GameAdvBean gameAdv);
 
 }

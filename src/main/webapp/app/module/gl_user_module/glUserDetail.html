@@ -22,31 +22,31 @@ li {
 		<div class="col-md-3">
 			<div class="box box-primary">
 				<div class="box-body box-profile">
-					<img class="profile-user-img img-responsive img-circle" src="{{glUser.avatarImage.resURI}}" alt="用户头像">
-					<h3 class="profile-username text-center">{{glUser.nickname}}</h3>
+					<img class="profile-user-img img-responsive img-circle" src="{{glUserDetail.avatarImage.resURI}}" alt="用户头像">
+					<h3 class="profile-username text-center">{{glUserDetail.nickname}}</h3>
 					<p class="text-muted text-center"></p>
 					<ul class="list-group list-group-unbordered">
 		                <li class="list-group-item">
-		                	<span ng-switch="glUser.status">
-		                	<b ng-switch-when="normal" class="label label-success">正常</b>
-		                	<b ng-switch-when="forbid" class="label label-danger">封禁</b>
-		                	<b ng-switch-default class="label label-info">{{glUser.status}}</b>
+		                	<span ng-switch="glUserDetail.status">
+		                	<b ng-switch-when="NORMAL" class="label label-success">正常</b>
+		                	<b ng-switch-when="FORBID" class="label label-danger">封禁</b>
+		                	<b ng-switch-default class="label label-info">{{glUserDetail.status}}</b>
 		                	</span>
 		                	<span class="pull-right">
-		                		<span ng-if="glUser.status==='forbid'" class="btn btn-primary btn-xs" ng-click="banAccount('normal',glUser.id)">解封</span>
-		                		<span ng-if="glUser.status!=='forbid'" class="btn btn-danger btn-xs" ng-click="banAccount('forbid',glUser.id)">封禁</span>
+		                		<span ng-if="glUserDetail.status==='FORBID'" class="btn btn-primary btn-xs" ng-click="banAccount('NORMAL',glUserDetail.id)">解封</span>
+		                		<span ng-if="glUserDetail.status!=='FORBID'" class="btn btn-danger btn-xs" ng-click="banAccount('FORBID',glUserDetail.id)">封禁</span>
 		                	</span>
 		                </li>
 		                <li class="list-group-item">
 		                	<b>手机号</b>
 		                	<span class="pull-right">
-		                		{{glUser.mobile}}
+		                		{{glUserDetail.mobile}}
 		                	</span>
 		                </li>
 		                <li class="list-group-item">
 		                	<b>交友签名</b>
 		                	<span class="pull-right">
-		                		{{glUser.motto}}
+		                		{{glUserDetail.motto}}
 		                	</span>
 		                </li>
 		            </ul>
@@ -59,26 +59,26 @@ li {
             	<div class="box-body">
             		<strong><i class="fa fa-book margin-r-5"></i>关注的游戏</strong>
             		<p class="text-muted">
-            			<span ng-repeat="item in glUser.concernedGame" ng-class="$index%2==0?'label label-success':'label label-danger'">
+            			<span ng-repeat="item in glUserDetail.concernedGame" ng-class="$index%2==0?'label label-success':'label label-danger'">
 							{{item.gname}}
 						</span>
             		</p>
             		<hr>
             		<strong><i class="fa fa-book margin-r-5"></i>正在玩的游戏</strong>
-            		<p class="text-muted">{{glUser.playingGame.gname}}</p>
+            		<p class="text-muted">{{glUserDetail.playingGame.gname}}</p>
             		<hr>
             		<strong><i class="fa fa-book margin-r-5"></i>游戏类型</strong>
             		<p class="text-muted">
-						<span ng-repeat="item in glUser.favoriteTypes" ng-class="$index%2==0?'label label-info':'label label-warning'">
+						<span ng-repeat="item in glUserDetail.favoriteTypes" ng-class="$index%2==0?'label label-info':'label label-warning'">
 							{{item.gtName}}
 						</span>
 					</p>
 					<hr>
             		<strong><i class="fa fa-book margin-r-5"></i>所在服务器</strong>
-            		<p class="text-muted">{{glUser.gameServer}}</p>
+            		<p class="text-muted">{{glUserDetail.gameServer}}</p>
             		<hr>
             		<strong><i class="fa fa-book margin-r-5"></i>游戏角色</strong>
-            		<p class="text-muted">{{glUser.gameNickname}}</p>
+            		<p class="text-muted">{{glUserDetail.gameNickname}}</p>
             		<hr>
             	</div>
 			</div>

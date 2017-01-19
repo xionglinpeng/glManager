@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.imopan.glm.bean.ResultBean;
 import com.imopan.glm.entity.FocusByFigure;
+import com.imopan.glm.entity.FocusByFigureUrl;
 import com.imopan.glm.entity.Keywords;
 import com.imopan.glm.service.IRecommendService;
 
@@ -108,6 +109,22 @@ public class RecommendServiceImpl implements IRecommendService {
 				}
 			}
 		}
+		return new ResultBean("OK");
+	}
+	
+	
+	@Override
+	public ResultBean focusByFigureImageService() {
+		return new ResultBean(datastore.createQuery(FocusByFigureUrl.class).asList());
+	}
+	
+	
+
+	@Override
+	public ResultBean saveFocusByFigureUrlService(String imageUrl) {
+		FocusByFigureUrl url = new FocusByFigureUrl();
+		url.setFocusByFigureUrl(imageUrl);
+		datastore.save(url);
 		return new ResultBean("OK");
 	}
 

@@ -2,10 +2,7 @@ package com.imopan.glm.vo;
 
 import java.util.Date;
 
-import org.mongodb.morphia.annotations.Entity;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.imopan.glm.entity.BaseEntity;
 import com.imopan.glm.entity.LGame;
 
 /**
@@ -42,17 +39,47 @@ public class GameAdvBean extends PersistentObject {
 	//失效时间
 	private Date expireTime;
 	
-	/**
-	 * 专题状态：1上架，2下架
-	 */
+	//专题状态：1上架，2下架
 	private Integer status;
 	
-	/**
-	 * 专题创建人
-	 */
+	//专题创建人
 	private String creater;
 	
+	// 上传图片base64
+	private String imageSrc; 
+	
+	//上传图片的名称
+	private String fileName;
+	
+	//游戏id
+	private String gid;
+	
+	
 
+	public String getGid() {
+		return gid;
+	}
+
+	public void setGid(String gid) {
+		this.gid = gid;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getImageSrc() {
+		return imageSrc;
+	}
+
+	public void setImageSrc(String imageSrc) {
+		this.imageSrc = imageSrc;
+	}
+	
 	public String getId() {
 		return id;
 	}

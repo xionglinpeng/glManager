@@ -376,4 +376,96 @@ angular.module('commonApp',[])
 				});
 			}
 		};
-	});
+	})
+
+
+
+
+
+
+
+	/**
+	 * [拷贝指令，用于点击按钮赋值文本
+	 * 使用方式：在按钮元素上添加指令cng-clipboard="要被复制的文本"
+	 * 点击此按钮即可复制cng-clipboard的值。
+	 * ]
+	 */
+	.directive('cngClipboard',function(){
+		return function(scope, element, attrs){
+			element.click(function(event) {
+				//创建DOM元素
+				var textarea = $('<textarea>').html(attrs.cngClipboard)
+				.css({
+					"position":"absolute",
+					"z-index":999999,
+					"top":"-9999px",
+					"left":"-9999px"
+				}).appendTo('body');
+				//选中文本
+				textarea.get(0).select();
+				//执行浏览器复制命名
+				document.execCommand("Copy");
+				//复制完毕，删除DOM元素
+				textarea.remove();
+
+				alert('复制成功');
+			});
+		};
+	})
+
+
+
+
+
+
+
+	.directive('fileModel', ['$parse', function ($parse) {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs, ngModel) {
+                var model = $parse(attrs.fileModel);
+                var modelSetter = model.assign;
+                element.bind('change', function(event){
+                    scope.$apply(function(){
+                        console.log(element[0].files);
+                        modelSetter(scope, element[0].files[0]);
+                    });
+                    //附件预览
+                    scope.file = (event.srcElement || event.target).files[0];
+                    console.log(scope.file);
+                    scope.getFile(scope.file.name);
+                });
+            }
+        };
+    }])
+    .factory('fileReader', ["$q", "$log", function($q, $log){
+        var onLoad = function(reader, deferred, scope) {
+            return function () {
+                scope.$apply(function () {
+                    deferred.resolve(reader.result);
+                });
+            };
+        };
+        var onError = function (reader, deferred, scope) {
+            return function () {
+                scope.$apply(function () {
+                    deferred.reject(reader.result);
+                });
+            };
+        };
+        var getReader = function(deferred, scope) {
+            var reader = new FileReader();
+            reader.onload = onLoad(reader, deferred, scope);
+            reader.onerror = onError(reader, deferred, scope);
+            return reader;
+        };
+        var readAsDataURL = function (file, scope) {
+            var deferred = $q.defer();
+            var reader = getReader(deferred, scope);
+            reader.readAsDataURL(file);
+            return deferred.promise;
+        };
+        return {
+            readAsDataUrl: readAsDataURL
+        };
+    }]);

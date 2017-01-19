@@ -15,6 +15,7 @@ import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
 import com.imopan.glm.entity.GameTask;
 import com.imopan.glm.entity.GlUser;
+import com.imopan.glm.entity.UserStatus;
 import com.imopan.glm.service.IGlUserManagerService;
 
 /**
@@ -68,7 +69,7 @@ public class GlUserManagerAction {
 	 */
 	@RequestMapping(value="/forbidNormal/{status}/{userid}",method=RequestMethod.PUT)
 	@ResponseBody
-	public ResultBean glUserForbidNormal(@PathVariable("status")String status,
+	public ResultBean glUserForbidNormal(@PathVariable("status")UserStatus status,
 			@PathVariable("userid")String userid){
 		return iGlUserManagerService.glUserForbidNormalService(status, userid);
 	}
