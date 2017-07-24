@@ -1,8 +1,8 @@
 package com.imopan.glm.service.impl;
 
-import com.imopan.gamelink.soa.api.IGiftBageService;
-import com.imopan.gamelink.soa.vo.GLResponse;
-import com.imopan.gamelink.soa.vo.GiftGoods;
+//import com.imopan.gamelink.soa.api.IGiftBageService;
+//import com.imopan.gamelink.soa.vo.GLResponse;
+//import com.imopan.gamelink.soa.vo.GiftGoods;
 import com.imopan.glm.bean.ResultBean;
 import com.imopan.glm.bean.TableResult;
 import com.imopan.glm.bean.TableSide;
@@ -30,8 +30,8 @@ public class GameServiceImpl implements IGameService {
 	
 	@Autowired
 	private Datastore datastore;
-	@Autowired
-	private IGiftBageService giftBageService;
+//	@Autowired
+//	private IGiftBageService giftBageService;
 
 
 	@Override
@@ -220,8 +220,9 @@ public class GameServiceImpl implements IGameService {
 
 	@Override
 	public ResultBean getGiftById(GameGoods paramVo) {
-		GLResponse<GiftGoods> soleGoods = giftBageService.getSoleGoods(paramVo.getGoodsId());
-		return new ResultBean(soleGoods);
+//		GLResponse<GiftGoods> soleGoods = giftBageService.getSoleGoods(paramVo.getGoodsId());
+//		return new ResultBean(soleGoods);
+		return null;
 	}
 
 	@Override

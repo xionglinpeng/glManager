@@ -14,7 +14,7 @@ import com.imopan.glm.constant.Login;
 public class IndexAction {
 
 
-	@RequestMapping(value="/glm",method=RequestMethod.GET)
+	@RequestMapping(value="/xingke",method=RequestMethod.GET)
 	public String indexPage(HttpSession session){
 		String indexPage = "index_module/index";
 		//获取用户已经成功登录的标记
